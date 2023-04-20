@@ -6,6 +6,6 @@ public class TitanTest {
 
 	@Test
 	public void verifyNoExceptionThrown() {
-		Titan.main(new String[]{});
+		App.main(new String[]{});
 	}
 }
