@@ -75,8 +75,8 @@ public class Titan extends Application {
         Pane root = new Pane();
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-//        root.setBackground(new Background(Images.backgroundImage));
-//        root.getStylesheets().add(CelestialObjectGUI.class.getResource("styling.css").toExternalForm());
+        root.setBackground(new Background(Images.backgroundImage));
+        root.getStylesheets().add(("styling.css"));
 
 
         //Hide names button

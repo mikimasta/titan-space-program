@@ -6,3 +6,4 @@ build
 
 # Ignore .idea files
 .idea
+/out/
