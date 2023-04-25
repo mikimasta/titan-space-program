@@ -1,6 +1,6 @@
 package com.titan;
 
-import com.titan.gui.CelestialObjectGUI;
+import com.titan.math.EulerSolver;
 
 import java.util.ArrayList;
 

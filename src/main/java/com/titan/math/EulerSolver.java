@@ -1,11 +1,15 @@
-package com.titan;
+package com.titan.math;
+
+import com.titan.CelestialObject;
+import com.titan.SolarSystem;
+import com.titan.Vector;
 
 import java.util.ArrayList;
 
 /**
  *
  */
-public class EulerSolver {
+public class EulerSolver implements Solver {
 
     /**
      * determines the step size for the Euler solver
@@ -13,31 +17,10 @@ public class EulerSolver {
     private double step;
 
     /**
-     * gravitational constant
-     */
-    private static final double G = 6.6743e-20;
-
-    /**
      * Constructs an Euler solver and sets the step size
      * @param step
      */
     public EulerSolver(int step) {
-        this.step = step;
-    }
-
-    /**
-     * returns the step size
-     * @return
-     */
-    public double getStep() {
-        return step;
-    }
-
-    /**
-     * sets the step size
-     * @param step
-     */
-    public void setStep(double step) {
         this.step = step;
     }
 
@@ -91,34 +74,6 @@ public class EulerSolver {
         return newState;
     }
 
-
-    /**
-     * calculates the gravitational force on a given celestial objects by iterating through all the celestial objects and adding the force accordingly
-     * @param currentPosition
-     * @param mass
-     * @param celestialObjects
-     * @param currentStep
-     * @return
-     */
-    private Vector gravitationalForce(Vector currentPosition, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
-
-        Vector force = new Vector(0, 0, 0);
-        for (CelestialObject o : celestialObjects) {
-
-            if (!(currentPosition.subtract(o.getLastPosition()).getLength() == 0)) {
-
-                Vector forceToAdd = currentPosition.subtract(o.getLastPosition().clone());
-
-                double constant = (o.getM() * mass * G) / Math.pow(forceToAdd.getLength(), 3);
-
-                force = force.add(forceToAdd.multiplyByScalar(constant));
-            }
-        }
-
-
-        return force.multiplyByScalar(-1);
-    }
-
     /**
      * helper method for solve(), stores the results of gravitational force in an array
      * @param currentPosition
@@ -130,7 +85,7 @@ public class EulerSolver {
      */
     private Vector[] differentialEquation(Vector currentPosition, Vector currentVelocity, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
 
-        Vector g = gravitationalForce(currentPosition, mass, celestialObjects, currentStep).multiplyByScalar(1.0/mass);
+        Vector g = Physics.gravitationalForce(currentPosition, mass, celestialObjects).multiplyByScalar(1.0/mass);
 
         Vector[] res = new Vector[2];
         res[0] = currentVelocity;
