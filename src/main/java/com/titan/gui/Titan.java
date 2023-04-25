@@ -1,9 +1,7 @@
-package com.titan;
+package com.titan.gui;
 
-import com.titan.gui.CelestialObjectGUI;
-import com.titan.gui.DateGUI;
-import com.titan.gui.Images;
-import com.titan.gui.ScaleGUI;
+import com.titan.CelestialObject;
+import com.titan.SolarSystem;
 import com.titan.math.EulerSolver;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

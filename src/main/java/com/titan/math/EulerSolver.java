@@ -2,7 +2,6 @@ package com.titan.math;
 
 import com.titan.CelestialObject;
 import com.titan.SolarSystem;
-import com.titan.Vector;
 
 import java.util.ArrayList;
 
@@ -38,13 +37,13 @@ public class EulerSolver implements Solver {
 
         for (CelestialObject o : s.getCelestialObjects()) {
             if (!(o.getName().equals("Sun"))) {
-                Vector[] nextState = nextState(o.getLastPosition(), o.getLastVelocity(), o.getM(), s.getCelestialObjects(), currentStep);
+                Vector3d[] nextState = nextState(o.getLastPosition(), o.getLastVelocity(), o.getM(), s.getCelestialObjects(), currentStep);
                 o.updateCurrentPosition(nextState[0]);
                 o.updateVelocity(nextState[1]);
 
             } else {
-                o.updateVelocity(new Vector(0, 0, 0));
-                o.updateCurrentPosition(new Vector(0, 0, 0));
+                o.updateVelocity(new Vector3d(0, 0, 0));
+                o.updateCurrentPosition(new Vector3d(0, 0, 0));
             }
         }
 
@@ -59,14 +58,14 @@ public class EulerSolver implements Solver {
      * @param currentStep step we are currently on
      * @return returns a Vector[] array contating the next posistion and velocity of a given celestial object
      */
-    public Vector[] nextState(Vector currentPosition, Vector currentVelocity, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
+    public Vector3d[] nextState(Vector3d currentPosition, Vector3d currentVelocity, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
 
-        Vector[] resultOfDiffEquation = differentialEquation(currentPosition, currentVelocity, mass, celestialObjects, currentStep);
+        Vector3d[] resultOfDiffEquation = differentialEquation(currentPosition, currentVelocity, mass, celestialObjects, currentStep);
 
-        Vector nextPosition = currentPosition.add(resultOfDiffEquation[0].multiplyByScalar(step));
-        Vector nextVelocity = currentVelocity.add(resultOfDiffEquation[1].multiplyByScalar(step));
+        Vector3d nextPosition = currentPosition.add(resultOfDiffEquation[0].multiplyByScalar(step));
+        Vector3d nextVelocity = currentVelocity.add(resultOfDiffEquation[1].multiplyByScalar(step));
 
-        Vector[] newState = new Vector[2];
+        Vector3d[] newState = new Vector3d[2];
 
         newState[0] = nextPosition;
         newState[1] = nextVelocity;
@@ -83,11 +82,11 @@ public class EulerSolver implements Solver {
      * @param currentStep
      * @return Vector[] array containing the current velocity of a celestial object and the gravitational force it is afffected by
      */
-    private Vector[] differentialEquation(Vector currentPosition, Vector currentVelocity, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
+    private Vector3d[] differentialEquation(Vector3d currentPosition, Vector3d currentVelocity, double mass, ArrayList<CelestialObject> celestialObjects, int currentStep) {
 
-        Vector g = Physics.gravitationalForce(currentPosition, mass, celestialObjects).multiplyByScalar(1.0/mass);
+        Vector3d g = Physics.gravitationalForce(currentPosition, mass, celestialObjects).multiplyByScalar(1.0/mass);
 
-        Vector[] res = new Vector[2];
+        Vector3d[] res = new Vector3d[2];
         res[0] = currentVelocity;
         res[1] = g;
 

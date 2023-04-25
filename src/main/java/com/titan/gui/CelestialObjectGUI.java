@@ -1,8 +1,7 @@
 package com.titan.gui;
 
 import com.titan.CelestialObject;
-import com.titan.Titan;
-import com.titan.Vector;
+import com.titan.math.Vector3d;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -119,7 +118,7 @@ public class CelestialObjectGUI extends Parent {
         getChildren().remove(tail);
         tail = new Polyline();
         if (drawOrbits) {
-            for (Vector v : object.getHistoricPositionsVector()) {
+            for (Vector3d v : object.getHistoricPositionsVector()) {
                 tail.getPoints().add((v.getX1() / Titan.scale) + Titan.xCenter);
                 tail.getPoints().add((v.getX2() / Titan.scale) + Titan.yCenter);
             }

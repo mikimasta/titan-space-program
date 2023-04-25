@@ -1,6 +1,5 @@
 package com.titan.gui;
 
-import com.titan.Titan;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;

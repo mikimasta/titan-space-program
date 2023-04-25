@@ -1,8 +1,8 @@
-package com.titan;
+package com.titan.math;
 
 import java.math.BigDecimal;
 
-public class Vector {
+public class Vector3d {
 
     /**
      * values of a 3d vector
@@ -21,7 +21,7 @@ public class Vector {
      * @param x2
      * @param x3
      */
-    public Vector(double x1, double x2, double x3) {
+    public Vector3d(double x1, double x2, double x3) {
         this.x1 = x1;
         this.x2 = x2;
         this.x3 = x3;
@@ -42,8 +42,8 @@ public class Vector {
      * @param v vector to add
      * @return new Vector as a product of two
      */
-    public Vector add(Vector v) {
-        return new Vector(x1 + v.getX1(), x2 + v.getX2(), x3 + v.getX3());
+    public Vector3d add(Vector3d v) {
+        return new Vector3d(x1 + v.getX1(), x2 + v.getX2(), x3 + v.getX3());
     }
 
     /**
@@ -51,8 +51,8 @@ public class Vector {
      * @param v vector to subtract
      * @return new Vector after subtraction
      */
-    public Vector subtract(Vector v) {
-        return new Vector(x1 - v.getX1(), x2 - v.getX2(), x3 - v.getX3());
+    public Vector3d subtract(Vector3d v) {
+        return new Vector3d(x1 - v.getX1(), x2 - v.getX2(), x3 - v.getX3());
     }
 
     /**
@@ -60,22 +60,15 @@ public class Vector {
      * @param c scalar to multuplly by
      * @return new Vector after multiplication
      */
-    public Vector multiplyByScalar(double c) {
-        return new Vector((x1 * c), (x2 * c),  x3 * c);
+    public Vector3d multiplyByScalar(double c) {
+        return new Vector3d((x1 * c), (x2 * c),  x3 * c);
     }
 
-    public Vector multiplyByScalar(BigDecimal c) {
-        return new Vector(
-                (c.multiply(BigDecimal.valueOf(x1))).doubleValue(),
-                (c.multiply(BigDecimal.valueOf(x2))).doubleValue(),
-                (c.multiply(BigDecimal.valueOf(x3))).doubleValue());
-    }
-
-    public static Vector add(Vector v, Vector c) {
+    public static Vector3d add(Vector3d v, Vector3d c) {
         return v.add(c);
     }
 
-    public static Vector subtract(Vector v, Vector c) {
+    public static Vector3d subtract(Vector3d v, Vector3d c) {
         return v.subtract(c);
     }
 
@@ -100,8 +93,8 @@ public class Vector {
      * clones a vector
      * @return cloned vector
      */
-    public Vector clone() {
-        return new Vector(x1, x2, x3);
+    public Vector3d clone() {
+        return new Vector3d(x1, x2, x3);
     }
 
 

@@ -1,5 +1,7 @@
 package com.titan;
 
+import com.titan.gui.Titan;
+import com.titan.math.Vector3d;
 import javafx.scene.paint.Color;
 
 import java.util.*;
@@ -14,32 +16,32 @@ public class CelestialObject {
     /**
      * last position of a given celestial object
      */
-    private Vector lastPosition;
+    private Vector3d lastPosition;
 
     /**
      * last velocity of a given celestial object
      */
-    private Vector lastVelocity;
+    private Vector3d lastVelocity;
 
     /**
      * current position of a given celestial object
      */
-    private Vector currentPosition;
+    private Vector3d currentPosition;
 
     /**
      * current velocity of a given celestial object
      */
-    private Vector currentVelocity;
+    private Vector3d currentVelocity;
 
     /**
      * HashMap storing past posistions of celestial objects
      */
-    private HashMap<Integer, Vector> historicPositions;
+    private HashMap<Integer, Vector3d> historicPositions;
 
     /**
      * HashMap storing past velocities of celestial objects
      */
-    private HashMap<Integer, Vector> historicVelocities;
+    private HashMap<Integer, Vector3d> historicVelocities;
 
     /**
      * name of a celestial object
@@ -71,7 +73,7 @@ public class CelestialObject {
      * @param color
      * @param radius
      */
-    public CelestialObject(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
+    public CelestialObject(String name, double m, Vector3d initialPos, Vector3d initialVel, double diameter, Color color, int radius) {
         historicPositions = new HashMap<>();
         historicVelocities = new HashMap<>();
         this.m = m;
@@ -86,7 +88,7 @@ public class CelestialObject {
     }
 
 
-    public CelestialObject(String name, double m, Vector initialPos, Vector initialVel, long diameter, Color color) {
+    public CelestialObject(String name, double m, Vector3d initialPos, Vector3d initialVel, long diameter, Color color) {
         this(name, m, initialPos, initialVel, diameter, color, 15);
     }
 
@@ -102,7 +104,7 @@ public class CelestialObject {
      * updates the current posistion of the celestial body
      * @param position
      */
-    public void updateCurrentPosition(Vector position) {
+    public void updateCurrentPosition(Vector3d position) {
         currentPosition = position;
         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
             historicPositions.put(Titan.currentStep, position);
@@ -120,7 +122,7 @@ public class CelestialObject {
      * updates the current velocity of a celestial body
      * @param velocity
      */
-    public void updateVelocity(Vector velocity) {
+    public void updateVelocity(Vector3d velocity) {
         currentVelocity = velocity;
         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
             historicVelocities.put(Titan.currentStep, velocity);
@@ -138,7 +140,7 @@ public class CelestialObject {
      * returns the last position
      * @return
      */
-    public Vector getLastPosition() {
+    public Vector3d getLastPosition() {
         return lastPosition;
     }
 
@@ -146,7 +148,7 @@ public class CelestialObject {
      * returns the last velocity
      * @return
      */
-    public Vector getLastVelocity() {
+    public Vector3d getLastVelocity() {
         return lastVelocity;
     }
 
@@ -154,7 +156,7 @@ public class CelestialObject {
      * returns the HashMap containing past positions of celestial objects
      * @return
      */
-    public HashMap<Integer, Vector> getHistoricPositions() {
+    public HashMap<Integer, Vector3d> getHistoricPositions() {
         return historicPositions;
     }
 
@@ -162,11 +164,11 @@ public class CelestialObject {
      * sorts the elements of the hashmap and returns them as an arraylist
      * @return
      */
-    public ArrayList<Vector> getHistoricPositionsVector() {
-        HashMap<Integer, Vector> positions = getHistoricPositions();
+    public ArrayList<Vector3d> getHistoricPositionsVector() {
+        HashMap<Integer, Vector3d> positions = getHistoricPositions();
         ArrayList<Integer> sortedKeys = new ArrayList<>(positions.keySet());
         Collections.sort(sortedKeys);
-        ArrayList<Vector> result = new ArrayList<>();
+        ArrayList<Vector3d> result = new ArrayList<>();
         for (Integer i : sortedKeys) {
             result.add(positions.get(i));
         }

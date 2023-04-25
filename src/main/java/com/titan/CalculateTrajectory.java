@@ -1,6 +1,7 @@
 package com.titan;
 
 import com.titan.math.EulerSolver;
+import com.titan.math.Vector3d;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class CalculateTrajectory {
     /**
      * velocity vector a probe has initially
      */
-    private static Vector velocity = new Vector(38.65346586, -14.90558291, -1.3535296);
+    private static Vector3d velocity = new Vector3d(38.65346586, -14.90558291, -1.3535296);
 
     /**
      * previous smallest distance of the probe from Titan
@@ -68,7 +69,7 @@ public class CalculateTrajectory {
                 System.out.println("Distance to the center of Titan: " + distToTitan + " km" + "\n\n");
 
             }
-            velocity = velocity.add(new Vector(0.0, -0.00000001, 0.0));
+            velocity = velocity.add(new Vector3d(0.0, -0.00000001, 0.0));
             launchNumber++;
         }
     }
