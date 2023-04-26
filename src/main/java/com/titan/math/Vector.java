@@ -58,8 +58,8 @@ public class Vector {
 
     /**
      * adds two vectors together
-     * @param v vector to add
-     * @return new Vector as a product of two
+     * @param v requires a non-zero equal-dimension vector
+     * @return new Vector as a sum of two
      */
     public Vector add(Vector v) {
         checkSize(v);

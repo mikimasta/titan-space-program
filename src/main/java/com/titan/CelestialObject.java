@@ -34,7 +34,7 @@ public class CelestialObject {
     private Vector3d currentVelocity;
 
     /**
-     * HashMap storing past posistions of celestial objects
+     * HashMap storing past positions of celestial objects
      */
     private HashMap<Integer, Vector3d> historicPositions;
 

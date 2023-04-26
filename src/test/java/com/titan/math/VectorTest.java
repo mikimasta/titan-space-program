@@ -5,7 +5,7 @@ package com.titan.math;
  *
  * partitioning the input space as follows:
  * addition:
- *      Vector.size() = 0 ; 1; > 1
+ *      Vector.size() = 1; > 1
  *
  * multiplication:
  *      c (scalar) = 0 ; 1; < 0 ; > 0
@@ -23,17 +23,6 @@ import static org.junit.Assert.assertEquals;
 
 public class VectorTest {
 
-
-    /*
-     * covers v.size() = 0, x.size() = 0
-     */
-    @Test
-    public void testAddZeroVectorToZeroVector() {
-        Vector v = new Vector(new double[0]);
-        Vector x = new Vector(new double[0]);
-
-        assertEquals(0, v.add(x).getValues().length);
-    }
 
     /*
      * covers v.size() != x.size(), should throw exception since dimensions
