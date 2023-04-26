@@ -14,6 +14,9 @@ public class Vector {
      */
     private double length;
 
+    /**
+     * the dimension of a vector
+     */
     private int size;
 
     /**
@@ -25,7 +28,7 @@ public class Vector {
         this.size = values.length;
 
         double sum = 0;
-        for(double d : values) sum += d*d;
+        for (double d : values) sum += d*d;
         length = Math.sqrt(sum);
     }
 
@@ -45,6 +48,10 @@ public class Vector {
         return size;
     }
 
+    /**
+     *
+     * @return values a vector holds
+     */
     public double[] getValues() {
         return values;
     }
@@ -124,5 +131,26 @@ public class Vector {
         return new Vector(values);
     }
 
+    @Override
+    public boolean equals(Object anotherVector) {
 
+        checkSize((Vector) anotherVector);
+
+        for (int i = 0; i < this.getSize(); i++) {
+            if (!(((Vector) anotherVector).getValues()[i] == getValues()[i])) return false;
+        }
+
+        return true;
+    }
+
+
+//    public static void main(String[] args) {
+//        Vector v = new Vector(new double[]{5, 7, 9});
+//        Vector x = new Vector(new double[]{5, 7, 9});
+//
+//        System.out.println(v.equals(x));
+//        System.out.println(0.1d+0.2d);
+//
+//        System.out.println(-2+3.4d+0.12);
+//    }
 }
