@@ -1,6 +1,6 @@
 package com.titan;
 
-import com.titan.math.EulerSolver;
+import com.titan.math.EulerSolver_OLD;
 import com.titan.math.Vector3d;
 
 import java.util.ArrayList;
@@ -38,22 +38,22 @@ public class CalculateTrajectory {
         while (true) {
 
             SolarSystem s = new SolarSystem();
-            CelestialObject rocket = s.launchRocket("Experia " + launchNumber, velocity, 50000);
+            CelestialObject_OLD rocket = s.launchRocket("Experia " + launchNumber, velocity, 50000);
             s.getCelestialObjects().add(rocket);
-            ArrayList<CelestialObject> obj = s.getCelestialObjects();
+            ArrayList<CelestialObject_OLD> obj = s.getCelestialObjects();
             currentStep = 0;
 
 
             while (currentStep < 365 * 24 * 60) {
 
-                EulerSolver solver = new EulerSolver(60);
+                EulerSolver_OLD solver = new EulerSolver_OLD(60);
 
                 for (int i = 0; i < 1; i++) {
                     solver.solve(s, currentStep);
                     currentStep++;
                 }
 
-                for (CelestialObject o : s.getCelestialObjects()) {
+                for (CelestialObject_OLD o : s.getCelestialObjects()) {
                     o.updateLastPosition();
                     o.updateLastVelocity();
                 }

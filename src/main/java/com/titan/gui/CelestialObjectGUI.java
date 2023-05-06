@@ -1,6 +1,6 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject;
+import com.titan.CelestialObject_OLD;
 import com.titan.math.Vector3d;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
@@ -36,7 +36,7 @@ public class CelestialObjectGUI extends Parent {
      */
     private Polyline tail = new Polyline();
 
-    private CelestialObject object;
+    private CelestialObject_OLD object;
     private Circle circle = new Circle();
     private Text text = new Text();
 
@@ -44,7 +44,7 @@ public class CelestialObjectGUI extends Parent {
      * Constructs a GUI object based on a given CelestialObject, adds the object and its label to the screen
      * @param object CelestialObject a GUI representation of which is being drawn
      */
-    public CelestialObjectGUI(CelestialObject object) {
+    public CelestialObjectGUI(CelestialObject_OLD object) {
         this.object = object;
         circle.setStrokeWidth(1);
         circle.setRadius(object.getRadius());
@@ -83,7 +83,8 @@ public class CelestialObjectGUI extends Parent {
      * @return scaled pixel representation of the X coordinate
      */
     public int getCurrentX() {
-        return (int) (object.getLastPosition().getX1() / Titan.scale);
+//        return (int) (object.getLastPosition().getX1() / Titan.scale);
+        return (int) (object.getPosition().getValues()[0] / Titan.scale);
     }
 
     /**
@@ -91,7 +92,8 @@ public class CelestialObjectGUI extends Parent {
      * @return scaled pixel representation of the Y coordinate
      */
     public int getCurrentY() {
-        return (int) (object.getLastPosition().getX2() / Titan.scale);
+//        return (int) (object.getLastPosition().getX2() / Titan.scale);
+        return (int) (object.getPosition().getValues()[1] / Titan.scale);
     }
 
 

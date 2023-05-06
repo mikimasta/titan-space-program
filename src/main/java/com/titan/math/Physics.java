@@ -1,6 +1,6 @@
 package com.titan.math;
 
-import com.titan.CelestialObject;
+import com.titan.CelestialObject_OLD;
 
 import java.util.ArrayList;
 
@@ -18,10 +18,10 @@ public abstract class Physics {
      * @param celestialObjects
      * @return
      */
-    public static Vector3d gravitationalForce(Vector3d currentPosition, double mass, ArrayList<CelestialObject> celestialObjects) {
+    public static Vector3d gravitationalForce(Vector3d currentPosition, double mass, ArrayList<CelestialObject_OLD> celestialObjects) {
 
         Vector3d force = new Vector3d(0, 0, 0);
-        for (CelestialObject o : celestialObjects) {
+        for (CelestialObject_OLD o : celestialObjects) {
 
             if (!(currentPosition.subtract(o.getLastPosition()).getLength() == 0)) {
 

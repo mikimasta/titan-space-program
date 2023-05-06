@@ -1,12 +1,14 @@
 package com.titan;
 
 import com.titan.gui.Titan;
-import com.titan.math.Vector3d;
+import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 
-public class CelestialObject {
+public class CelestialObjectV2 {
 
     /**
      * mass of a given celestial object
@@ -16,32 +18,38 @@ public class CelestialObject {
     /**
      * last position of a given celestial object
      */
-    private Vector3d lastPosition;
+    private Vector position;
 
     /**
      * last velocity of a given celestial object
      */
-    private Vector3d lastVelocity;
+    private Vector velocity;
 
-    /**
-     * current position of a given celestial object
-     */
-    private Vector3d currentPosition;
+    public Vector getPosition() {
+        return position;
+    }
 
-    /**
-     * current velocity of a given celestial object
-     */
-    private Vector3d currentVelocity;
+    public void setPosition(Vector position) {
+        this.position = position;
+    }
+
+    public Vector getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Vector velocity) {
+        this.velocity = velocity;
+    }
 
     /**
      * HashMap storing past positions of celestial objects
      */
-    private HashMap<Integer, Vector3d> historicPositions;
+    private HashMap<Integer, Vector> historicPositions;
 
     /**
      * HashMap storing past velocities of celestial objects
      */
-    private HashMap<Integer, Vector3d> historicVelocities;
+    private HashMap<Integer, Vector> historicVelocities;
 
     /**
      * name of a celestial object
@@ -73,22 +81,21 @@ public class CelestialObject {
      * @param color
      * @param radius
      */
-    public CelestialObject(String name, double m, Vector3d initialPos, Vector3d initialVel, double diameter, Color color, int radius) {
+    public CelestialObjectV2(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
         historicPositions = new HashMap<>();
         historicVelocities = new HashMap<>();
         this.m = m;
-        this.currentPosition = initialPos;
-        this.lastPosition = initialPos;
-        this.currentVelocity = initialVel;
-        this.lastVelocity = initialVel;
+        this.position = initialPos;
+        this.velocity = initialVel;
         this.name = name;
         this.diameter = diameter;
         this.color = color;
         this.radius = radius;
+
     }
 
 
-    public CelestialObject(String name, double m, Vector3d initialPos, Vector3d initialVel, long diameter, Color color) {
+    public CelestialObjectV2(String name, double m, Vector initialPos, Vector initialVel, long diameter, Color color) {
         this(name, m, initialPos, initialVel, diameter, color, 15);
     }
 
@@ -104,59 +111,29 @@ public class CelestialObject {
      * updates the current posistion of the celestial body
      * @param position
      */
-    public void updateCurrentPosition(Vector3d position) {
-        currentPosition = position;
+    public void updatePosition(Vector position) {
+        this.position = position;
         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
             historicPositions.put(Titan.currentStep, position);
         }
     }
 
     /**
-     * updates the last position of a celestial body
-     */
-    public void updateLastPosition() {
-        lastPosition = currentPosition;
-    }
-
-    /**
      * updates the current velocity of a celestial body
      * @param velocity
      */
-    public void updateVelocity(Vector3d velocity) {
-        currentVelocity = velocity;
+    public void updateVelocity(Vector velocity) {
+        this.velocity = velocity;
         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
             historicVelocities.put(Titan.currentStep, velocity);
         }
     }
 
     /**
-     * updates the last velocity of a celestial body
-     */
-    public void updateLastVelocity() {
-        lastVelocity = currentVelocity;
-    }
-
-    /**
-     * returns the last position
-     * @return
-     */
-    public Vector3d getLastPosition() {
-        return lastPosition;
-    }
-
-    /**
-     * returns the last velocity
-     * @return
-     */
-    public Vector3d getLastVelocity() {
-        return lastVelocity;
-    }
-
-    /**
      * returns the HashMap containing past positions of celestial objects
      * @return
      */
-    public HashMap<Integer, Vector3d> getHistoricPositions() {
+    public HashMap<Integer, Vector> getHistoricPositions() {
         return historicPositions;
     }
 
@@ -164,30 +141,16 @@ public class CelestialObject {
      * sorts the elements of the hashmap and returns them as an arraylist
      * @return
      */
-    public ArrayList<Vector3d> getHistoricPositionsVector() {
-        HashMap<Integer, Vector3d> positions = getHistoricPositions();
+    public ArrayList<Vector> getHistoricPositionsVector() {
+        HashMap<Integer, Vector> positions = getHistoricPositions();
         ArrayList<Integer> sortedKeys = new ArrayList<>(positions.keySet());
         Collections.sort(sortedKeys);
-        ArrayList<Vector3d> result = new ArrayList<>();
+        ArrayList<Vector> result = new ArrayList<>();
         for (Integer i : sortedKeys) {
             result.add(positions.get(i));
         }
         return result;
     }
-
-    /*
-    public Vector[] getLastPositionAndVelocity() {
-        Vector[] a = new Vector[2];
-        a[0] = getLastPosition();
-        a[1] = getLastVelocity();
-        return a;
-    }
-    public Vector[] getPositionAndVelocity(int index) {
-        Vector[] a = new Vector[2];
-        a[0] = getPosition(index);
-        a[1] = getVelocity(index);
-        return a;
-    } */
 
     /**
      * returns the mass of a celestial object

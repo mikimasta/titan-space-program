@@ -1,8 +1,11 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject;
+import com.titan.CelestialObject_OLD;
 import com.titan.SolarSystem;
+import com.titan.math.EulerSolver_OLD;
 import com.titan.math.EulerSolver;
+import com.titan.math.GravitationFunction;
+import com.titan.math.Vector;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,7 +17,9 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -59,10 +64,8 @@ public class Titan extends Application {
     /**
      * determines how many steps at once we are calculating, more means faster animation
      */
-    public static int stepsAtOnce = 20;
+    public static int stepsAtOnce = 5;
     private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
-
-
 
     @Override
     public void start(Stage gameWindow) {
@@ -74,7 +77,8 @@ public class Titan extends Application {
         Pane root = new Pane();
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-        root.setBackground(new Background(Images.backgroundImage));
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        //root.setBackground(new Background(Images.backgroundImage));
         root.getStylesheets().add(("styling.css"));
 
 
@@ -121,7 +125,7 @@ public class Titan extends Application {
 
         SolarSystem system = new SolarSystem();
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
-        for(CelestialObject o : system.getCelestialObjects()) {
+        for(CelestialObject_OLD o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
             objects.add(objectGUI);
             root.getChildren().add(objectGUI);
@@ -134,12 +138,20 @@ public class Titan extends Application {
         ScaleGUI scaleGUI = new ScaleGUI();
         root.getChildren().add(scaleGUI);
 
-        EulerSolver solver = new EulerSolver(stepSize);
+        EulerSolver_OLD solver = new EulerSolver_OLD(stepSize);
+        EulerSolver solver2 = new EulerSolver(stepSize);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
-                    solver.solve(system, currentStep);
+                    Vector[] nextState = solver2.solve(
+                            new GravitationFunction(),
+                            system.getAllPositions(),
+                            system.getAllVelocities(),
+                            system.getAllMasses(),
+                            currentStep);
+                    system.setAllPositions(nextState[0]);
+                    system.setAllVelocities(nextState[1]);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1) {
                         Titan.running = false;
