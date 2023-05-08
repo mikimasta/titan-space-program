@@ -19,16 +19,16 @@ public class GravitationFunction implements Function {
      * - mi and mj are the masses of the objects i and j    <br>
      * - pi and pj are the positions of the objects i and j <br>
      *
-     * @param positions the positions of the objects
+     * @param positions the positions of the objects (every 3 entries, the next object is referenced)
      * @param ignore this function does not use this vector in its calculations
-     * @param masses the masses of the objects
+     * @param masses the masses of the objects (same order as in the positions)
      * @return a vector of the gravitational forces working in the system
      */
     @Override
     public Vector f(Vector positions, Vector ignore, Vector masses) {
         double[] result = new double[positions.getSize()];
 
-        for (int i = 1; i < masses.getSize(); i++) {
+        for (int i = 1; i < masses.getSize(); i++) { // i starts at 1 to skip the sun
             Vector force = new Vector(new double[]{0.0, 0.0, 0.0});
             for (int j = 0; j < masses.getSize(); j++) {
                 if (j != i) {

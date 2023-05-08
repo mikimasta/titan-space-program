@@ -7,17 +7,17 @@ public class Vector {
     /**
      * values of a vector
      */
-    private double[] values;
+    private final double[] values;
 
     /**
      * length of a vector
      */
-    private double length;
+    private final double length;
 
     /**
      * the dimension of a vector
      */
-    private int size;
+    private final int size;
 
     /**
      * constructs a vector and calculates its length using the appropriate formula
@@ -54,6 +54,14 @@ public class Vector {
      */
     public double[] getValues() {
         return values;
+    }
+
+    /**
+     * @param i index of value
+     * @return specific value a vector holds
+     */
+    public double getValue(int i) {
+        return values[i];
     }
 
     /**
@@ -142,15 +150,4 @@ public class Vector {
 
         return true;
     }
-
-
-//    public static void main(String[] args) {
-//        Vector v = new Vector(new double[]{5, 7, 9});
-//        Vector x = new Vector(new double[]{5, 7, 9});
-//
-//        System.out.println(v.equals(x));
-//        System.out.println(0.1d+0.2d);
-//
-//        System.out.println(-2+3.4d+0.12);
-//    }
 }

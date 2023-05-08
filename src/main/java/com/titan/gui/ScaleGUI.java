@@ -10,11 +10,11 @@ import javafx.scene.text.Text;
  */
 public class ScaleGUI extends Parent {
 
-    private Text text = new Text();
-    private Line line = new Line();
-    private Line lineStart = new Line();
-    private Line lineCenter = new Line();
-    private Line lineEnd = new Line();
+    private final Text text = new Text();
+    private final Line line = new Line();
+    private final Line lineStart = new Line();
+    private final Line lineCenter = new Line();
+    private final Line lineEnd = new Line();
 
     private final int length = 100;
     private final int margin = 50;

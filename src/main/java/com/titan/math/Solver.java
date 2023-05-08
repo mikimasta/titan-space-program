@@ -1,7 +1,5 @@
 package com.titan.math;
 
-import com.titan.SolarSystem;
-
 public interface Solver {
 
     /**
@@ -13,5 +11,5 @@ public interface Solver {
      * @param v3 masses (used like this in the instances of this interface)
      * @return resulting Vector of the function
      */
-    void solve(Function f, Vector v1, Vector v2, Vector v3, int t);
+    Vector[] solve(Function f, Vector v1, Vector v2, Vector v3, int t);
 }

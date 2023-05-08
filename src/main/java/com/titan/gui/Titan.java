@@ -1,8 +1,7 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject_OLD;
+import com.titan.CelestialObject;
 import com.titan.SolarSystem;
-import com.titan.math.EulerSolver_OLD;
 import com.titan.math.EulerSolver;
 import com.titan.math.GravitationFunction;
 import com.titan.math.Vector;
@@ -125,7 +124,7 @@ public class Titan extends Application {
 
         SolarSystem system = new SolarSystem();
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
-        for(CelestialObject_OLD o : system.getCelestialObjects()) {
+        for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
             objects.add(objectGUI);
             root.getChildren().add(objectGUI);
@@ -138,7 +137,6 @@ public class Titan extends Application {
         ScaleGUI scaleGUI = new ScaleGUI();
         root.getChildren().add(scaleGUI);
 
-        EulerSolver_OLD solver = new EulerSolver_OLD(stepSize);
         EulerSolver solver2 = new EulerSolver(stepSize);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {

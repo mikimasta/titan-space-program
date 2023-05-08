@@ -1,7 +1,10 @@
-package com.titan;
+package com.titan.experiments;
 
-import com.titan.math.EulerSolver_OLD;
-import com.titan.math.Vector3d;
+import com.titan.CelestialObject;
+import com.titan.SolarSystem;
+import com.titan.math.EulerSolver;
+import com.titan.math.GravitationFunction;
+import com.titan.math.Vector;
 
 import java.util.ArrayList;
 
@@ -18,7 +21,7 @@ public class CalculateTrajectory {
     /**
      * velocity vector a probe has initially
      */
-    private static Vector3d velocity = new Vector3d(38.65346586, -14.90558291, -1.3535296);
+    private static Vector velocity = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
 
     /**
      * previous smallest distance of the probe from Titan
@@ -38,38 +41,40 @@ public class CalculateTrajectory {
         while (true) {
 
             SolarSystem s = new SolarSystem();
-            CelestialObject_OLD rocket = s.launchRocket("Experia " + launchNumber, velocity, 50000);
+            CelestialObject rocket = s.launchRocket("Experia " + launchNumber, velocity, 50000);
             s.getCelestialObjects().add(rocket);
-            ArrayList<CelestialObject_OLD> obj = s.getCelestialObjects();
+            ArrayList<CelestialObject> obj = s.getCelestialObjects();
             currentStep = 0;
 
 
             while (currentStep < 365 * 24 * 60) {
 
-                EulerSolver_OLD solver = new EulerSolver_OLD(60);
+                EulerSolver solver = new EulerSolver(60);
 
                 for (int i = 0; i < 1; i++) {
-                    solver.solve(s, currentStep);
+                    Vector[] nextState = solver.solve(
+                            new GravitationFunction(),
+                            s.getAllPositions(),
+                            s.getAllVelocities(),
+                            s.getAllMasses(),
+                            currentStep);
+                    s.setAllPositions(nextState[0]);
+                    s.setAllVelocities(nextState[1]);
                     currentStep++;
                 }
-
-                for (CelestialObject_OLD o : s.getCelestialObjects()) {
-                    o.updateLastPosition();
-                    o.updateLastVelocity();
-                }
             }
-            double distToTitan = (obj.get(8).getLastPosition().subtract(rocket.getLastPosition())).getLength(); //- (obj.get(8).getDiameter() / 2);
+            double distToTitan = (obj.get(8).getPosition().subtract(rocket.getPosition())).getLength(); //- (obj.get(8).getDiameter() / 2);
             if (previousSmallestDistance > distToTitan || launchNumber % 100000 == 0) {
 
                 previousSmallestDistance = distToTitan;
                 System.out.println("Rocket name: " + rocket.getName());
                 System.out.println("launchVelocity: " + velocity);
-                System.out.println("currentVelocity: " + rocket.getLastVelocity());
-                System.out.println("Speed: " + rocket.getLastVelocity().getLength() + " km/s");
+                System.out.println("currentVelocity: " + rocket.getVelocity());
+                System.out.println("Speed: " + rocket.getVelocity().getLength() + " km/s");
                 System.out.println("Distance to the center of Titan: " + distToTitan + " km" + "\n\n");
 
             }
-            velocity = velocity.add(new Vector3d(0.0, -0.00000001, 0.0));
+            velocity = velocity.add(new Vector(new double[]{0.0, -0.00000001, 0.0}));
             launchNumber++;
         }
     }

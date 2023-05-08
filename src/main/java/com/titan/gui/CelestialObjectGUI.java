@@ -1,7 +1,7 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject_OLD;
-import com.titan.math.Vector3d;
+import com.titan.CelestialObject;
+import com.titan.math.Vector;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -29,22 +29,20 @@ public class CelestialObjectGUI extends Parent {
      */
     public static boolean drawOrbits = false;
 
-    // private ArrayList<Circle> tail = new ArrayList<>();
-
     /**
      * trail a given celestial object leaves behind
      */
     private Polyline tail = new Polyline();
 
-    private CelestialObject_OLD object;
-    private Circle circle = new Circle();
-    private Text text = new Text();
+    private final CelestialObject object;
+    private final Circle circle = new Circle();
+    private final Text text = new Text();
 
     /**
      * Constructs a GUI object based on a given CelestialObject, adds the object and its label to the screen
      * @param object CelestialObject a GUI representation of which is being drawn
      */
-    public CelestialObjectGUI(CelestialObject_OLD object) {
+    public CelestialObjectGUI(CelestialObject object) {
         this.object = object;
         circle.setStrokeWidth(1);
         circle.setRadius(object.getRadius());
@@ -120,9 +118,9 @@ public class CelestialObjectGUI extends Parent {
         getChildren().remove(tail);
         tail = new Polyline();
         if (drawOrbits) {
-            for (Vector3d v : object.getHistoricPositionsVector()) {
-                tail.getPoints().add((v.getX1() / Titan.scale) + Titan.xCenter);
-                tail.getPoints().add((v.getX2() / Titan.scale) + Titan.yCenter);
+            for (Vector v : object.getHistoricPositions()) {
+                tail.getPoints().add((v.getValue(0) / Titan.scale) + Titan.xCenter);
+                tail.getPoints().add((v.getValue(1) / Titan.scale) + Titan.yCenter);
             }
             tail.getPoints().add(1.0 * getCurrentX() + Titan.xCenter);
             tail.getPoints().add(1.0 * getCurrentY() + Titan.yCenter);

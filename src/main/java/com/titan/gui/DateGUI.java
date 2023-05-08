@@ -12,7 +12,7 @@ import java.util.Date;
  */
 public class DateGUI extends Parent {
 
-    private Text text = new Text();
+    private final Text text = new Text();
 
     /**
      * constructs a DateGUI object

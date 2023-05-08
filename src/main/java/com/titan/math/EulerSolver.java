@@ -1,25 +1,27 @@
 package com.titan.math;
 
 /**
- *
+ * EulerSolver implements Solver: <br>
+ * implementation of the Euler-Solver approximation method <br>
+ * wi+1 = wi + h * f(wi, ti)
  */
-public class EulerSolver {
+public class EulerSolver implements Solver {
 
     /**
      * determines the step size for the Euler solver
      */
-    private double stepSize;
+    private final double stepSize;
 
     /**
      * Constructs an Euler solver and sets the step size
-     * @param step
+     * @param stepSize
      */
-    public EulerSolver(int step) {
-        this.stepSize = step;
+    public EulerSolver(double stepSize) {
+        this.stepSize = stepSize;
     }
 
     /**
-     * this method calculates and updates the posistions and velocities of all celestial objects after every iteration using the explicit Euler method
+     * this method calculates the positions and velocities of all celestial objects after every iteration using the explicit Euler method
      * @param positions vector of all the positions
      * @param velocities vector of all the velocities
      * @param t step we are currently on

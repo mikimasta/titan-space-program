@@ -5,15 +5,13 @@ import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
-public class CelestialObjectV2 {
+public class CelestialObject {
 
     /**
      * mass of a given celestial object
      */
-    private double m;
+    private final double m;
 
     /**
      * last position of a given celestial object
@@ -29,47 +27,39 @@ public class CelestialObjectV2 {
         return position;
     }
 
-    public void setPosition(Vector position) {
-        this.position = position;
-    }
-
     public Vector getVelocity() {
         return velocity;
     }
 
-    public void setVelocity(Vector velocity) {
-        this.velocity = velocity;
-    }
+    /**
+     * ArrayList storing past positions of celestial objects
+     */
+    private final ArrayList<Vector> historicPositions;
 
     /**
-     * HashMap storing past positions of celestial objects
+     * ArrayList storing past velocities of celestial objects
      */
-    private HashMap<Integer, Vector> historicPositions;
-
-    /**
-     * HashMap storing past velocities of celestial objects
-     */
-    private HashMap<Integer, Vector> historicVelocities;
+    private final ArrayList<Vector> historicVelocities;
 
     /**
      * name of a celestial object
      */
-    private String name;
+    private final String name;
 
     /**
      * diameter of a celestial object
      */
-    private double diameter;
+    private final double diameter;
 
     /**
      * color of a celestial object
      */
-    private Color color;
+    private final Color color;
 
     /**
      * radius of a celestial object
      */
-    private int radius;
+    private final int radius;
 
     /**
      * constructs a CelestialObject
@@ -81,12 +71,12 @@ public class CelestialObjectV2 {
      * @param color
      * @param radius
      */
-    public CelestialObjectV2(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
-        historicPositions = new HashMap<>();
-        historicVelocities = new HashMap<>();
+    public CelestialObject(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
+        historicPositions = new ArrayList<>();
+        historicVelocities = new ArrayList<>();
         this.m = m;
-        this.position = initialPos;
-        this.velocity = initialVel;
+        updatePosition(initialPos);
+        updateVelocity(initialVel);
         this.name = name;
         this.diameter = diameter;
         this.color = color;
@@ -95,7 +85,7 @@ public class CelestialObjectV2 {
     }
 
 
-    public CelestialObjectV2(String name, double m, Vector initialPos, Vector initialVel, long diameter, Color color) {
+    public CelestialObject(String name, double m, Vector initialPos, Vector initialVel, long diameter, Color color) {
         this(name, m, initialPos, initialVel, diameter, color, 15);
     }
 
@@ -113,9 +103,9 @@ public class CelestialObjectV2 {
      */
     public void updatePosition(Vector position) {
         this.position = position;
-        if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
-            historicPositions.put(Titan.currentStep, position);
-        }
+         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
+             historicPositions.add(position);
+         }
     }
 
     /**
@@ -125,7 +115,7 @@ public class CelestialObjectV2 {
     public void updateVelocity(Vector velocity) {
         this.velocity = velocity;
         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
-            historicVelocities.put(Titan.currentStep, velocity);
+            historicVelocities.add(velocity);
         }
     }
 
@@ -133,7 +123,7 @@ public class CelestialObjectV2 {
      * returns the HashMap containing past positions of celestial objects
      * @return
      */
-    public HashMap<Integer, Vector> getHistoricPositions() {
+    public ArrayList<Vector> getHistoricPositions() {
         return historicPositions;
     }
 
@@ -141,16 +131,16 @@ public class CelestialObjectV2 {
      * sorts the elements of the hashmap and returns them as an arraylist
      * @return
      */
-    public ArrayList<Vector> getHistoricPositionsVector() {
-        HashMap<Integer, Vector> positions = getHistoricPositions();
-        ArrayList<Integer> sortedKeys = new ArrayList<>(positions.keySet());
-        Collections.sort(sortedKeys);
-        ArrayList<Vector> result = new ArrayList<>();
-        for (Integer i : sortedKeys) {
-            result.add(positions.get(i));
-        }
-        return result;
-    }
+    // public ArrayList<Vector> getHistoricPositionsVector() {
+    //     HashMap<Vector> positions = getHistoricPositions();
+    //     ArrayList<Integer> sortedKeys = new ArrayList<>(positions.keySet());
+    //     Collections.sort(sortedKeys);
+    //     ArrayList<Vector> result = new ArrayList<>();
+    //     for (Integer i : sortedKeys) {
+    //         result.add(positions.get(i));
+    //     }
+    //     return result;
+    // }
 
     /**
      * returns the mass of a celestial object
