@@ -21,6 +21,7 @@ public class TwoStageAdamBashforth implements Solver {
      */
 
     public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
+        Vector[] result = new Vector[2];
 
         //solver
 
