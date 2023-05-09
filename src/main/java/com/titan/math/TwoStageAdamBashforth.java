@@ -42,7 +42,6 @@ public class TwoStageAdamBashforth implements Solver {
             result[0] = positions.add(velocities.multiplyByScalar(stepSize * 1.5).subtract(previousVelocities.multiplyByScalar(stepSize * 0.5)).multiplyByScalar(0.5 / 3).multiplyByScalar(stepSize));
             result[1] = velocities.add(stage1.multiplyByScalar(1.5).subtract(stage2.multiplyByScalar(0.5)).multiplyByScalar(0.5 / 3).multiplyByScalar(stepSize));
         }
-        System.out.println("Im here");
         return result;
     }
 
