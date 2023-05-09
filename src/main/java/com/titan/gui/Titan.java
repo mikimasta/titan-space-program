@@ -77,7 +77,7 @@ public class Titan extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-        //root.setBackground(new Background(Images.backgroundImage));
+        root.setBackground(new Background(Images.backgroundImage));
         root.getStylesheets().add(("styling.css"));
 
 
