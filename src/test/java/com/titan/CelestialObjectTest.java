@@ -5,6 +5,7 @@ import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 import org.junit.Test;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 
 public class CelestialObjectTest {
@@ -91,7 +92,7 @@ public class CelestialObjectTest {
         o.updatePosition(givenPosition4);
 
         // then
-        assertEquals(givenPositions, o.getHistoricPositions().toArray());
+        assertArrayEquals(givenPositions, o.getHistoricPositions().toArray());
     }
 
     @Test

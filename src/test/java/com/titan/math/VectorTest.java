@@ -30,6 +30,7 @@ public class VectorTest {
      */
     @Test(expected = InvalidParameterException.class)
     public void testAdditionNotPossible() {
+
         Vector v = new Vector(new double[2]);
         Vector x = new Vector(new double[3]);
 
@@ -41,9 +42,11 @@ public class VectorTest {
      */
     @Test
     public void testAddTwoVectorsDimensionOne() {
+        // given
         Vector v = new Vector(new double[]{3});
         Vector x = new Vector(new double[]{4});
 
+        // then
         assertEquals(7, v.add(x).getValues()[0], 0.0001);
     }
 
@@ -52,9 +55,11 @@ public class VectorTest {
      */
     @Test
     public void testAddTwoVectorsDimBiggerThanOne() {
+        // given
         Vector v = new Vector(new double[]{4, 3, -2, 1.5});
         Vector x = new Vector(new double[]{11.1, 5, 3.4, 0});
 
+        // then
         assertEquals(new Vector(new double[]{15.1, 8, 1.4, 1.5}), x.add(v));
     }
 
@@ -63,8 +68,10 @@ public class VectorTest {
      */
     @Test
     public void testMultiplicationByScalar0() {
+        // given
         Vector x = new Vector(new double[]{11.1, 5, 3.4, 0});
 
+        // then
         assertEquals(new Vector(new double[]{0d, 0d, 0d, 0d}), x.multiplyByScalar(0));
     }
 
@@ -73,8 +80,10 @@ public class VectorTest {
      */
     @Test
     public void testMultiplyByNegativeScalar() {
+        // given
         Vector x = new Vector(new double[]{-2.4, 0, 11.7, -4});
 
+        // then
         assertEquals(new Vector(new double[]{2.4, 0, -11.7, 4}), x.multiplyByScalar(-1));
     }
 
@@ -83,9 +92,11 @@ public class VectorTest {
      */
     @Test
     public void testMultiplyByBiggerScalar() {
+        // given
         Vector x = new Vector(new double[]{5, 5.734, 3.43, 0});
-
         Vector v = new Vector(new double[]{16.3000, 18.6928,11.1818 ,0});
+
+        // then
         for (int i = 0; i < x.getSize(); i++) {
             assertEquals(v.getValues()[i], x.getValues()[i] * 3.26, 0.00005);
         }
