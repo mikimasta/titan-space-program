@@ -3,7 +3,7 @@ package com.titan.math;
 /**
  * Two-stage Adam Bashforth implements Solver: <br>
  * implementation of the Euler-Solver approximation method <br>
- * wi+1 = wi + h * f(wi, ti)
+ * wi+1 = wi + (h/2)(3f (ti, wi) − f (ti−1, wi−1))
  */
 
 public class TwoStageAdamBashforth implements Solver {
