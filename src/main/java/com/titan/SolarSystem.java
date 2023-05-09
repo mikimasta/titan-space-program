@@ -2,6 +2,7 @@ package com.titan;
 
 import com.titan.math.EulerSolver;
 import com.titan.math.GravitationFunction;
+import com.titan.math.TwoStageAdamBashforth;
 import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 
@@ -114,7 +115,7 @@ public class SolarSystem {
             System.out.println(o.getName() + "     " + o.getPosition() + " " + o.getVelocity() +  "       " + o.getM());
         }
 
-        EulerSolver solver = new EulerSolver(60*60);
+        TwoStageAdamBashforth solver = new TwoStageAdamBashforth(60*60);
         for (int i = 0; i <= 365*24; i++) {
             Vector[] nextState = solver.solve(
                     new GravitationFunction(),
