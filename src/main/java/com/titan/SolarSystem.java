@@ -1,10 +1,12 @@
 package com.titan;
 
-import com.titan.math.EulerSolver;
-import com.titan.math.GravitationFunction;
-import com.titan.math.Vector;
+import com.titan.gui.Titan;
+import com.titan.math.*;
 import javafx.scene.paint.Color;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,51 @@ public class SolarSystem {
      */
     public ArrayList<CelestialObject> getCelestialObjects() {
         return celestialObjects;
+    }
+
+    public SolarSystem(String path) {
+        String file = "";
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(path));
+            String line = "";
+
+            while ((line = br.readLine()) != null) {
+               file += line;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            file = file.split("<start>")[1];
+            String[] planets = file.split("<next>");
+            for(String p : planets) {
+                p = p.replace(" ", "");
+                String[] attributes = p.split(",");
+                String name = attributes[0];
+                double[] positions = {
+                        Double.parseDouble(attributes[1]),
+                        Double.parseDouble(attributes[2]),
+                        Double.parseDouble(attributes[3])};
+                double[] velocities = {
+                        Double.parseDouble(attributes[4]),
+                        Double.parseDouble(attributes[5]),
+                        Double.parseDouble(attributes[6])};
+                double mass = Double.parseDouble(attributes[7]);
+                int diameter = 1;
+                Color color = Color.GREEN;
+                int radius = 1;
+                if (attributes.length == 11) {
+                    diameter = Integer.parseInt(attributes[8]);
+                    color = Color.valueOf(attributes[9]);
+                    radius = Integer.parseInt(attributes[10]);
+                }
+                celestialObjects.add(new CelestialObject(
+                        name, mass, new Vector(positions), new Vector(velocities), diameter, color, radius));
+            }
+        } catch (Exception e) {
+            System.err.println("Error while reading the input file '" + path + "'. Please check for the right syntax!");
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -107,15 +154,17 @@ public class SolarSystem {
 
     public static void main(String[] args) {
 
-        SolarSystem s = new SolarSystem();
+        Titan.currentStep = 1; // to avoid out of memory bc of historic positions/velocities
+
+        SolarSystem s = new SolarSystem("resources/initial_conditions.csv");
         System.out.println(s.getCelestialObjects());
 
         for (CelestialObject o : s.celestialObjects) {
             System.out.println(o.getName() + "     " + o.getPosition() + " " + o.getVelocity() +  "       " + o.getM());
         }
 
-        EulerSolver solver = new EulerSolver(60*60);
-        for (int i = 0; i <= 365*24; i++) {
+        Solver solver = new RungeKuttaSolver(60);
+        for (int i = 0; i <= 365*24*60; i++) {
             Vector[] nextState = solver.solve(
                     new GravitationFunction(),
                     s.getAllPositions(),
