@@ -61,7 +61,7 @@ public class Titan extends Application {
     /**
      * determines how many steps at once we are calculating, more means faster animation
      */
-    public static int stepsAtOnce = 2;
+    public static int stepsAtOnce = 20;
     private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
 
     @Override
@@ -136,12 +136,20 @@ public class Titan extends Application {
         root.getChildren().add(scaleGUI);
 
         Solver eulerSolver = new EulerSolver(stepSize);
+
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
+
+        Vector[] initialState = new Vector[3];
+        initialState[0] = system.getAllPositions();
+        initialState[1] = system.getAllVelocities();
+
+        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize, initialState);
+
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
-                    Vector[] nextState = rungeKuttaSolver.solve(
+                    Vector[] nextState = adamsBashforth2.solve(
                             new GravitationFunction(),
                             system.getAllPositions(),
                             system.getAllVelocities(),

@@ -1,5 +1,8 @@
 package com.titan.math;
 
+/**
+ * A generic solver, solves differential equation based on Newton's law of motion
+ */
 public interface Solver {
 
     /**

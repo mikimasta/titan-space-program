@@ -1,5 +1,8 @@
 package com.titan.math;
 
+/**
+ * Functional interface, represents a function that operates on three vectors
+ */
 public interface Function {
 
     /**
