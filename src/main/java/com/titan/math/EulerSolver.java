@@ -29,8 +29,10 @@ public class EulerSolver implements Solver {
     public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
         Vector[] result = new Vector[2];
 
-        result[0] = positions.add(velocities.multiplyByScalar(stepSize));
-        result[1] = velocities.add(f.f(positions, velocities, masses).multiplyByScalar(stepSize));
+        Vector[] wi1 = DifferentialEquation.solve(f, positions, velocities, masses);
+
+        result[0] = positions.add(wi1[0].multiplyByScalar(stepSize));
+        result[1] = velocities.add(wi1[1].multiplyByScalar(stepSize));
 
         return result;
     }

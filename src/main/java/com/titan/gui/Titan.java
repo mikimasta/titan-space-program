@@ -2,9 +2,7 @@ package com.titan.gui;
 
 import com.titan.CelestialObject;
 import com.titan.SolarSystem;
-import com.titan.math.EulerSolver;
-import com.titan.math.GravitationFunction;
-import com.titan.math.Vector;
+import com.titan.math.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -63,7 +61,7 @@ public class Titan extends Application {
     /**
      * determines how many steps at once we are calculating, more means faster animation
      */
-    public static int stepsAtOnce = 5;
+    public static int stepsAtOnce = 2;
     private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
 
     @Override
@@ -122,7 +120,7 @@ public class Titan extends Application {
         centerTitan.setFocusTraversable(false);
         root.getChildren().add(centerTitan);
 
-        SolarSystem system = new SolarSystem();
+        SolarSystem system = new SolarSystem("src/main/resources/initial_conditions.csv");
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
@@ -137,12 +135,13 @@ public class Titan extends Application {
         ScaleGUI scaleGUI = new ScaleGUI();
         root.getChildren().add(scaleGUI);
 
-        EulerSolver solver2 = new EulerSolver(stepSize);
+        Solver eulerSolver = new EulerSolver(stepSize);
+        Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
-                    Vector[] nextState = solver2.solve(
+                    Vector[] nextState = rungeKuttaSolver.solve(
                             new GravitationFunction(),
                             system.getAllPositions(),
                             system.getAllVelocities(),
