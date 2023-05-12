@@ -80,8 +80,8 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
 
         Vector[] nextState = new Vector[2];
 
-        Vector[] diffCurrent = differentialEquation(f, currentState[0], currentState[1], masses);
-        Vector[] diffPrevious = differentialEquation(f, previousState[0], previousState[1], masses);
+        Vector[] diffCurrent = DifferentialEquation.solve(f, currentState[0], currentState[1], masses);
+        Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses);
 
         Vector nextPos = currentState[0]
                 .add(diffCurrent[0]
@@ -103,23 +103,5 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
 
 
         return nextState;
-    }
-
-    /**
-     * auxiliary funtion, solves d/dt ( x(t) ; v(t) ) = ( v(t) ; f(t,x(t)) )
-     * @param f
-     * @param positions
-     * @param velocities
-     * @param masses
-     * @return
-     */
-    private Vector[] differentialEquation(Function f, Vector positions, Vector velocities, Vector masses) {
-
-        return DifferentialEquation.solve(
-                f,
-                positions,
-                velocities,
-                masses
-        );
     }
 }

@@ -154,7 +154,7 @@ public class Titan extends Application {
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
-                    Vector[] nextState = rungeKuttaSolver.solve(
+                    Vector[] nextState = adamsBashforth2.solve(
                             new GravitationFunction(),
                             system.getAllPositions(),
                             system.getAllVelocities(),
