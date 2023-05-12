@@ -11,7 +11,7 @@ public class TwoStageAdamBashforth implements Solver {
     /**
      * determines the step size for the Adam Bashforth solver
      */
-    private final double stepSize;
+    //private final double stepSize;
 
     /**
      * this method calculates the positions and velocities of all celestial objects after every iteration using the Adam Bashforth method

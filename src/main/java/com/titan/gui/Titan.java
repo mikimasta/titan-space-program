@@ -120,7 +120,7 @@ public class Titan extends Application {
         centerTitan.setFocusTraversable(false);
         root.getChildren().add(centerTitan);
 
-        SolarSystem system = new SolarSystem();
+        SolarSystem system = new SolarSystem("src/main/resources/initial_conditions.csv");
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
