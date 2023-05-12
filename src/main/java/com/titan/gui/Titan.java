@@ -2,7 +2,12 @@ package com.titan.gui;
 
 import com.titan.CelestialObject;
 import com.titan.SolarSystem;
-import com.titan.math.*;
+import com.titan.math.Vector;
+import com.titan.math.function.GravitationFunction;
+import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
+import com.titan.math.solver.EulerSolver;
+import com.titan.math.solver.RungeKuttaSolver;
+import com.titan.math.solver.Solver;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

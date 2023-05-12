@@ -1,7 +1,10 @@
 package com.titan;
 
 import com.titan.gui.Titan;
-import com.titan.math.*;
+import com.titan.math.Vector;
+import com.titan.math.function.GravitationFunction;
+import com.titan.math.solver.RungeKuttaSolver;
+import com.titan.math.solver.Solver;
 import javafx.scene.paint.Color;
 
 import java.io.BufferedReader;
@@ -96,7 +99,7 @@ public class SolarSystem {
 
         CelestialObject rocketFin = launchRocket("Experia 1", new Vector(new double[]{38.65346586, -14.90558291, -1.3535296}), 50000);
 
-        celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus, rocketFin));
+        celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus));
 
         //celestialObjects.add(rocketFin);
     }

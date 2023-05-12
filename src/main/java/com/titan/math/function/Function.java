@@ -1,4 +1,7 @@
-package com.titan.math;
+package com.titan.math.function;
+
+import com.titan.math.Vector;
+import com.titan.math.solver.Solver;
 
 /**
  * Functional interface, represents a function that operates on three vectors

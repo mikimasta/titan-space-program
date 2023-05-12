@@ -1,4 +1,6 @@
-package com.titan.math;
+package com.titan.math.function;
+
+import com.titan.math.Vector;
 
 public class GravitationFunction implements Function {
 

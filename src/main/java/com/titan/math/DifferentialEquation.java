@@ -1,5 +1,7 @@
 package com.titan.math;
 
+import com.titan.math.function.Function;
+
 /**
  * Differential equation solves d/dt for positions and velocities: <br>
  *

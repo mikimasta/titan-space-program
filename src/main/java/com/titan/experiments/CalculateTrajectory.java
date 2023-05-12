@@ -2,9 +2,9 @@ package com.titan.experiments;
 
 import com.titan.CelestialObject;
 import com.titan.SolarSystem;
-import com.titan.math.EulerSolver;
-import com.titan.math.GravitationFunction;
 import com.titan.math.Vector;
+import com.titan.math.function.GravitationFunction;
+import com.titan.math.solver.EulerSolver;
 
 import java.util.ArrayList;
 

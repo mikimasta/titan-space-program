@@ -1,6 +1,7 @@
-package com.titan.math;
+package com.titan.math.function;
 
 
+import com.titan.math.Vector;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

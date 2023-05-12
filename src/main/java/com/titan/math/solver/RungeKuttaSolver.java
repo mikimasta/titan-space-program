@@ -1,4 +1,8 @@
-package com.titan.math;
+package com.titan.math.solver;
+
+import com.titan.math.DifferentialEquation;
+import com.titan.math.Vector;
+import com.titan.math.function.Function;
 
 /**
  * RungeKuttaSolver implements Solver: <br>
