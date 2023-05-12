@@ -96,7 +96,7 @@ public class SolarSystem {
 
         CelestialObject rocketFin = launchRocket("Experia 1", new Vector(new double[]{38.65346586, -14.90558291, -1.3535296}), 50000);
 
-        celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus));
+        celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus, rocketFin));
 
         //celestialObjects.add(rocketFin);
     }
