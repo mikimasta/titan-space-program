@@ -1,6 +1,7 @@
 package com.titan.gui;
 
 import com.titan.CelestialObject;
+import com.titan.Rocket;
 import com.titan.SolarSystem;
 import com.titan.math.Vector;
 import com.titan.math.function.GravitationFunction;
@@ -125,7 +126,15 @@ public class Titan extends Application {
         centerTitan.setFocusTraversable(false);
         root.getChildren().add(centerTitan);
 
-        SolarSystem system = new SolarSystem("src/main/resources/initial_conditions.csv");
+        SolarSystem system = new SolarSystem();
+        SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
+
+        Rocket rocket = system.createRocket("Rocket", 50000);
+        system.stageRocket(rocket);
+        Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
+        force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
+        rocket.fireEngine(force, stepSize);
+
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);

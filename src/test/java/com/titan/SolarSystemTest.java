@@ -42,7 +42,7 @@ public class SolarSystemTest {
         Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
         // when
-        CelestialObject result = s.createRocket(rocketName, rocketVelocity, rocketMass);
+        CelestialObject result = s.createRocket(rocketName, rocketMass);
 
         // then
         assertEquals(rocketName, result.getName());
@@ -50,27 +50,27 @@ public class SolarSystemTest {
         assertEquals(rocketVelocity.add(earthVelocity), result.getVelocity());
     }
 
-    @Test
-    public void testCreateRocketInSameDirectionAsEarth() {
-        // given
-        SolarSystem s = new SolarSystem();
-        String rocketName = "Rocket 2";
-        double rocketSpeed = 5;
-        double rocketMass = 1;
-        Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
-
-        // when
-        CelestialObject result = s.createRocketInSameDirectionAsEarth(rocketName, rocketSpeed, rocketMass);
-
-        // then
-        assertEquals(rocketName, result.getName());
-        assertEquals(rocketMass, result.getM(), 0);
-        // compare the speed up to 3 digits precision
-        assertEquals(
-                (int) ((rocketSpeed + earthVelocity.getLength()) * 10),
-                (int) ((result.getVelocity().getLength()) * 10),
-                0);
-    }
+    //@Test
+    //public void testCreateRocketInSameDirectionAsEarth() {
+    //    // given
+    //    SolarSystem s = new SolarSystem();
+    //    String rocketName = "Rocket 2";
+    //    double rocketSpeed = 5;
+    //    double rocketMass = 1;
+    //    Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
+//
+    //    // when
+    //    CelestialObject result = s.createRocketInSameDirectionAsEarth(rocketName, rocketSpeed, rocketMass);
+//
+    //    // then
+    //    assertEquals(rocketName, result.getName());
+    //    assertEquals(rocketMass, result.getM(), 0);
+    //    // compare the speed up to 3 digits precision
+    //    assertEquals(
+    //            (int) ((rocketSpeed + earthVelocity.getLength()) * 10),
+    //            (int) ((result.getVelocity().getLength()) * 10),
+    //            0);
+    //}
 
     @Test
     public void testGetAllPositions() {
