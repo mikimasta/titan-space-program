@@ -41,7 +41,7 @@ public class CalculateTrajectory {
         while (true) {
 
             SolarSystem s = new SolarSystem();
-            CelestialObject rocket = s.launchRocket("Experia " + launchNumber, velocity, 50000);
+            CelestialObject rocket = s.createRocket("Experia " + launchNumber, velocity, 50000);
             s.getCelestialObjects().add(rocket);
             ArrayList<CelestialObject> obj = s.getCelestialObjects();
             currentStep = 0;

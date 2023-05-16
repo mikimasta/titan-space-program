@@ -94,14 +94,14 @@ public class SolarSystem {
 //        CelestialObject rocket2 = launchRocket("Quite close Rocket", new Vector(13, -12, 0), 50000);
 //        CelestialObject rocket3 = launchRocket("Experiment Rocket (very close)", new Vector(12.5, -11.5, 0), 50000);
 //        CelestialObject rocket4 = launchRocket("Test Rocket (hopefully close)", new Vector(38.515, -14.905, 0), 50000);
-        CelestialObject rocket5 = launchRocket("new rocket 1", new Vector(new double[]{38.514248, -14.903261, 0}), 50000);
-        CelestialObject rocket6 = launchRocket("new rocket 2", new Vector(new double[]{38.65346, -14.9056, -1.35354}), 50000);
+        CelestialObject rocket5 = createRocket("new rocket 1", new Vector(new double[]{38.514248, -14.903261, 0}), 50000);
+        CelestialObject rocket6 = createRocket("new rocket 2", new Vector(new double[]{38.65346, -14.9056, -1.35354}), 50000);
 
-        CelestialObject rocketFin = launchRocket("Experia 1", new Vector(new double[]{38.65346586, -14.90558291, -1.3535296}), 50000);
+        CelestialObject rocketFin = createRocket("Experia 1", new Vector(new double[]{38.65346586, -14.90558291, -1.3535296}), 50000);
 
         celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus));
 
-        //celestialObjects.add(rocketFin);
+        // launchRocket(rocketFin);
     }
 
     /**
@@ -111,7 +111,7 @@ public class SolarSystem {
      * @param mass mass of the rocket
      * @return rocket that will be added to celestialObjects
      */
-    public CelestialObject launchRocket(String name, Vector velocity, double mass) {
+    public CelestialObject createRocket(String name, Vector velocity, double mass) {
         Vector initialPosition = new Vector(new double[]{-1.48e08, -2.78e07, 3.37e04});
         Vector initialVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
@@ -121,10 +121,14 @@ public class SolarSystem {
         return new CelestialObject(name, mass, initialPosition, initialVelocity, 1, Color.SILVER, 2);
     }
 
-    public CelestialObject launchRocketInSameDirectionAsEarth(String name, double speed, double mass) {
+    public CelestialObject createRocketInSameDirectionAsEarth(String name, double speed, double mass) {
         Vector velocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
         velocity = velocity.multiplyByScalar(1.0/29.831).multiplyByScalar(speed);
-        return launchRocket(name, velocity, mass);
+        return createRocket(name, velocity, mass);
+    }
+
+    public void launchRocket(CelestialObject rocket) {
+        celestialObjects.add(rocket);
     }
 
     public Vector getAllPositions() {

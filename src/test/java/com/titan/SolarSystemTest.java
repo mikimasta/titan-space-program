@@ -33,7 +33,7 @@ public class SolarSystemTest {
     }
 
     @Test
-    public void testLaunchRocket() {
+    public void testCreateRocket() {
         // given
         SolarSystem s = new SolarSystem();
         String rocketName = "Rocket 1";
@@ -42,7 +42,7 @@ public class SolarSystemTest {
         Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
         // when
-        CelestialObject result = s.launchRocket(rocketName, rocketVelocity, rocketMass);
+        CelestialObject result = s.createRocket(rocketName, rocketVelocity, rocketMass);
 
         // then
         assertEquals(rocketName, result.getName());
@@ -51,7 +51,7 @@ public class SolarSystemTest {
     }
 
     @Test
-    public void testLaunchRocketInSameDirectionAsEarth() {
+    public void testCreateRocketInSameDirectionAsEarth() {
         // given
         SolarSystem s = new SolarSystem();
         String rocketName = "Rocket 2";
@@ -60,7 +60,7 @@ public class SolarSystemTest {
         Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
         // when
-        CelestialObject result = s.launchRocketInSameDirectionAsEarth(rocketName, rocketSpeed, rocketMass);
+        CelestialObject result = s.createRocketInSameDirectionAsEarth(rocketName, rocketSpeed, rocketMass);
 
         // then
         assertEquals(rocketName, result.getName());
