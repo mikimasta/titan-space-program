@@ -1,6 +1,5 @@
 package com.titan;
 
-import com.titan.gui.Titan;
 import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 
@@ -26,9 +25,13 @@ public class Rocket extends CelestialObject {
 
     public void fireEngine(Vector force, int stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize);
-        double fuel = impulse.getLength() * Math.pow(getM(), -1);
+        double fuel = impulse.getLength() * getM() * (1.0/stepSize);
         fuelConsumption.add(fuel);
         updateVelocity(getVelocity().add(impulse.multiplyByScalar(1/getM())));
+    }
+
+    public ArrayList<Double> getFuelConsumption() {
+        return fuelConsumption;
     }
 
 }
