@@ -26,7 +26,7 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     /**
      * a flag that helps distinguish whether a bootstrap is needed to start the method
      */
-    private static boolean isFirstIteration = true;
+    private boolean isFirstIteration = true;
 
     /**
      * stores the current state of the system
