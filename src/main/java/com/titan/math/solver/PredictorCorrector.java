@@ -29,9 +29,10 @@ public class PredictorCorrector implements Solver {
     @Override
     public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
 
-        if (isFirstIteration)
+        if (isFirstIteration) {
             currentState = bootstrap(f, previousState[0], previousState[1], masses, t);
-
+            return currentState;
+        }
 
         return new Vector[0];
     }
