@@ -37,7 +37,6 @@ public class SolarSystemTest {
         // given
         SolarSystem s = new SolarSystem();
         String rocketName = "Rocket 1";
-        Vector rocketVelocity = new Vector(new double[]{1, 2, 3});
         double rocketMass = 1;
         Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
@@ -47,30 +46,23 @@ public class SolarSystemTest {
         // then
         assertEquals(rocketName, result.getName());
         assertEquals(rocketMass, result.getM(), 0);
-        assertEquals(rocketVelocity.add(earthVelocity), result.getVelocity());
+        assertEquals(earthVelocity, result.getVelocity());
     }
 
-    //@Test
-    //public void testCreateRocketInSameDirectionAsEarth() {
-    //    // given
-    //    SolarSystem s = new SolarSystem();
-    //    String rocketName = "Rocket 2";
-    //    double rocketSpeed = 5;
-    //    double rocketMass = 1;
-    //    Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
-//
-    //    // when
-    //    CelestialObject result = s.createRocketInSameDirectionAsEarth(rocketName, rocketSpeed, rocketMass);
-//
-    //    // then
-    //    assertEquals(rocketName, result.getName());
-    //    assertEquals(rocketMass, result.getM(), 0);
-    //    // compare the speed up to 3 digits precision
-    //    assertEquals(
-    //            (int) ((rocketSpeed + earthVelocity.getLength()) * 10),
-    //            (int) ((result.getVelocity().getLength()) * 10),
-    //            0);
-    //}
+    @Test
+    public void testStageRocket() {
+        // given
+        SolarSystem s = new SolarSystem();
+        Rocket rocket = s.createRocket("Rocket 505", 50000);
+        assertEquals(11, s.getCelestialObjects().size());
+
+        // when
+        s.stageRocket(rocket);
+
+        // then
+        assertEquals(12, s.getCelestialObjects().size());
+        assertEquals(rocket, s.getCelestialObjects().get(11));
+    }
 
     @Test
     public void testGetAllPositions() {
