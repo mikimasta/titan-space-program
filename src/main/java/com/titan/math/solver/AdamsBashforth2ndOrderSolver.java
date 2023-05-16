@@ -75,8 +75,10 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
 
 
-        if (isFirstIteration)
+        if (isFirstIteration) {
             currentState = bootstrap(f, previousState[0], previousState[1], masses, t);
+            return currentState;
+        }
 
         Vector[] nextState = new Vector[2];
 
