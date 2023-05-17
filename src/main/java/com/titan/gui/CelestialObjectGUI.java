@@ -94,6 +94,13 @@ public class CelestialObjectGUI extends Parent {
         return (int) (object.getPosition().getValues()[1] / Titan.scale);
     }
 
+    /**
+     * Gets the underlying celestial-object.
+     * @return the object
+     */
+    public CelestialObject getObject() {
+        return object;
+    }
 
     /**
      * updates the position of a celestial body on the screen

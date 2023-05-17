@@ -47,6 +47,8 @@ public class Titan extends Application {
     public static int xCenter_ = WIDTH / 2;
     public static int yCenter_ = HEIGHT / 2;
 
+    private String lockedInObject = "Sun";
+
     /**
      * determines if the animation should be running or not
      */
@@ -118,13 +120,29 @@ public class Titan extends Application {
         drawOrbits.setFocusTraversable(false);
         root.getChildren().add(drawOrbits);
 
-        //center tot titan button
+        //center to titan button
         ToggleButton centerTitan = new ToggleButton("center on titan");
         centerTitan.setStyle("-fx-font-size: 15px");
         centerTitan.setLayoutX(WIDTH - 200);
         centerTitan.setLayoutY(180);
         centerTitan.setFocusTraversable(false);
         root.getChildren().add(centerTitan);
+
+        //center to earth button
+        ToggleButton centerEarth = new ToggleButton("center on earth");
+        centerEarth.setStyle("-fx-font-size: 15px");
+        centerEarth.setLayoutX(WIDTH - 200);
+        centerEarth.setLayoutY(220);
+        centerEarth.setFocusTraversable(false);
+        root.getChildren().add(centerEarth);
+
+        //center to rocket button
+        ToggleButton centerRocket = new ToggleButton("center on rocket");
+        centerRocket.setStyle("-fx-font-size: 15px");
+        centerRocket.setLayoutX(WIDTH - 200);
+        centerRocket.setLayoutY(260);
+        centerRocket.setFocusTraversable(false);
+        root.getChildren().add(centerRocket);
 
         SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
@@ -150,14 +168,8 @@ public class Titan extends Application {
         root.getChildren().add(scaleGUI);
 
         Solver eulerSolver = new EulerSolver(stepSize);
-
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
-
-        Vector[] initialState = new Vector[3];
-        initialState[0] = system.getAllPositions();
-        initialState[1] = system.getAllVelocities();
-
-        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize, initialState);
+        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
 
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
@@ -178,6 +190,9 @@ public class Titan extends Application {
                     }
                 }
             }
+
+            centerOnObject(system, objects);
+
             for (CelestialObjectGUI o : objects) {
                 o.updatePosition();
             }
@@ -221,12 +236,35 @@ public class Titan extends Application {
        });
 
        centerTitan.setOnAction(e -> {
-           xCenter = WIDTH / 2 - objects.get(8).getCurrentX();
-           yCenter = HEIGHT / 2 - objects.get(8).getCurrentY();
+           xCenter = WIDTH / 2 - objects.get(system.getIndexTitan()).getCurrentX();
+           yCenter = HEIGHT / 2 - objects.get(system.getIndexTitan()).getCurrentY();
+           lockedInObject = "Titan";
            for (CelestialObjectGUI o :objects) {
                o.repaint();
            }
        });
+
+        centerEarth.setOnAction(e -> {
+            if (objects.get(3).getObject().getName().equals("Earth")) {
+                xCenter = WIDTH / 2 - objects.get(3).getCurrentX();
+                yCenter = HEIGHT / 2 - objects.get(3).getCurrentY();
+                lockedInObject = "Earth";
+                for (CelestialObjectGUI o :objects) {
+                    o.repaint();
+                }
+            }
+        });
+
+        centerRocket.setOnAction(e -> {
+            if (objects.get(objects.size()-1).getObject() instanceof Rocket) {
+                xCenter = WIDTH / 2 - objects.get(objects.size()-1).getCurrentX();
+                yCenter = HEIGHT / 2 - objects.get(objects.size()-1).getCurrentY();
+                lockedInObject = "Rocket";
+                for (CelestialObjectGUI o :objects) {
+                    o.repaint();
+                }
+            }
+        });
 
         scene.addEventHandler(ScrollEvent.SCROLL, e -> {
             double delta = (e.getDeltaY() * (scale / 500.0));
@@ -235,6 +273,9 @@ public class Titan extends Application {
             double newScale = scale - delta;
             if(newScale > 5) scale = (int) newScale;
             scaleGUI.updateScale();
+
+            centerOnObject(system, objects);
+
             for (CelestialObjectGUI o : objects) {
                 o.repaint();
             }
@@ -257,6 +298,7 @@ public class Titan extends Application {
         root.setOnMouseDragged(e-> {
             xCenter = (int) (xCenter_ + e.getSceneX() - mouseX);
             yCenter = (int) (yCenter_ + e.getSceneY() - mouseY);
+            lockedInObject = "Sun";
             for (CelestialObjectGUI o : objects) {
                 o.drawTail();
             }
@@ -279,6 +321,19 @@ public class Titan extends Application {
 
         gameWindow.setScene(scene);
         gameWindow.show();
+    }
+
+    private void centerOnObject(SolarSystem system, ArrayList<CelestialObjectGUI> objects) {
+        if(lockedInObject.equals("Titan")) {
+            xCenter = WIDTH / 2 - objects.get(system.getIndexTitan()).getCurrentX();
+            yCenter = HEIGHT / 2 - objects.get(system.getIndexTitan()).getCurrentY();
+        } else if(lockedInObject.equals("Earth")) {
+            xCenter = WIDTH / 2 - objects.get(3).getCurrentX();
+            yCenter = HEIGHT / 2 - objects.get(3).getCurrentY();
+        } else if(lockedInObject.equals("Rocket")) {
+            xCenter = WIDTH / 2 - objects.get(objects.size()-1).getCurrentX();
+            yCenter = HEIGHT / 2 - objects.get(objects.size()-1).getCurrentY();
+        }
     }
 
     public static void main(String[] args) {

@@ -21,7 +21,7 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     /**
      * keeps track of the previous state of the system, needed for calculations using this method
      */
-    private Vector[] previousState;
+    private final Vector[] previousState = new Vector[2];
 
     /**
      * a flag that helps distinguish whether a bootstrap is needed to start the method
@@ -29,18 +29,11 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     private boolean isFirstIteration = true;
 
     /**
-     * stores the current state of the system
-     */
-    private Vector[] currentState = new Vector[2];
-
-    /**
      * creates a new Adams-Bashforth solver instance; sets the step size and the initial state of the system
      * @param stepSize
-     * @param previousState previous, or rather initial state of the entire system in this case
      */
-    public AdamsBashforth2ndOrderSolver(double stepSize, Vector[] previousState) {
+    public AdamsBashforth2ndOrderSolver(double stepSize) {
         this.stepSize = stepSize;
-        this.previousState = previousState;
     }
 
 
@@ -54,12 +47,10 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
      * @return returns the state of the system after the initial step using a Runge-Kutta 4th order method
      */
     private Vector[] bootstrap(Function f, Vector positions, Vector velocities, Vector masses, int t) {
-
-        Solver rungeKutta = new RungeKuttaSolver(stepSize);
-
         isFirstIteration = false;
-
-        return rungeKutta.solve(f, positions, velocities, masses, t);
+        previousState[0] = positions;
+        previousState[1] = velocities;
+        return (new RungeKuttaSolver(stepSize)).solve(f, positions, velocities, masses, t);
     }
 
     /**
@@ -74,24 +65,22 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     @Override
     public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
 
-
         if (isFirstIteration) {
-            currentState = bootstrap(f, previousState[0], previousState[1], masses, t);
-            return currentState;
+            return bootstrap(f, positions, velocities, masses, t);
         }
 
         Vector[] nextState = new Vector[2];
 
-        Vector[] diffCurrent = DifferentialEquation.solve(f, currentState[0], currentState[1], masses);
+        Vector[] diffCurrent = DifferentialEquation.solve(f, positions, velocities, masses);
         Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses);
 
-        Vector nextPos = currentState[0]
+        Vector nextPos = positions
                 .add(diffCurrent[0]
                         .multiplyByScalar(3)
                         .subtract(diffPrevious[0])
                         .multiplyByScalar(stepSize / 2));
 
-        Vector nextVel = currentState[1]
+        Vector nextVel = velocities
                 .add(diffCurrent[1]
                         .multiplyByScalar(3)
                         .subtract(diffPrevious[1])
@@ -100,9 +89,8 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
         nextState[0] = nextPos;
         nextState[1] = nextVel;
 
-        previousState = currentState.clone();
-        currentState = nextState.clone();
-
+        previousState[0] = positions;
+        previousState[1] = velocities;
 
         return nextState;
     }
