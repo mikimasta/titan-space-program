@@ -7,3 +7,8 @@ build
 # Ignore .idea files
 .idea
 /out/
+
+.settings
+bin
+.classpath
+.project
