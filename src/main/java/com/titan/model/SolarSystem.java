@@ -1,8 +1,8 @@
-package com.titan;
+package com.titan.model;
 
+import com.titan.Simulation;
 import com.titan.gui.Titan;
 import com.titan.math.Vector;
-import com.titan.math.function.GravitationFunction;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.math.solver.Solver;
 import javafx.scene.paint.Color;
@@ -188,15 +188,10 @@ public class SolarSystem {
         }
 
         Solver solver = new RungeKuttaSolver(60);
+        Simulation simulation = new Simulation(solver, 60, s);
+
         for (int i = 0; i <= 365*24*60; i++) {
-            Vector[] nextState = solver.solve(
-                    new GravitationFunction(),
-                    s.getAllPositions(),
-                    s.getAllVelocities(),
-                    s.getAllMasses(),
-                    i);
-            s.setAllPositions(nextState[0]);
-            s.setAllVelocities(nextState[1]);
+            simulation.nextStep(i);
         }
 
         System.out.println("---------------------------------------------");

@@ -1,4 +1,4 @@
-package com.titan;
+package com.titan.model;
 
 import com.titan.math.Vector;
 import org.junit.Test;

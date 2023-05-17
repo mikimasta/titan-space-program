@@ -1,14 +1,14 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject;
-import com.titan.Rocket;
-import com.titan.SolarSystem;
+import com.titan.Simulation;
 import com.titan.math.Vector;
-import com.titan.math.function.GravitationFunction;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.math.solver.Solver;
+import com.titan.model.CelestialObject;
+import com.titan.model.Rocket;
+import com.titan.model.SolarSystem;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -171,18 +171,12 @@ public class Titan extends Application {
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
         Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
 
+        Simulation simulation = new Simulation(adamsBashforth2, stepSize, system);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
-                    Vector[] nextState = adamsBashforth2.solve(
-                            new GravitationFunction(),
-                            system.getAllPositions(),
-                            system.getAllVelocities(),
-                            system.getAllMasses(),
-                            currentStep);
-                    system.setAllPositions(nextState[0]);
-                    system.setAllVelocities(nextState[1]);
+                    simulation.nextStep(currentStep);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1) {
                         Titan.running = false;

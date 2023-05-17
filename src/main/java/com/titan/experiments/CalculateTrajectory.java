@@ -1,10 +1,11 @@
 package com.titan.experiments;
 
-import com.titan.CelestialObject;
-import com.titan.SolarSystem;
+import com.titan.Simulation;
 import com.titan.math.Vector;
-import com.titan.math.function.GravitationFunction;
 import com.titan.math.solver.EulerSolver;
+import com.titan.model.CelestialObject;
+import com.titan.model.Rocket;
+import com.titan.model.SolarSystem;
 
 import java.util.ArrayList;
 
@@ -41,28 +42,21 @@ public class CalculateTrajectory {
         while (true) {
 
             SolarSystem s = new SolarSystem();
-            CelestialObject rocket = s.createRocket("Experia " + launchNumber, 50000);
-            s.getCelestialObjects().add(rocket);
+            Rocket rocket = s.createRocket("Experia " + launchNumber, 50000);
+            s.stageRocket(rocket);
             ArrayList<CelestialObject> obj = s.getCelestialObjects();
             currentStep = 0;
 
+            EulerSolver solver = new EulerSolver(60);
+            Simulation simulation = new Simulation(solver, 60, s);
 
             while (currentStep < 365 * 24 * 60) {
-
-                EulerSolver solver = new EulerSolver(60);
-
                 for (int i = 0; i < 1; i++) {
-                    Vector[] nextState = solver.solve(
-                            new GravitationFunction(),
-                            s.getAllPositions(),
-                            s.getAllVelocities(),
-                            s.getAllMasses(),
-                            currentStep);
-                    s.setAllPositions(nextState[0]);
-                    s.setAllVelocities(nextState[1]);
+                    simulation.nextStep(currentStep);
                     currentStep++;
                 }
             }
+
             double distToTitan = (obj.get(8).getPosition().subtract(rocket.getPosition())).getLength(); //- (obj.get(8).getDiameter() / 2);
             if (previousSmallestDistance > distToTitan || launchNumber % 100000 == 0) {
 

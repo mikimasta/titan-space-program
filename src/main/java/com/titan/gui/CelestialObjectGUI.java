@@ -1,7 +1,7 @@
 package com.titan.gui;
 
-import com.titan.CelestialObject;
 import com.titan.math.Vector;
+import com.titan.model.CelestialObject;
 import javafx.scene.Parent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -81,7 +81,6 @@ public class CelestialObjectGUI extends Parent {
      * @return scaled pixel representation of the X coordinate
      */
     public int getCurrentX() {
-//        return (int) (object.getLastPosition().getX1() / Titan.scale);
         return (int) (object.getPosition().getValues()[0] / Titan.scale);
     }
 
@@ -90,7 +89,6 @@ public class CelestialObjectGUI extends Parent {
      * @return scaled pixel representation of the Y coordinate
      */
     public int getCurrentY() {
-//        return (int) (object.getLastPosition().getX2() / Titan.scale);
         return (int) (object.getPosition().getValues()[1] / Titan.scale);
     }
 

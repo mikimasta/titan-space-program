@@ -1,4 +1,4 @@
-package com.titan;
+package com.titan.model;
 
 import com.titan.gui.Titan;
 import com.titan.math.Vector;
