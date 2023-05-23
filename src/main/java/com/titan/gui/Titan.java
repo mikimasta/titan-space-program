@@ -2,10 +2,7 @@ package com.titan.gui;
 
 import com.titan.Simulation;
 import com.titan.math.Vector;
-import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
-import com.titan.math.solver.EulerSolver;
-import com.titan.math.solver.RungeKuttaSolver;
-import com.titan.math.solver.Solver;
+import com.titan.math.solver.*;
 import com.titan.model.CelestialObject;
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;
@@ -170,8 +167,10 @@ public class Titan extends Application {
         Solver eulerSolver = new EulerSolver(stepSize);
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
         Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
+        Solver predictorCorrector = new PredictorCorrector(stepSize);
 
-        Simulation simulation = new Simulation(adamsBashforth2, stepSize, system);
+
+        Simulation simulation = new Simulation(predictorCorrector, stepSize, system);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {

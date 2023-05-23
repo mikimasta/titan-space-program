@@ -40,8 +40,8 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     /**
      * bootstraps the first step to get the solver running
      * @param f gravitational function acting upon the celestial bodies
-     * @param positions vector of posistions of the entire system
-     * @param velocities vector of velocitites of the entire system
+     * @param positions vector of positions of the entire system
+     * @param velocities vector of velocities of the entire system
      * @param masses vector of masses of the entire system
      * @param t step the system is currently on
      * @return returns the state of the system after the initial step using a Runge-Kutta 4th order method
