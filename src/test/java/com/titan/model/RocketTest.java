@@ -41,7 +41,7 @@ public class RocketTest {
         int stepSize = 10;
 
         // when
-        r.fireEngine(force, stepSize);
+        r.fireEngineWithForce(force, stepSize);
 
         // then
         assertEquals(new Vector(new double[]{1.5, 1.5, 1.5}), r.getVelocity());
@@ -76,7 +76,7 @@ public class RocketTest {
         int stepSize = 1;
 
         // when
-        r.fireEngine(force, stepSize);
+        r.fireEngineWithForce(force, stepSize);
         double fuel = r.getFuelConsumption().get(0);
 
         // then

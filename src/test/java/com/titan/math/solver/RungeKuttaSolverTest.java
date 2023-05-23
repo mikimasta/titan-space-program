@@ -81,7 +81,7 @@ public class RungeKuttaSolverTest {
 
     /**
      *
-     * Tests the euler solver for the simple function "f(x,y,z) = 1" where derivative of f(x) = y <br>
+     * Tests the Runge Kutta solver for the simple function "f(x,y,z) = 1" where derivative of f(x) = y <br>
      * The expected values are calculated on paper like this: <p>
      * h = 0.5; x0 = 1; y0 = 1; z0 = 1; <p>
      *

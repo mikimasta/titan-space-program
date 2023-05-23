@@ -7,7 +7,7 @@ public class GravitationFunction implements Function {
     /**
      * gravitational constant
      */
-    private static final double G = 6.6743e-20;
+    public static final double G = 6.6743e-20;
 
     /**
      * Calculates all the gravitational forces that are working in the system.

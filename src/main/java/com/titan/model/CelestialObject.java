@@ -8,6 +8,8 @@ import java.util.ArrayList;
 
 public class CelestialObject {
 
+    public static int stepsUntilNextHistoricSave = 86400; // 86400 = 1 day
+
     /**
      * mass of a given celestial object
      */
@@ -103,7 +105,7 @@ public class CelestialObject {
      */
     public void updatePosition(Vector position) {
         this.position = position;
-         if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
+         if (Titan.currentStep % (stepsUntilNextHistoricSave / Titan.stepSize) == 0) {
              historicPositions.add(position);
          }
     }

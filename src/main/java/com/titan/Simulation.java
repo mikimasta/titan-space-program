@@ -46,4 +46,12 @@ public class Simulation {
         system.setAllPositions(nextState[0]);
         system.setAllVelocities(nextState[1]);
     }
+
+    public SolarSystem getSystem() {
+        return system;
+    }
+
+    public Rocket getRocket() {
+        return rocket;
+    }
 }
