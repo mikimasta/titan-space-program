@@ -38,49 +38,39 @@ public class CalculateInitialVelocity_HillClimbing {
 
     private static List<Object> climbTheHill(Vector startingVelocity, double startingDistance, double climbingStepSize) {
         List<Object> result = List.of(startingVelocity, startingDistance);
-        String lastChange = "-";
 
         boolean complete = false;
         while (!complete) {
             complete = true;
 
             // x
-            if (!lastChange.equals("x")) {
-                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{1, 0, 0}), climbingStepSize);
-                if (result.get(0).equals(startingVelocity)) {
-                    result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{-1, 0, 0}), climbingStepSize);
-                }
-                if (!result.get(0).equals(startingVelocity)) {
-                    complete = false;
-                    lastChange = "x";
-                    startingVelocity = (Vector) result.get(0);
-                }
+            result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{1, 0, 0}), climbingStepSize);
+            if (result.get(0).equals(startingVelocity)) {
+                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{-1, 0, 0}), climbingStepSize);
+            }
+            if (!result.get(0).equals(startingVelocity)) {
+                complete = false;
+                startingVelocity = (Vector) result.get(0);
             }
 
             // y
-            if (!lastChange.equals("y")) {
-                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 1, 0}), climbingStepSize);
-                if (result.get(0).equals(startingVelocity)) {
-                    result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, -1, 0}), climbingStepSize);
-                }
-                if (!result.get(0).equals(startingVelocity)) {
-                    complete = false;
-                    lastChange = "y";
-                    startingVelocity = (Vector) result.get(0);
-                }
+            result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 1, 0}), climbingStepSize);
+            if (result.get(0).equals(startingVelocity)) {
+                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, -1, 0}), climbingStepSize);
+            }
+            if (!result.get(0).equals(startingVelocity)) {
+                complete = false;
+                startingVelocity = (Vector) result.get(0);
             }
 
             // z
-            if (!lastChange.equals("z")) {
-                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, 0.1}), climbingStepSize);
-                if (result.get(0).equals(startingVelocity)) {
-                    result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, -0.1}), climbingStepSize);
-                }
-                if (!result.get(0).equals(startingVelocity)) {
-                    complete = false;
-                    lastChange = "z";
-                    startingVelocity = (Vector) result.get(0);
-                }
+            result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, 0.1}), climbingStepSize);
+            if (result.get(0).equals(startingVelocity)) {
+                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, -0.1}), climbingStepSize);
+            }
+            if (!result.get(0).equals(startingVelocity)) {
+                complete = false;
+                startingVelocity = (Vector) result.get(0);
             }
         }
 
