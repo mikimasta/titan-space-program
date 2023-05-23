@@ -1,8 +1,12 @@
 package com.titan.gui;
 
 import com.titan.Simulation;
-import com.titan.math.Vector;
-import com.titan.math.solver.*;
+import com.titan.experiments.Controls;
+import com.titan.experiments.FirstTestControls;
+import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
+import com.titan.math.solver.EulerSolver;
+import com.titan.math.solver.RungeKuttaSolver;
+import com.titan.math.solver.Solver;
 import com.titan.model.CelestialObject;
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;
@@ -56,7 +60,7 @@ public class Titan extends Application {
     /**
      * stepSize for an Euler solver
      */
-    public static int stepSize = 60; // 1 minute
+    public static int stepSize = 60; // 60 = 1 minute
 
     /**
      * value of the current step
@@ -146,9 +150,9 @@ public class Titan extends Application {
 
         Rocket rocket = system.createRocket("Rocket", 50000);
         system.stageRocket(rocket);
-        Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
-        force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
-        rocket.fireEngine(force, stepSize);
+        //Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
+        //force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
+        //rocket.fireEngineWithForce(force, stepSize);
 
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
@@ -167,10 +171,10 @@ public class Titan extends Application {
         Solver eulerSolver = new EulerSolver(stepSize);
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
         Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
-        Solver predictorCorrector = new PredictorCorrector(stepSize);
 
+        Controls controls = new FirstTestControls();
 
-        Simulation simulation = new Simulation(predictorCorrector, stepSize, system);
+        Simulation simulation = new Simulation(eulerSolver, stepSize, controls, system, rocket);
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
@@ -179,6 +183,7 @@ public class Titan extends Application {
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1) {
                         Titan.running = false;
+                        stepsAtOnce = 1;
                         break;
                     }
                 }
@@ -216,6 +221,7 @@ public class Titan extends Application {
        backToCenter.setOnAction(e -> {
            xCenter = WIDTH / 2;
            yCenter = HEIGHT / 2;
+           lockedInObject = "Sun";
            for (CelestialObjectGUI o :objects) {
                o.repaint();
            }

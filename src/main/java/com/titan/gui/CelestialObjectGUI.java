@@ -27,7 +27,7 @@ public class CelestialObjectGUI extends Parent {
     /**
      * determines whether the orbits are being drawn on the screen
      */
-    public static boolean drawOrbits = false;
+    public static boolean drawOrbits = true;
 
     /**
      * trail a given celestial object leaves behind
