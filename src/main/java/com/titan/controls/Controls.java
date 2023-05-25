@@ -1,4 +1,4 @@
-package com.titan.experiments;
+package com.titan.controls;
 
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;

@@ -1,6 +1,6 @@
 package com.titan;
 
-import com.titan.experiments.Controls;
+import com.titan.controls.Controls;
 import com.titan.math.Vector;
 import com.titan.math.function.GravitationFunction;
 import com.titan.math.solver.Solver;

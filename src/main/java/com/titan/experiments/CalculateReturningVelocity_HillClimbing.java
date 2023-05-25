@@ -2,7 +2,7 @@ package com.titan.experiments;
 
 import com.titan.Simulation;
 import com.titan.controls.Controls;
-import com.titan.controls.SecondTestControls;
+import com.titan.controls.FlightControlsTwoEngineFiresForLaunch_Exp;
 import com.titan.gui.Titan;
 import com.titan.math.Vector;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -12,7 +12,7 @@ import com.titan.model.SolarSystem;
 
 import java.util.List;
 
-public class CalculateInitialVelocity_HillClimbing {
+public class CalculateReturningVelocity_HillClimbing {
 
     static int stepSize = 60;
     static final int ONE_YEAR_IN_SECONDS = 31536000;
@@ -27,20 +27,23 @@ public class CalculateInitialVelocity_HillClimbing {
         }
     }
 
-    private static Simulation setUpSimulation(Vector secondVelocityOfRocket) {
-        SolarSystem system = new SolarSystem();
-        Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
+    private static Simulation setUpSimulation(Vector returningVelocityOfRocket) {
+        SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
+        Rocket rocket = system.createRocketAtPointInSpace(
+                "Rocket",
+                50000,
+                new Vector(new double[]{1.3634377057605958E9, -4.868223085696473E8, -4.557917144852597E7}),
+                new Vector(new double[]{7.218058164094522, 11.843061237846946, -0.34333197393536263}));
         system.stageRocket(rocket);
-        // rocket.fireEngineWithVelocity(secondVelocityOfRocket, stepSize);
 
         Solver solver = new RungeKuttaSolver(stepSize);
-        Controls controls = new SecondTestControls(secondVelocityOfRocket);
+        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(returningVelocityOfRocket);
 
         return new Simulation(solver, stepSize, controls, system, rocket);
     }
 
-    private static List<Object> climbTheHill(Vector startingVelocity, double startingDistance, double climbingStepSize) {
-        List<Object> result = List.of(startingVelocity, startingDistance);
+    private static List<Object> climbTheHill(Vector returningVelocity, double startingDistance, double climbingStepSize) {
+        List<Object> result = List.of(returningVelocity, startingDistance);
 
         boolean complete = false;
         while (!complete) {
@@ -48,68 +51,68 @@ public class CalculateInitialVelocity_HillClimbing {
 
             // x
             result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{1, 0, 0}), climbingStepSize);
-            if (result.get(0).equals(startingVelocity)) {
+            if (result.get(0).equals(returningVelocity)) {
                 result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{-1, 0, 0}), climbingStepSize);
             }
-            if (!result.get(0).equals(startingVelocity)) {
+            if (!result.get(0).equals(returningVelocity)) {
                 complete = false;
-                startingVelocity = (Vector) result.get(0);
+                returningVelocity = (Vector) result.get(0);
             }
 
             // y
             result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 1, 0}), climbingStepSize);
-            if (result.get(0).equals(startingVelocity)) {
+            if (result.get(0).equals(returningVelocity)) {
                 result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, -1, 0}), climbingStepSize);
             }
-            if (!result.get(0).equals(startingVelocity)) {
+            if (!result.get(0).equals(returningVelocity)) {
                 complete = false;
-                startingVelocity = (Vector) result.get(0);
+                returningVelocity = (Vector) result.get(0);
             }
 
             // z
             result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, 0.1}), climbingStepSize);
-            if (result.get(0).equals(startingVelocity)) {
+            if (result.get(0).equals(returningVelocity)) {
                 result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, -0.1}), climbingStepSize);
             }
-            if (!result.get(0).equals(startingVelocity)) {
+            if (!result.get(0).equals(returningVelocity)) {
                 complete = false;
-                startingVelocity = (Vector) result.get(0);
+                returningVelocity = (Vector) result.get(0);
             }
         }
 
         System.out.println("# current best: " + result.get(1) + " with velocity: " + result.get(0));
-        return List.of(startingVelocity, result.get(1));
+        return List.of(returningVelocity, result.get(1));
     }
 
-    private static List<Object> climbOnceInOneDirection(Vector startingVelocity, double distanceToTitan, Vector climbingDirection, double climbingStepSize) {
-        Vector newStartingVelocity = startingVelocity.add(climbingDirection.multiplyByScalar(climbingStepSize));
-        System.out.print("Test with velocity: " + newStartingVelocity);
-        Simulation simulation = setUpSimulation(newStartingVelocity);
+    private static List<Object> climbOnceInOneDirection(Vector returningVelocity, double distanceToEarth, Vector climbingDirection, double climbingStepSize) {
+        Vector newReturningVelocity = returningVelocity.add(climbingDirection.multiplyByScalar(climbingStepSize));
+        System.out.print("Test with velocity: " + newReturningVelocity);
+        Simulation simulation = setUpSimulation(newReturningVelocity);
         runForAYear(simulation);
         System.out.println();
-        if (getDistanceToTitan(simulation) < distanceToTitan) {
-            distanceToTitan = getDistanceToTitan(simulation);
-            startingVelocity = newStartingVelocity;
-            System.out.println("new best: " + (int) distanceToTitan);
+        if (getDistanceToEarth(simulation) < distanceToEarth) {
+            distanceToEarth = getDistanceToEarth(simulation);
+            returningVelocity = newReturningVelocity;
+            System.out.println("new best: " + (int) distanceToEarth);
         }
-        return List.of(startingVelocity, distanceToTitan);
+        return List.of(returningVelocity, distanceToEarth);
     }
 
-    private static double getDistanceToTitan(Simulation simulation) {
+    private static double getDistanceToEarth(Simulation simulation) {
         SolarSystem system = simulation.getSystem();
-        return system.getCelestialObjects().get(system.getCelestialObjects().size()-1).getPosition().subtract(system.getTitan().getPosition()).getLength();
+        return system.getCelestialObjects().get(system.getCelestialObjects().size()-1).getPosition().subtract(system.getCelestialObjects().get(3).getPosition()).getLength();
     }
 
 
     public static void main(String[] args) {
-        Vector initialVelocity = new Vector(new double[]{38.696840796619654, -14.911847334355116, -1.6521421074867249}).multiplyByScalar(0.5);
+        Vector initialVelocity = new Vector(new double[]{-26.848420398309827, -0.044076332822442055, -0.4239289462566376});
         Titan.currentStep = 1; // to avoid out of memory bc of historic positions/velocities
         Simulation simulation = setUpSimulation(initialVelocity);
         runForAYear(simulation);
         System.out.println();
-        List<Object> result = List.of(initialVelocity, getDistanceToTitan(simulation));
+        List<Object> result = List.of(initialVelocity, getDistanceToEarth(simulation));
 
-        for (int i = 4; i < 30; i++) {
+        for (int i = 2; i < 30; i++) {
             double climbingStepSize = 10.0/Math.pow(2, i);
             System.out.println("next climbing step size: " + climbingStepSize + " (10 / 2^" + i + ")");
             result = climbTheHill((Vector) result.get(0), (Double) result.get(1), climbingStepSize);
@@ -119,6 +122,6 @@ public class CalculateInitialVelocity_HillClimbing {
 
         runForAYear(simulation2);
 
-        System.out.println("Distance Rocket - Titan: " + (int) getDistanceToTitan(simulation2) + " km");
+        System.out.println("Distance Rocket - Earth: " + (int) getDistanceToEarth(simulation2) + " km");
     }
 }

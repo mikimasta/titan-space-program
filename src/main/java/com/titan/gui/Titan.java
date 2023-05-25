@@ -1,8 +1,10 @@
 package com.titan.gui;
 
 import com.titan.Simulation;
-import com.titan.experiments.Controls;
-import com.titan.experiments.FirstTestControls;
+import com.titan.controls.Controls;
+import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
+import com.titan.controls.FlightControlsTwoEngineFiresForLaunch_Exp;
+import com.titan.math.Vector;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -145,14 +147,29 @@ public class Titan extends Application {
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
 
-        SolarSystem system = new SolarSystem();
+        //SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
 
-        Rocket rocket = system.createRocket("Rocket", 50000);
-        system.stageRocket(rocket);
+        //Rocket rocket = system.createRocket("Rocket", 50000);
+        //system.stageRocket(rocket);
+
         //Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
         //force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
         //rocket.fireEngineWithForce(force, stepSize);
+
+        /////////////////////////////
+        SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
+        Rocket rocket = system.createRocketAtPointInSpace(
+                "Rocket",
+                50000,
+                new Vector(new double[]{1.3634377057605958E9, -4.868223085696473E8, -4.557917144852597E7}),
+                new Vector(new double[]{7.218058164094522, 11.843061237846946, -0.34333197393536263}));
+        system.stageRocket(rocket);
+
+        Solver solver = new RungeKuttaSolver(stepSize);
+
+        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(new Vector(new double[]{-26.457795398309827, -0.27845133282244205, -0.10361644625663757}));
+        ///////////////////////////////
 
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
@@ -172,9 +189,11 @@ public class Titan extends Application {
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
         Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
 
-        Controls controls = new FirstTestControls();
+        Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
 
-        Simulation simulation = new Simulation(eulerSolver, stepSize, controls, system, rocket);
+        Simulation simulation = new Simulation(solver, stepSize, controls, system, rocket);
+
+
 
         KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
             if (running) {
@@ -183,7 +202,7 @@ public class Titan extends Application {
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1) {
                         Titan.running = false;
-                        stepsAtOnce = 1;
+                        // stepsAtOnce = 1;
                         break;
                     }
                 }
