@@ -23,7 +23,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     private final Vector startingFire_2 = new Vector(new double[]{19.377969997003675, -7.467248549684882, -0.5318658649921417});
 
     private Vector returningFire_1_AND_2 = new Vector(new double[]{-26.522340076044202, -1.0069822166115046, 0.8590452969074249});
-
+    // closest to Earth we can get = -26.52226378209889 -1.0069822166115046 0.8590466380119324
     public FlightControlsTwoEngineFiresForLaunch() {}
 
     public FlightControlsTwoEngineFiresForLaunch(Vector v) {
