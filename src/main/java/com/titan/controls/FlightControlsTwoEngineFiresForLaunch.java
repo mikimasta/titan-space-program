@@ -22,9 +22,13 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     private final Vector startingFire_1 = new Vector(new double[]{19.348420398309827, -7.455923667177558, -0.8260710537433624});
     private final Vector startingFire_2 = new Vector(new double[]{19.377969997003675, -7.467248549684882, -0.5318658649921417});
 
-    private final Vector returningFire_1_AND_2 = new Vector(new double[]{-26.586884753778577, -0.9415220115333796, 1.223120003938675});
+    private Vector returningFire_1_AND_2 = new Vector(new double[]{-26.586884753778577, -0.9415220115333796, 1.223120003938675});
 
     public FlightControlsTwoEngineFiresForLaunch() {}
+
+    public FlightControlsTwoEngineFiresForLaunch(Vector v) {
+        this.returningFire_1_AND_2 = v;
+    }
 
     @Override
     public void execute(SolarSystem system, Rocket rocket, int currentStep, int stepSize) {

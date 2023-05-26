@@ -2,7 +2,7 @@ package com.titan.experiments;
 
 import com.titan.Simulation;
 import com.titan.controls.Controls;
-import com.titan.controls.FlightControlsTwoEngineFiresForLaunch_Exp;
+import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
 import com.titan.gui.Titan;
 import com.titan.math.Vector;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -17,9 +17,9 @@ public class CalculateReturningVelocity_HillClimbing {
     static int stepSize = 60;
     static final int ONE_YEAR_IN_SECONDS = 31536000;
 
-    private static void runForAYear(Simulation simulation) {
+    private static void runForTwoYear(Simulation simulation) {
         System.out.print(" >>");
-        for (int i = 0; i < ((ONE_YEAR_IN_SECONDS) / stepSize); i++) {
+        for (int i = 0; i < ((ONE_YEAR_IN_SECONDS)*2 / stepSize); i++) {
             simulation.nextStep(i);
             if (i % (ONE_YEAR_IN_SECONDS / stepSize / 10) == 0) {
                 System.out.print(i/(ONE_YEAR_IN_SECONDS / stepSize / 10));
@@ -28,16 +28,14 @@ public class CalculateReturningVelocity_HillClimbing {
     }
 
     private static Simulation setUpSimulation(Vector returningVelocityOfRocket) {
-        SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
-        Rocket rocket = system.createRocketAtPointInSpace(
+        SolarSystem system = new SolarSystem();
+        Rocket rocket = system.createRocketOnEarth(
                 "Rocket",
-                50000,
-                new Vector(new double[]{1.3634377057605958E9, -4.868223085696473E8, -4.557917144852597E7}),
-                new Vector(new double[]{7.218058164094522, 11.843061237846946, -0.34333197393536263}));
+                50000);
         system.stageRocket(rocket);
 
         Solver solver = new RungeKuttaSolver(stepSize);
-        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(returningVelocityOfRocket);
+        Controls controls = new FlightControlsTwoEngineFiresForLaunch(returningVelocityOfRocket);
 
         return new Simulation(solver, stepSize, controls, system, rocket);
     }
@@ -89,7 +87,8 @@ public class CalculateReturningVelocity_HillClimbing {
         Vector newReturningVelocity = returningVelocity.add(climbingDirection.multiplyByScalar(climbingStepSize));
         System.out.print("Test with velocity: " + newReturningVelocity);
         Simulation simulation = setUpSimulation(newReturningVelocity);
-        runForAYear(simulation);
+        runForTwoYear(simulation);
+        //runForAYear(simulation);
         System.out.println();
         if (getDistanceToEarth(simulation) < distanceToEarth) {
             distanceToEarth = getDistanceToEarth(simulation);
@@ -106,10 +105,10 @@ public class CalculateReturningVelocity_HillClimbing {
 
 
     public static void main(String[] args) {
-        Vector initialVelocity = new Vector(new double[]{-26.574982898309827, -0.922982582822442, 1.0643523037433624});
+        Vector initialVelocity =  new Vector(new double[]{-26.586884753778577, -0.9415220115333796, 1.223120003938675});
         Titan.currentStep = 1; // to avoid out of memory bc of historic positions/velocities
         Simulation simulation = setUpSimulation(initialVelocity);
-        runForAYear(simulation);
+        runForTwoYear(simulation);
         System.out.println();
         List<Object> result = List.of(initialVelocity, getDistanceToEarth(simulation));
 
@@ -121,7 +120,7 @@ public class CalculateReturningVelocity_HillClimbing {
 
         Simulation simulation2 = setUpSimulation((Vector) result.get(0));
 
-        runForAYear(simulation2);
+        runForTwoYear(simulation2);
 
         System.out.println("Distance Rocket - Earth: " + (int) getDistanceToEarth(simulation2) + " km");
     }
