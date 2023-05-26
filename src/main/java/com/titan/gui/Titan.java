@@ -54,6 +54,8 @@ public class Titan extends Application {
      */
     public static boolean running = false;
 
+    public static boolean log = true;
+
     public static int steps = 87600; // 10 years: every hour
 
     /**

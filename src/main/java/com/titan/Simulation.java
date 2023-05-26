@@ -55,8 +55,16 @@ public class Simulation {
         return rocket;
     }
 
+    public void runFor(int seconds) {
+        runFor(this, seconds, false);
+    }
+
+    public void runFor(int seconds, boolean printProgress) {
+        runFor(this, seconds, printProgress);
+    }
+
     public void runForAYear() {
-        runForAYear(this);
+        runForAYear(this, false);
     }
 
     public void runForAYear(boolean printProgress) {
@@ -65,16 +73,16 @@ public class Simulation {
 
     public static void runForAYear(Simulation simulation, boolean printProgress) {
         int oneYearInSeconds = 31536000;
-        if (printProgress) System.out.print(" >>");
-        for (int i = 0; i < ((oneYearInSeconds) / simulation.stepSize); i++) {
-            simulation.nextStep(i);
-            if (printProgress && i % (oneYearInSeconds / simulation.stepSize / 10) == 0) {
-                System.out.print(i / (oneYearInSeconds / simulation.stepSize / 10));
-            }
-        }
+        runFor(simulation, oneYearInSeconds, printProgress);
     }
 
-    public static void runForAYear(Simulation simulation) {
-        runForAYear(simulation, false);
+    public static void runFor(Simulation simulation, int seconds, boolean printProgress) {
+        if (printProgress) System.out.print(" >>");
+        for (int i = 0; i < ((seconds) / simulation.stepSize); i++) {
+            simulation.nextStep(i);
+            if (printProgress && i % (seconds / simulation.stepSize / 10) == 0) {
+                System.out.print(i / (seconds / simulation.stepSize / 10));
+            }
+        }
     }
 }

@@ -15,6 +15,10 @@ import com.titan.math.Vector;
  */
 public abstract class HillClimbing {
 
+    /** seconds in a year (default value, override in a constructor if needed
+     * see {@link CalculateReturningVelocity_HillClimbing#CalculateReturningVelocity_HillClimbing()}) */
+    int secondsUntilResultsAreCompared = 31536000;
+
     class Result {
         public Vector input;
         public double output;
@@ -112,7 +116,7 @@ public abstract class HillClimbing {
         Vector newVelocity = input.add(climbingDirection.multiplyByScalar(climbingStepSize));
         System.out.print("Test with input: " + newVelocity);
         Simulation simulation = setUpSimulation(newVelocity, 60);
-        Simulation.runForAYear(simulation, true);
+        Simulation.runFor(simulation, secondsUntilResultsAreCompared, true);
         System.out.println();
         if (calculateError(simulation) < error) {
             error = calculateError(simulation);
@@ -131,9 +135,10 @@ public abstract class HillClimbing {
      */
     public Result run(Vector startingInput, int stepSize, int accuracy) {
         Titan.currentStep = 1;
+        Titan.log = false;
         Simulation simulation = setUpSimulation(startingInput, stepSize);
         System.out.print("\nRun with initial condition: " + startingInput);
-        Simulation.runForAYear(simulation, true);
+        Simulation.runFor(simulation, secondsUntilResultsAreCompared, true);
         Result result = new Result(startingInput, calculateError(simulation));
         System.out.println("\n# current best: " + result.output + " with input: " + result.input);
 
