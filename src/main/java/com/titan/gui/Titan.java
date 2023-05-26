@@ -69,7 +69,7 @@ public class Titan extends Application {
     /**
      * determines how many steps at once we are calculating, more means faster animation
      */
-    public static int stepsAtOnce = 5;
+    public static int stepsAtOnce = 50;
     private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
 
     @Override
@@ -193,7 +193,7 @@ public class Titan extends Application {
 
 
 
-        KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
+        KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);

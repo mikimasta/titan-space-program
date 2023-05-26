@@ -33,13 +33,11 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     @Override
     public void execute(SolarSystem system, Rocket rocket, int currentStep, int stepSize) {
 
-        if(slow && (distanceToTitan(rocket, system.getTitan().getPosition()) < 1000000
+        if((distanceToTitan(rocket, system.getTitan().getPosition()) < 1000000
                         || distanceToEarth(rocket, system) < 1000000)) {
             Titan.stepsAtOnce = 1;
-            slow = false;
-        } else if(!slow) {
-            Titan.stepsAtOnce = 5;
-            slow = true;
+        } else {
+            Titan.stepsAtOnce = 50;
         }
 
         if (currentStep == 0) {
@@ -157,6 +155,8 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             if(log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
             if(log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
             if(log) System.out.println("final (ninth) fire");
+
+            slow = true;
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system)
