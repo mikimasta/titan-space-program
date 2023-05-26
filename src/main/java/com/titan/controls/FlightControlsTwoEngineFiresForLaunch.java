@@ -137,17 +137,30 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             CelestialObject.stepsUntilNextHistoricSave = 3600;
             engineFireCount++;
             return;
-        } else if (engineFireCount == 7 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 600)) {
-            double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToEarth(rocket, system));
-
+        } else if (engineFireCount == 7 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 6000)) {
             if(log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
             if(log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
             if(log) System.out.println("eighth fire");
 
             rocket.fireEngineWithVelocity(
+                    velocityDifferenceWithEarth(rocket, system).multiplyByScalar(0.65),
+                    stepSize);
+
+            CelestialObject.stepsUntilNextHistoricSave = 3600;
+            engineFireCount++;
+            return;
+        } else if (engineFireCount == 8 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 600)) {
+            double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToEarth(rocket, system));
+
+            if(log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            if(log) System.out.println("distance to earth (center) (Vector) " +  rocket.getPosition().subtract(system.getCelestialObjects().get(INDEX_EARTH).getPosition()));
+            if(log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            if(log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
+            if(log) System.out.println("final (ninth) fire");
+
+            rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system)
-                            .add(new Vector(new double[]{0, 0, orbitalSpeed})),
+                            .add(new Vector(new double[]{orbitalSpeed, 0, 0})),
                     stepSize);
 
             engineFireCount++;

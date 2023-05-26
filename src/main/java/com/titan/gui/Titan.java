@@ -198,7 +198,7 @@ public class Titan extends Application {
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);
                     currentStep++;
-                    if (Titan.currentStep == 365 * 24 * 60 + 1) {
+                    if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
                         Titan.running = false;
                         // stepsAtOnce = 1;
                         break;
