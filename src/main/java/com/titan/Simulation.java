@@ -54,4 +54,27 @@ public class Simulation {
     public Rocket getRocket() {
         return rocket;
     }
+
+    public void runForAYear() {
+        runForAYear(this);
+    }
+
+    public void runForAYear(boolean printProgress) {
+        runForAYear(this, printProgress);
+    }
+
+    public static void runForAYear(Simulation simulation, boolean printProgress) {
+        int oneYearInSeconds = 31536000;
+        if (printProgress) System.out.print(" >>");
+        for (int i = 0; i < ((oneYearInSeconds) / simulation.stepSize); i++) {
+            simulation.nextStep(i);
+            if (printProgress && i % (oneYearInSeconds / simulation.stepSize / 10) == 0) {
+                System.out.print(i / (oneYearInSeconds / simulation.stepSize / 10));
+            }
+        }
+    }
+
+    public static void runForAYear(Simulation simulation) {
+        runForAYear(simulation, false);
+    }
 }

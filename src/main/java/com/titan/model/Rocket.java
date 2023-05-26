@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class Rocket extends CelestialObject {
 
     private ArrayList<Double> fuelConsumption = new ArrayList<>();
-    private boolean log = false;
+    private boolean log = true;
 
     public Rocket(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
         super(name, m, initialPos, initialVel, diameter, color, radius);

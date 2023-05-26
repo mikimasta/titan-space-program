@@ -3,8 +3,6 @@ package com.titan.gui;
 import com.titan.Simulation;
 import com.titan.controls.Controls;
 import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
-import com.titan.controls.FlightControlsTwoEngineFiresForLaunch_Exp;
-import com.titan.math.Vector;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -18,7 +16,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -91,7 +88,7 @@ public class Titan extends Application {
 
 
         //Hide names button
-        ToggleButton hideNames = new ToggleButton("hide/show names");
+        Button hideNames = new Button("hide/show names");
         hideNames.setStyle("-fx-font-size: 15px");
         hideNames.setLayoutX(WIDTH - 200);
         hideNames.setLayoutY(20);
@@ -100,7 +97,7 @@ public class Titan extends Application {
 
 
         //resize objects button
-        ToggleButton resizePlanets = new ToggleButton("resize planets (prop.)");
+        Button resizePlanets = new Button("resize planets (prop.)");
         resizePlanets.setStyle("-fx-font-size: 15px");
         resizePlanets.setLayoutX(WIDTH - 200);
         resizePlanets.setLayoutY(60);
@@ -116,7 +113,7 @@ public class Titan extends Application {
         root.getChildren().add(backToCenter);
 
         //draw orbits button
-        ToggleButton drawOrbits = new ToggleButton("draw orbits");
+        Button drawOrbits = new Button("draw orbits");
         drawOrbits.setStyle("-fx-font-size: 15px");
         drawOrbits.setLayoutX(WIDTH - 200);
         drawOrbits.setLayoutY(140);
@@ -124,7 +121,7 @@ public class Titan extends Application {
         root.getChildren().add(drawOrbits);
 
         //center to titan button
-        ToggleButton centerTitan = new ToggleButton("center on titan");
+        Button centerTitan = new Button("center on titan");
         centerTitan.setStyle("-fx-font-size: 15px");
         centerTitan.setLayoutX(WIDTH - 200);
         centerTitan.setLayoutY(180);
@@ -132,7 +129,7 @@ public class Titan extends Application {
         root.getChildren().add(centerTitan);
 
         //center to earth button
-        ToggleButton centerEarth = new ToggleButton("center on earth");
+        Button centerEarth = new Button("center on earth");
         centerEarth.setStyle("-fx-font-size: 15px");
         centerEarth.setLayoutX(WIDTH - 200);
         centerEarth.setLayoutY(220);
@@ -140,24 +137,25 @@ public class Titan extends Application {
         root.getChildren().add(centerEarth);
 
         //center to rocket button
-        ToggleButton centerRocket = new ToggleButton("center on rocket");
+        Button centerRocket = new Button("center on rocket");
         centerRocket.setStyle("-fx-font-size: 15px");
         centerRocket.setLayoutX(WIDTH - 200);
         centerRocket.setLayoutY(260);
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
 
-        //SolarSystem system = new SolarSystem();
+        SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
 
-        //Rocket rocket = system.createRocket("Rocket", 50000);
-        //system.stageRocket(rocket);
+        Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
+        system.stageRocket(rocket);
 
         //Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
         //force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
         //rocket.fireEngineWithForce(force, stepSize);
 
-        /////////////////////////////
+        ////////////////////////////
+        /*
         SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
         Rocket rocket = system.createRocketAtPointInSpace(
                 "Rocket",
@@ -168,9 +166,9 @@ public class Titan extends Application {
 
         Solver solver = new RungeKuttaSolver(stepSize);
 
-        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(new Vector(new double[]{-26.457795398309827, -0.27845133282244205, -0.10361644625663757}));
+        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(new Vector(new double[]{-26.587189929559827, -0.940072426572442, 1.2163298428058624}));
         ///////////////////////////////
-
+*/
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
@@ -191,7 +189,7 @@ public class Titan extends Application {
 
         Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
 
-        Simulation simulation = new Simulation(solver, stepSize, controls, system, rocket);
+        Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
 
 

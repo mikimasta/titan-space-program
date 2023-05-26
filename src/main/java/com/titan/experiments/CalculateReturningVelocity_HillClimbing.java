@@ -49,6 +49,17 @@ public class CalculateReturningVelocity_HillClimbing {
         while (!complete) {
             complete = true;
 
+            // z
+            result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, 0.5}), climbingStepSize);
+            if (result.get(0).equals(returningVelocity)) {
+                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, -0.5}), climbingStepSize);
+            }
+            if (!result.get(0).equals(returningVelocity)) {
+                complete = false;
+                returningVelocity = (Vector) result.get(0);
+                continue;
+            }
+
             // x
             result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{1, 0, 0}), climbingStepSize);
             if (result.get(0).equals(returningVelocity)) {
@@ -63,16 +74,6 @@ public class CalculateReturningVelocity_HillClimbing {
             result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 1, 0}), climbingStepSize);
             if (result.get(0).equals(returningVelocity)) {
                 result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, -1, 0}), climbingStepSize);
-            }
-            if (!result.get(0).equals(returningVelocity)) {
-                complete = false;
-                returningVelocity = (Vector) result.get(0);
-            }
-
-            // z
-            result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, 0.1}), climbingStepSize);
-            if (result.get(0).equals(returningVelocity)) {
-                result = climbOnceInOneDirection((Vector) result.get(0), (Double) result.get(1), new Vector(new double[]{0, 0, -0.1}), climbingStepSize);
             }
             if (!result.get(0).equals(returningVelocity)) {
                 complete = false;
@@ -105,14 +106,14 @@ public class CalculateReturningVelocity_HillClimbing {
 
 
     public static void main(String[] args) {
-        Vector initialVelocity = new Vector(new double[]{-26.848420398309827, -0.044076332822442055, -0.4239289462566376});
+        Vector initialVelocity = new Vector(new double[]{-26.574982898309827, -0.922982582822442, 1.0643523037433624});
         Titan.currentStep = 1; // to avoid out of memory bc of historic positions/velocities
         Simulation simulation = setUpSimulation(initialVelocity);
         runForAYear(simulation);
         System.out.println();
         List<Object> result = List.of(initialVelocity, getDistanceToEarth(simulation));
 
-        for (int i = 2; i < 30; i++) {
+        for (int i = 8; i < 30; i++) {
             double climbingStepSize = 10.0/Math.pow(2, i);
             System.out.println("next climbing step size: " + climbingStepSize + " (10 / 2^" + i + ")");
             result = climbTheHill((Vector) result.get(0), (Double) result.get(1), climbingStepSize);
