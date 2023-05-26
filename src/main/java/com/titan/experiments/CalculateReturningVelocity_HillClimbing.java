@@ -105,14 +105,14 @@ public class CalculateReturningVelocity_HillClimbing {
 
 
     public static void main(String[] args) {
-        Vector initialVelocity =  new Vector(new double[]{-26.586884753778577, -0.9415220115333796, 1.223120003938675});
+        Vector initialVelocity =  new Vector(new double[]{-26.586884753778577 ,-0.9415220115333796 ,0.9692137539386749});
         Titan.currentStep = 1; // to avoid out of memory bc of historic positions/velocities
         Simulation simulation = setUpSimulation(initialVelocity);
         runForTwoYear(simulation);
         System.out.println();
         List<Object> result = List.of(initialVelocity, getDistanceToEarth(simulation));
 
-        for (int i = 8; i < 30; i++) {
+        for (int i = 2; i < 30; i++) {
             double climbingStepSize = 10.0/Math.pow(2, i);
             System.out.println("next climbing step size: " + climbingStepSize + " (10 / 2^" + i + ")");
             result = climbTheHill((Vector) result.get(0), (Double) result.get(1), climbingStepSize);

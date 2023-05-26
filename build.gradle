@@ -4,8 +4,8 @@ plugins {
 	id 'org.openjfx.javafxplugin' version '0.0.13'
 }
 
+//mainClassName = 'com.titan.experiments.CalculateReturningVelocity_HillClimbing'
 mainClassName = 'com.titan.App'
-
 jar {
 	manifest {
 		attributes('Main-Class': 'com.titan.App')

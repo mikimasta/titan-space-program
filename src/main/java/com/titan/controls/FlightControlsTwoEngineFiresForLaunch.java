@@ -22,7 +22,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     private final Vector startingFire_1 = new Vector(new double[]{19.348420398309827, -7.455923667177558, -0.8260710537433624});
     private final Vector startingFire_2 = new Vector(new double[]{19.377969997003675, -7.467248549684882, -0.5318658649921417});
 
-    private Vector returningFire_1_AND_2 = new Vector(new double[]{-26.586884753778577, -0.9415220115333796, 1.223120003938675});
+    private Vector returningFire_1_AND_2 = new Vector(new double[]{-26.522340076044202, -1.0069822166115046, 0.8590452969074249});
 
     public FlightControlsTwoEngineFiresForLaunch() {}
 
@@ -125,7 +125,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             return;
         }
 
-        if (engineFireCount == 6 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 6000)) {
+        if (engineFireCount == 6 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 10000)) {
             if(log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
             if(log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
             if(log) System.out.println("seventh fire");
@@ -138,7 +138,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             engineFireCount++;
             return;
         } else if (engineFireCount == 7 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 600)) {
-            double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToTitan);
+            double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToEarth(rocket, system));
 
             if(log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
             if(log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
@@ -153,7 +153,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             engineFireCount++;
             double orbitLength = distanceToEarth(rocket, system) * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
-            if(log) System.out.println("Steps for one orbit around titan: " + stepsNeededForOneOrbit);
+            if(log) System.out.println("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
             return;
         }
 
