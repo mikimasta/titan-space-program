@@ -1,8 +1,8 @@
 package com.titan.gui;
 
 import com.titan.Simulation;
-import com.titan.experiments.Controls;
-import com.titan.experiments.FirstTestControls;
+import com.titan.controls.Controls;
+import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -16,7 +16,6 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -55,6 +54,8 @@ public class Titan extends Application {
      */
     public static boolean running = false;
 
+    public static boolean log = true;
+
     public static int steps = 87600; // 10 years: every hour
 
     /**
@@ -70,7 +71,7 @@ public class Titan extends Application {
     /**
      * determines how many steps at once we are calculating, more means faster animation
      */
-    public static int stepsAtOnce = 5;
+    public static int stepsAtOnce = 50;
     private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
 
     @Override
@@ -89,7 +90,7 @@ public class Titan extends Application {
 
 
         //Hide names button
-        ToggleButton hideNames = new ToggleButton("hide/show names");
+        Button hideNames = new Button("hide/show names");
         hideNames.setStyle("-fx-font-size: 15px");
         hideNames.setLayoutX(WIDTH - 200);
         hideNames.setLayoutY(20);
@@ -98,7 +99,7 @@ public class Titan extends Application {
 
 
         //resize objects button
-        ToggleButton resizePlanets = new ToggleButton("resize planets (prop.)");
+        Button resizePlanets = new Button("resize planets (prop.)");
         resizePlanets.setStyle("-fx-font-size: 15px");
         resizePlanets.setLayoutX(WIDTH - 200);
         resizePlanets.setLayoutY(60);
@@ -114,7 +115,7 @@ public class Titan extends Application {
         root.getChildren().add(backToCenter);
 
         //draw orbits button
-        ToggleButton drawOrbits = new ToggleButton("draw orbits");
+        Button drawOrbits = new Button("draw orbits");
         drawOrbits.setStyle("-fx-font-size: 15px");
         drawOrbits.setLayoutX(WIDTH - 200);
         drawOrbits.setLayoutY(140);
@@ -122,7 +123,7 @@ public class Titan extends Application {
         root.getChildren().add(drawOrbits);
 
         //center to titan button
-        ToggleButton centerTitan = new ToggleButton("center on titan");
+        Button centerTitan = new Button("center on titan");
         centerTitan.setStyle("-fx-font-size: 15px");
         centerTitan.setLayoutX(WIDTH - 200);
         centerTitan.setLayoutY(180);
@@ -130,7 +131,7 @@ public class Titan extends Application {
         root.getChildren().add(centerTitan);
 
         //center to earth button
-        ToggleButton centerEarth = new ToggleButton("center on earth");
+        Button centerEarth = new Button("center on earth");
         centerEarth.setStyle("-fx-font-size: 15px");
         centerEarth.setLayoutX(WIDTH - 200);
         centerEarth.setLayoutY(220);
@@ -138,7 +139,7 @@ public class Titan extends Application {
         root.getChildren().add(centerEarth);
 
         //center to rocket button
-        ToggleButton centerRocket = new ToggleButton("center on rocket");
+        Button centerRocket = new Button("center on rocket");
         centerRocket.setStyle("-fx-font-size: 15px");
         centerRocket.setLayoutX(WIDTH - 200);
         centerRocket.setLayoutY(260);
@@ -148,12 +149,28 @@ public class Titan extends Application {
         SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
 
-        Rocket rocket = system.createRocket("Rocket", 50000);
+        Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
         system.stageRocket(rocket);
+
         //Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
         //force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
         //rocket.fireEngineWithForce(force, stepSize);
 
+        ////////////////////////////
+        /*
+        SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
+        Rocket rocket = system.createRocketAtPointInSpace(
+                "Rocket",
+                50000,
+                new Vector(new double[]{1.3634377057605958E9, -4.868223085696473E8, -4.557917144852597E7}),
+                new Vector(new double[]{7.218058164094522, 11.843061237846946, -0.34333197393536263}));
+        system.stageRocket(rocket);
+
+        Solver solver = new RungeKuttaSolver(stepSize);
+
+        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(new Vector(new double[]{-26.587189929559827, -0.940072426572442, 1.2163298428058624}));
+        ///////////////////////////////
+*/
         ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
         for(CelestialObject o : system.getCelestialObjects()) {
             CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
@@ -172,18 +189,20 @@ public class Titan extends Application {
         Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
         Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
 
-        Controls controls = new FirstTestControls();
+        Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
 
-        Simulation simulation = new Simulation(eulerSolver, stepSize, controls, system, rocket);
+        Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
-        KeyFrame kf = new KeyFrame(Duration.millis(0.1), e -> {
+
+
+        KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);
                     currentStep++;
-                    if (Titan.currentStep == 365 * 24 * 60 + 1) {
+                    if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
                         Titan.running = false;
-                        stepsAtOnce = 1;
+                        // stepsAtOnce = 1;
                         break;
                     }
                 }

@@ -106,7 +106,7 @@ public class SolarSystem {
         /*
             Velocity vector to get close to Titan: new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
          */
-        Rocket rocketFin = createRocket("Experia 1", 50000);
+        Rocket rocketFin = createRocketOnEarth("Experia 1", 50000);
 
         celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus));
 
@@ -135,10 +135,24 @@ public class SolarSystem {
      * @param mass mass of the rocket
      * @return rocket that will be added to celestialObjects
      */
-    public Rocket createRocket(String name, double mass) {
+    public Rocket createRocketOnEarth(String name, double mass) {
         Vector initialPosition = new Vector(new double[]{-1.48e08, -2.78e07, 3.37e04});
         Vector initialVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
+        initialPosition = initialPosition.add(new Vector(new double[]{0, 0, 6370}));
+
+        return new Rocket(name, mass, initialPosition, initialVelocity, 1, Color.SILVER, 2);
+    }
+
+    /**
+     * creates a rocket
+     * @param name name of the rocket
+     * @param mass mass of the rocket
+     * @param initialPosition position of the rocket
+     * @param initialVelocity velocity of the rocket
+     * @return rocket that will be added to celestialObjects
+     */
+    public Rocket createRocketAtPointInSpace(String name, double mass, Vector initialPosition, Vector initialVelocity) {
         initialPosition = initialPosition.add(new Vector(new double[]{0, 0, 6370}));
 
         return new Rocket(name, mass, initialPosition, initialVelocity, 1, Color.SILVER, 2);

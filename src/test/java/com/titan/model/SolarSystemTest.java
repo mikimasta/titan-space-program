@@ -41,7 +41,7 @@ public class SolarSystemTest {
         Vector earthVelocity = new Vector(new double[]{5.05e00, -2.94e01, 1.71e-03});
 
         // when
-        CelestialObject result = s.createRocket(rocketName, rocketMass);
+        CelestialObject result = s.createRocketOnEarth(rocketName, rocketMass);
 
         // then
         assertEquals(rocketName, result.getName());
@@ -53,7 +53,7 @@ public class SolarSystemTest {
     public void testStageRocket() {
         // given
         SolarSystem s = new SolarSystem();
-        Rocket rocket = s.createRocket("Rocket 505", 50000);
+        Rocket rocket = s.createRocketOnEarth("Rocket 505", 50000);
         assertEquals(11, s.getCelestialObjects().size());
 
         // when
