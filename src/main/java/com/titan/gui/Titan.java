@@ -3,6 +3,7 @@ package com.titan.gui;
 import com.titan.Simulation;
 import com.titan.controls.Controls;
 import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
+import com.titan.controls.Logger;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -16,6 +17,8 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -23,6 +26,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -144,7 +148,7 @@ public class Titan extends Application {
         centerRocket.setLayoutY(260);
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
-
+        
         SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
 
@@ -192,10 +196,47 @@ public class Titan extends Application {
 
         Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
+        // will display mission log 
+        Button missionLog = new Button("Mission Log");
+        missionLog.setStyle("-fx-font-size: 15px");
+        missionLog.setLayoutX(10);
+        missionLog.setLayoutY(25);
+        missionLog.setFocusTraversable(false);
+        root.getChildren().add(missionLog);
+
+        TextArea log = new TextArea();
+        log.setLayoutX(50);
+        log.setLayoutY(200);
+        log.setMaxHeight(180);
+        log.setMaxWidth(500);
+        log.setEditable(false);
+        log.setPrefRowCount(15);
+
+        missionLog.setOnAction(e -> {
+
+            root.requestFocus();
+            if (!root.getChildren().contains(log)) root.getChildren().add(log);
+            else root.getChildren().remove(log);
 
 
+        });
+
+        // will display fuel log 
+        ToggleButton fuelLog = new ToggleButton("Fuel Log");
+        fuelLog.setStyle("-fx-font-size: 15px");
+        fuelLog.setLayoutX(20);
+        fuelLog.setLayoutY(HEIGHT - 80);
+        fuelLog.setFocusTraversable(false);
+        root.getChildren().add(fuelLog);
+
+
+        Logger missionLogger = controls3.getMissionLogger();
+        log.setLayoutX(WIDTH/2);
+        log.setLayoutY(HEIGHT/2);
         KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
+
+           
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);
                     currentStep++;
@@ -212,6 +253,7 @@ public class Titan extends Application {
             for (CelestialObjectGUI o : objects) {
                 o.updatePosition();
             }
+            log.setText(missionLogger.getLog());
             date.update();
         });
 

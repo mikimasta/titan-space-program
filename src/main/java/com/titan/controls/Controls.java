@@ -9,7 +9,18 @@ import com.titan.model.SolarSystem;
  */
 public abstract class Controls {
     
-    protected boolean logging = true;
+    protected Logger missionLogger;
+
+    protected Logger fuelLogger;
+    
+    public Controls() {
+        missionLogger = new MissionLogger();
+        //fuelLogger = new FuelLogger();
+    }
+
+    public Logger getMissionLogger() {
+        return missionLogger;
+    }
 
     public abstract void execute(SolarSystem system, Rocket rocket, int currentStep, int stepSize);
 }
