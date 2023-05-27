@@ -6,7 +6,7 @@ import com.titan.model.CelestialObject;
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;
 
-public class FirstTestControls implements Controls {
+public class FirstTestControls extends Controls {
 
     int engineFireCount = 0;
 

@@ -52,9 +52,8 @@ public class Titan extends Application {
     /**
      * determines if the animation should be running or not
      */
-    public static boolean running = false;
+    private boolean running = false;
 
-    public static boolean log = true;
 
     public static int steps = 87600; // 10 years: every hour
 
@@ -201,7 +200,7 @@ public class Titan extends Application {
                     simulation.nextStep(currentStep);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
-                        Titan.running = false;
+                        running = false;
                         // stepsAtOnce = 1;
                         break;
                     }

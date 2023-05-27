@@ -135,7 +135,6 @@ public abstract class HillClimbing {
      */
     public Result run(Vector startingInput, int stepSize, int accuracy) {
         Titan.currentStep = 1;
-        Titan.log = false;
         Simulation simulation = setUpSimulation(startingInput, stepSize);
         System.out.print("\nRun with initial condition: " + startingInput);
         Simulation.runFor(simulation, secondsUntilResultsAreCompared, true);

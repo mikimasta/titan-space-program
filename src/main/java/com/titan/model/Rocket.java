@@ -15,11 +15,11 @@ public class Rocket extends CelestialObject {
     }
 
     public void fireEngineWithForce(Vector force, int stepSize) {
-        if (Titan.log) System.out.println("force: " + force + "; length: " + force.getLength() + " N == kg * m/s^2");
+//        if (Titan.log) System.out.println("force: " + force + "; length: " + force.getLength() + " N == kg * m/s^2");
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s
         impulse = impulse.multiplyByScalar(1.0/1000); // kg * km/s
         double fuel = impulse.getLength() * getM() * (1.0/stepSize);
-        if (Titan.log) System.out.println("fuel consumed: " + fuel);
+ //       if (Titan.log) System.out.println("fuel consumed: " + fuel);
         fuelConsumption.add(fuel);
         Vector velocity = impulse.multiplyByScalar(1.0/getM()); // km/s
         updateVelocity(getVelocity().add(velocity));
