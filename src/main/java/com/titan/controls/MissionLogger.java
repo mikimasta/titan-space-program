@@ -20,6 +20,8 @@ public class MissionLogger implements Logger {
     public void log(Object messageToLog) {
        log.append(messageToLog);
        log.append("\n");
+       log.append("----------");
+       log.append("\n");
     }
 
     @Override

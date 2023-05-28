@@ -9,7 +9,16 @@
 }
 
 .text-area .scroll-pane .content {
-    -fx-background-color: black;
-    -fx-text-fill: white;
+    -fx-background-color: #000000;
+}
+
+.text-area {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 12pt;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    -fx-opacity: 0;
 }
 

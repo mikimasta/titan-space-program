@@ -168,8 +168,8 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
             double orbitLength = distanceToEarth(rocket, system) * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
             if(missionLogger.isLogging()) missionLogger.log("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
-            if(missionLogger.isLogging()) missionLogger.log("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
-            if(missionLogger.isLogging()) missionLogger.log("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
+            if(fuelLogger.isLogging()) fuelLogger.log("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
+            if(fuelLogger.isLogging()) fuelLogger.log("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
             return;
         }
 

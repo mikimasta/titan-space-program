@@ -196,7 +196,7 @@ public class Titan extends Application {
 
         Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
-        // will display mission log 
+        // will display mission mlog 
         Button missionLog = new Button("Mission Log");
         missionLog.setStyle("-fx-font-size: 15px");
         missionLog.setLayoutX(10);
@@ -204,39 +204,58 @@ public class Titan extends Application {
         missionLog.setFocusTraversable(false);
         root.getChildren().add(missionLog);
 
-        TextArea log = new TextArea();
-        log.setLayoutX(50);
-        log.setLayoutY(200);
-        log.setMaxHeight(180);
-        log.setMaxWidth(500);
-        log.setEditable(false);
-        log.setPrefRowCount(15);
+        TextArea mlog = new TextArea();
+        mlog.setLayoutX(10);
+        mlog.setLayoutY(50);
+        mlog.setWrapText(true);
+        mlog.setMaxHeight(90);
+        mlog.setMaxWidth(400);
+        //mlog.setEditable(false);
+        mlog.setFocusTraversable(false);
 
         missionLog.setOnAction(e -> {
 
             root.requestFocus();
-            if (!root.getChildren().contains(log)) root.getChildren().add(log);
-            else root.getChildren().remove(log);
+            if (!root.getChildren().contains(mlog)) root.getChildren().add(mlog);
+            else root.getChildren().remove(mlog);
 
 
         });
 
-        // will display fuel log 
-        ToggleButton fuelLog = new ToggleButton("Fuel Log");
+        // will display fuel mlog 
+        Button fuelLog = new Button("Fuel Log");
         fuelLog.setStyle("-fx-font-size: 15px");
         fuelLog.setLayoutX(20);
         fuelLog.setLayoutY(HEIGHT - 80);
         fuelLog.setFocusTraversable(false);
         root.getChildren().add(fuelLog);
+        
+        TextArea flog = new TextArea();
+        flog.setLayoutX(20);
+        flog.setLayoutY(HEIGHT - 180);
+        flog.setWrapText(true);
+        flog.setMaxHeight(90);
+        flog.setMaxWidth(400);
+        flog.setFocusTraversable(false);
 
+        fuelLog.setOnAction(e -> {
+            
+            root.requestFocus();
+            if (!root.getChildren().contains(flog)) root.getChildren().add(flog);
+            else root.getChildren().remove(flog);
+        });
 
         Logger missionLogger = controls3.getMissionLogger();
-        log.setLayoutX(WIDTH/2);
-        log.setLayoutY(HEIGHT/2);
+        Logger fuelLogger = controls3.getFuelLogger();
+
         KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
 
-           
+                mlog.setText(missionLogger.getLog());
+                mlog.setScrollTop(Double.MAX_VALUE);
+                flog.setText(fuelLogger.getLog());
+                flog.setScrollTop(Double.MAX_VALUE);
+
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);
                     currentStep++;
@@ -253,7 +272,6 @@ public class Titan extends Application {
             for (CelestialObjectGUI o : objects) {
                 o.updatePosition();
             }
-            log.setText(missionLogger.getLog());
             date.update();
         });
 
@@ -377,6 +395,9 @@ public class Titan extends Application {
         backToCenter.toFront();
         drawOrbits.toFront();
         centerTitan.toFront();
+        mlog.toFront();
+        missionLog.toFront();
+        fuelLog.toFront();
 
         gameWindow.setScene(scene);
         gameWindow.show();
