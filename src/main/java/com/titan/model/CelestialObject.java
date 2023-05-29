@@ -105,7 +105,7 @@ public class CelestialObject {
      */
     public void updatePosition(Vector position) {
         this.position = position;
-         if (Titan.currentStep % (stepsUntilNextHistoricSave / Titan.stepSize) == 0) {
+         if (Titan.running && Titan.currentStep % (stepsUntilNextHistoricSave / Titan.stepSize) == 0) {
              historicPositions.add(position);
          }
     }
@@ -116,7 +116,7 @@ public class CelestialObject {
      */
     public void updateVelocity(Vector velocity) {
         this.velocity = velocity;
-        if (Titan.currentStep % (86400 / Titan.stepSize) == 0) {
+        if (Titan.running && Titan.currentStep % (stepsUntilNextHistoricSave / Titan.stepSize) == 0) {
             historicVelocities.add(velocity);
         }
     }

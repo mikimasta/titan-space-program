@@ -27,7 +27,7 @@ public class GravitationFunction implements Function {
      * @return a vector of the gravitational forces working in the system
      */
     @Override
-    public Vector f(Vector positions, Vector ignore, Vector masses) {
+    public Vector f(Vector positions, Vector ignore, Vector masses, double t) {
         double[] result = new double[positions.getSize()];
 
         for (int i = 1; i < masses.getSize(); i++) { // i starts at 1 to skip the sun

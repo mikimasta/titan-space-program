@@ -44,7 +44,7 @@ public class GravitationFunctionTest {
         GravitationFunction f = new GravitationFunction();
 
         // when
-        Vector result = f.f(positions, velocities, masses);
+        Vector result = f.f(positions, velocities, masses, 1);
 
         // then
         assertEquals(-66743, result.getValue(3), 0); // x value of the planet
@@ -73,7 +73,7 @@ public class GravitationFunctionTest {
         GravitationFunction f = new GravitationFunction();
 
         // when
-        Vector result = f.f(positions, velocities, masses);
+        Vector result = f.f(positions, velocities, masses, 1);
 
         // then
         assertEquals(-0.0, result.getValue(3), 0); // x value of the planet
@@ -102,7 +102,7 @@ public class GravitationFunctionTest {
         GravitationFunction f = new GravitationFunction();
 
         // when
-        Vector result = f.f(positions, velocities, masses);
+        Vector result = f.f(positions, velocities, masses, 1);
 
         // then
         assertEquals(-0.0, result.getValue(3), 0); // x value of the planet

@@ -54,7 +54,7 @@ public class Titan extends Application {
     /**
      * determines if the animation should be running or not
      */
-    private boolean running = false;
+    public static boolean running = false;
 
 
     public static int steps = 87600; // 10 years: every hour

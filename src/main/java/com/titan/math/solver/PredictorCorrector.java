@@ -45,7 +45,7 @@ public class PredictorCorrector implements Solver {
      * @param t step the system is currently on
      * @return returns the state of the system after the initial step using a Runge-Kutta 4th order method
      */
-    private Vector[] bootstrap(Function f, Vector positions, Vector velocities, Vector masses, int t) {
+    private Vector[] bootstrap(Function f, Vector positions, Vector velocities, Vector masses, double t) {
         isFirstIteration = false;
         previousState[0] = positions;
         previousState[1] = velocities;
@@ -62,19 +62,19 @@ public class PredictorCorrector implements Solver {
      * @return returns the state of the system after one step
      */
     @Override
-    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, int t) {
+    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double t) {
 
         if (isFirstIteration) {
             return bootstrap(f, positions, velocities, masses, t);
         }
 
-        Vector[] diffCurrent = DifferentialEquation.solve(f, positions, velocities, masses);
-        Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses);
+        Vector[] diffCurrent = DifferentialEquation.solve(f, positions, velocities, masses, t);
+        Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses, t-stepSize);
 
         AdamsBashforth2ndOrderSolver adamsBashforth2ndOrderSolver = new AdamsBashforth2ndOrderSolver(stepSize);
-        Vector[] nextStateApprox = adamsBashforth2ndOrderSolver.solve(f, positions, velocities, masses,t);
+        Vector[] nextStateApprox = adamsBashforth2ndOrderSolver.solve(f, positions, velocities, masses,t+stepSize);
 
-        Vector[] diffNextStateApprox = DifferentialEquation.solve(f, nextStateApprox[0], nextStateApprox[1], masses);
+        Vector[] diffNextStateApprox = DifferentialEquation.solve(f, nextStateApprox[0], nextStateApprox[1], masses, t+stepSize);
 
         Vector[] nextState = new Vector[2];
 

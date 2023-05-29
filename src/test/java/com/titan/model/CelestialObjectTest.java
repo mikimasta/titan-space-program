@@ -83,10 +83,12 @@ public class CelestialObjectTest {
         Vector givenPosition3 = new Vector(new double[]{77, 66, 55});
         Vector givenPosition4 = new Vector(new double[]{66, 55, 44});
         Vector[] givenPositions = {givenPosition1, givenPosition2, givenPosition3, givenPosition4};
-        CelestialObject o = getCelestialObjectWithGivenPositionAndVelocity(givenPosition1, null);
         Titan.currentStep = 0;
+        Titan.stepSize = 1;
+        Titan.running = true;
 
         // when
+        CelestialObject o = getCelestialObjectWithGivenPositionAndVelocity(givenPosition1, null);
         o.updatePosition(givenPosition2);
         o.updatePosition(givenPosition3);
         o.updatePosition(givenPosition4);

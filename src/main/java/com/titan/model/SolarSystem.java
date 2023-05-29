@@ -94,25 +94,8 @@ public class SolarSystem {
         CelestialObject neptune = new CelestialObject("Neptune", 1.02e26, new Vector(new double[]{4.45e09, -3.98e08, -9.45e07}), new Vector(new double[]{4.48e-01, 5.45e00, -1.23e-01}), 49244, Color.GREEN, 15);
         CelestialObject uranus = new CelestialObject("Uranus", 8.68e25, new Vector(new double[]{1.96e09, 2.19e09, -1.72e07}), new Vector(new double[]{-5.13e00, 4.22e00, 8.21e-02}), 50724, Color.LIGHTBLUE, 14);
 
-/*
-        CelestialObject rocket1 = launchRocketInSameDirectionAsEarth("Rocket 1", 15.5, 50000);
-        CelestialObject rocket2 = launchRocket("Quite close Rocket", new Vector(13, -12, 0), 50000);
-        CelestialObject rocket3 = launchRocket("Experiment Rocket (very close)", new Vector(12.5, -11.5, 0), 50000);
-        CelestialObject rocket4 = launchRocket("Test Rocket (hopefully close)", new Vector(38.515, -14.905, 0), 50000);
-        CelestialObject rocket5 = createRocket("new rocket 1", new Vector(new double[]{38.514248, -14.903261, 0}), 50000);
-        CelestialObject rocket6 = createRocket("new rocket 2", new Vector(new double[]{38.65346, -14.9056, -1.35354}), 50000);
-*/
-
-        /*
-            Velocity vector to get close to Titan: new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
-         */
-        Rocket rocketFin = createRocketOnEarth("Experia 1", 50000);
-
         celestialObjects.addAll(List.of(sun, mercury, venus, earth, moon, mars, jupiter, saturn, titan, neptune, uranus));
-
         indexTitan = getIndexTitan();
-
-        // launchRocket(rocketFin);
     }
 
     public int getIndexTitan() {

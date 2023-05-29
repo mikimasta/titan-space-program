@@ -15,7 +15,8 @@ public interface Solver {
      * @param v1 positions (used like this in the instances of this interface)
      * @param v2 velocities (used like this in the instances of this interface)
      * @param v3 masses (used like this in the instances of this interface)
+     * @param t
      * @return resulting Vector of the function
      */
-    Vector[] solve(Function f, Vector v1, Vector v2, Vector v3, int t);
+    Vector[] solve(Function f, Vector v1, Vector v2, Vector v3, double t);
 }
