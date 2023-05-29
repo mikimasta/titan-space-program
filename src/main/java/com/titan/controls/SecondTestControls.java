@@ -1,13 +1,12 @@
 package com.titan.controls;
 
-import com.titan.gui.Titan;
 import com.titan.math.Vector;
 import com.titan.math.function.GravitationFunction;
 import com.titan.model.CelestialObject;
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;
 
-public class SecondTestControls implements Controls {
+public class SecondTestControls extends Controls {
 
     int engineFireCount = 0;
     
@@ -23,23 +22,23 @@ public class SecondTestControls implements Controls {
     @Override
     public void execute(SolarSystem system, Rocket rocket, int currentStep, int stepSize) {
 
-        // if (Titan.log) System.out.println(system.getTitan().getPosition().subtract(system.getCelestialObjects().get(7).getPosition()).getLength());
+        // if (missionLogger.isLogging()) missionLogger.log(system.getTitan().getPosition().subtract(system.getCelestialObjects().get(7).getPosition()).getLength());
 
         if (currentStep == 0) {
             Vector startVelocity = new Vector(new double[]{19.348420398309827, -7.455923667177558, -0.8260710537433624});
-            if (Titan.log) System.out.println("start velocity: " + startVelocity.getLength() + " km/s");
+            if (missionLogger.isLogging()) missionLogger.log("start velocity: " + startVelocity.getLength() + " km/s");
             rocket.fireEngineWithVelocity(startVelocity, stepSize);
             engineFireCount++;
-            if (Titan.log) System.out.println("initial fire");
+            if (missionLogger.isLogging()) missionLogger.log("initial fire");
             return;
         }
 
         if (currentStep == 1) {
             Vector velocity = secondVelocity;
-            if (Titan.log) System.out.println("second velocity: " + velocity.getLength() + " km/s");
+            if (missionLogger.isLogging()) missionLogger.log("second velocity: " + velocity.getLength() + " km/s");
             rocket.fireEngineWithVelocity(velocity, stepSize);
             engineFireCount++;
-            if (Titan.log) System.out.println("second fire");
+            if (missionLogger.isLogging()) missionLogger.log("second fire");
             return;
         }
 
@@ -47,7 +46,7 @@ public class SecondTestControls implements Controls {
 
         if (distanceToTitan < minDistanceToTitan) minDistanceToTitan = distanceToTitan;
         else if (!printed) {
-            if (Titan.log) System.out.println("min distance to Titan: " + (int) minDistanceToTitan + " km");
+            if (missionLogger.isLogging()) missionLogger.log("min distance to Titan: " + (int) minDistanceToTitan + " km");
             printed = true;
         }
 
@@ -57,16 +56,16 @@ public class SecondTestControls implements Controls {
                     stepSize);
 
             double orbitalSpeed = getOrbitalSpeed(system.getTitan().getM(), distanceToTitan);
-            if (Titan.log) System.out.println("distance to titan (center) " + (int) distanceToTitan + " km");
-            if (Titan.log) System.out.println("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
-            if (Titan.log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
+            if (missionLogger.isLogging()) missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
+            if (missionLogger.isLogging()) missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
+            if (missionLogger.isLogging()) missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
 
             rocket.fireEngineWithVelocity(
                     new Vector(new double[]{0, 0, orbitalSpeed}),
                     stepSize);
             CelestialObject.stepsUntilNextHistoricSave = 3600;
             engineFireCount++;
-            if (Titan.log) System.out.println("third fire");
+            if (missionLogger.isLogging()) missionLogger.log("third fire");
         }
     }
 

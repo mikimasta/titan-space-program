@@ -9,7 +9,7 @@ import com.titan.model.SolarSystem;
 
 import java.util.Arrays;
 
-public class FlightControlsTwoEngineFiresForLaunch implements Controls {
+public class FlightControlsTwoEngineFiresForLaunch extends Controls {
 
     public static final int INDEX_EARTH = 3;
     int engineFireCount = 0;
@@ -28,6 +28,7 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     public FlightControlsTwoEngineFiresForLaunch() {}
 
     public FlightControlsTwoEngineFiresForLaunch(Vector v) {
+        super();
         this.returningFire_1_AND_2 = v;
     }
 
@@ -43,19 +44,19 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
 
         if (currentStep == 0) {
             Vector startVelocity = startingFire_1;
-            if(Titan.log) System.out.println("start velocity: " + startVelocity.getLength() + " km/s");
-            rocket.fireEngineWithVelocity(startVelocity, stepSize);
+            missionLogger.log("start velocity: " + startVelocity.getLength() + " km/s");
+            missionLogger.log("initial fire");
+            rocket.fireEngineWithVelocity(startVelocity, stepSize, engineLogger);
             engineFireCount++;
-            if(Titan.log) System.out.println("initial fire");
             return;
         }
 
         if (currentStep == 1) {
             Vector velocity = startingFire_2;
-            if(Titan.log) System.out.println("second velocity: " + velocity.getLength() + " km/s");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("second velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("second fire");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
-            if(Titan.log) System.out.println("second fire");
             return;
         }
 
@@ -63,18 +64,18 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
 
         if (distanceToTitan < minDistanceToTitan) minDistanceToTitan = distanceToTitan;
         else if (!printed) {
-            if(Titan.log) System.out.println("min distance to Titan: " + (int) minDistanceToTitan + " km");
+            missionLogger.log("min distance to Titan: " + (int) minDistanceToTitan + " km");
             printed = true;
         }
 
         if (engineFireCount < 3 && distanceToTitan < (system.getTitan().getDiameter() / 2 + 3000)) {
-            if(Titan.log) System.out.println("distance to titan (center) " + (int) distanceToTitan + " km");
-            if(Titan.log) System.out.println("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
-            if(Titan.log) System.out.println("third fire");
+            missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
+            missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
+            missionLogger.log("third fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithTitan(rocket, system.getTitan().getVelocity()).multiplyByScalar(0.5),
-                    stepSize);
+                    stepSize, engineLogger);
 
             CelestialObject.stepsUntilNextHistoricSave = 60;
             engineFireCount++;
@@ -82,20 +83,20 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
         } else if (engineFireCount == 3 && distanceToTitan < (system.getTitan().getDiameter() / 2 + 300)) {
             double orbitalSpeed = getOrbitalSpeed(system.getTitan().getM(), distanceToTitan);
 
-            if(Titan.log) System.out.println("distance to titan (center) " + (int) distanceToTitan + " km");
-            if(Titan.log) System.out.println("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
-            if(Titan.log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
-            if(Titan.log) System.out.println("fourth fire");
+            missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
+            missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
+            missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
+            missionLogger.log("fourth fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithTitan(rocket, system.getTitan().getVelocity())
                             .add(new Vector(new double[]{0, 0, orbitalSpeed})),
-                    stepSize);
+                    stepSize, engineLogger);
 
             stepWhenEnteredTitanOrbit = currentStep;
             double orbitLength = distanceToTitan * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
-            if(Titan.log) System.out.println("Steps for one orbit around titan: " + stepsNeededForOneOrbit);
+            missionLogger.log("Steps for one orbit around titan: " + stepsNeededForOneOrbit);
             engineFireCount++;
 
             if (false) printTheWholeSystem(system);
@@ -105,70 +106,70 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
 
         if(currentStep == stepWhenEnteredTitanOrbit + stepsNeededForOneOrbit * 2) {
             CelestialObject.stepsUntilNextHistoricSave = 86400;
-            if(Titan.log) System.out.println("Leaving Titan at position: " + rocket.getPosition() + "; distance to titan: " + distanceToTitan);
+            missionLogger.log("Leaving Titan at position: " + rocket.getPosition() + "; distance to titan: " + distanceToTitan);
             Vector velocity = returningFire_1_AND_2;
-            if(Titan.log) System.out.println("returning velocity: " + velocity.getLength() + " km/s");
-            if(Titan.log) System.out.println("first returning fire (fifth fire total)");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("returning velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("first returning fire (fifth fire total)");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
             return;
         }
 
         if(currentStep == stepWhenEnteredTitanOrbit + stepsNeededForOneOrbit * 2 + 1) {
             Vector velocity = returningFire_1_AND_2;
-            if(Titan.log) System.out.println("2nd returning velocity: " + velocity.getLength() + " km/s");
-            if(Titan.log) System.out.println("second returning fire (sixth fire total)");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("2nd returning velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("second returning fire (sixth fire total)");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
-            if(Titan.log) System.out.println("engine will fire again when entering earth's orbit");
+            missionLogger.log("engine will fire again when entering earth's orbit");
             return;
         }
 
         if (engineFireCount == 6 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 10000)) {
-            if(Titan.log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(Titan.log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(Titan.log) System.out.println("seventh fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("seventh fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system).multiplyByScalar(0.5),
-                    stepSize);
+                    stepSize, engineLogger);
 
             CelestialObject.stepsUntilNextHistoricSave = 3600;
             engineFireCount++;
             return;
         } else if (engineFireCount == 7 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 6000)) {
-            if(Titan.log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(Titan.log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(Titan.log) System.out.println("eighth fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("eighth fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system).multiplyByScalar(0.65),
-                    stepSize);
+                    stepSize, engineLogger);
 
             engineFireCount++;
             return;
         } else if (engineFireCount == 8 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 600)) {
             double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToEarth(rocket, system));
 
-            if(Titan.log) System.out.println("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(Titan.log) System.out.println("distance to earth (center) (Vector) " +  rocket.getPosition().subtract(system.getCelestialObjects().get(INDEX_EARTH).getPosition()));
-            if(Titan.log) System.out.println("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(Titan.log) System.out.println("orbital speed: " + orbitalSpeed + " km/s");
-            if(Titan.log) System.out.println("final (ninth) fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (center) (Vector) " +  rocket.getPosition().subtract(system.getCelestialObjects().get(INDEX_EARTH).getPosition()));
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
+            missionLogger.log("final (ninth) fire");
 
             slow = true;
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system)
                             .add(new Vector(new double[]{orbitalSpeed, 0, 0})),
-                    stepSize);
+                    stepSize, engineLogger);
 
             engineFireCount++;
             double orbitLength = distanceToEarth(rocket, system) * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
-            if(Titan.log) System.out.println("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
-            if(Titan.log) System.out.println("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
-            if(Titan.log) System.out.println("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
+            missionLogger.log("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
+            engineLogger.log("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
+            engineLogger.log("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
             return;
         }
 
@@ -203,7 +204,6 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
     }
 
     private void printTheWholeSystem(SolarSystem system) {
-        System.out.println();
         for (CelestialObject o : system.getCelestialObjects()) {
             System.out.print(o.getName() + ",");
             System.out.print(o.getPosition().getValue(0) + ",");
@@ -216,7 +216,6 @@ public class FlightControlsTwoEngineFiresForLaunch implements Controls {
             System.out.print(o.getDiameter() + ",");
             System.out.print("YELLOW,");
             System.out.print(o.getRadius() + ",");
-            System.out.println();
         }
 
     }

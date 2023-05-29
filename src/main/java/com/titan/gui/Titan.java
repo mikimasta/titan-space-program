@@ -3,6 +3,7 @@ package com.titan.gui;
 import com.titan.Simulation;
 import com.titan.controls.Controls;
 import com.titan.controls.FlightControlsTwoEngineFiresForLaunch;
+import com.titan.controls.Logger;
 import com.titan.math.solver.AdamsBashforth2ndOrderSolver;
 import com.titan.math.solver.EulerSolver;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -16,6 +17,7 @@ import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -52,9 +54,8 @@ public class Titan extends Application {
     /**
      * determines if the animation should be running or not
      */
-    public static boolean running = false;
+    private boolean running = false;
 
-    public static boolean log = true;
 
     public static int steps = 87600; // 10 years: every hour
 
@@ -145,7 +146,7 @@ public class Titan extends Application {
         centerRocket.setLayoutY(260);
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
-
+        
         SolarSystem system = new SolarSystem();
         SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
 
@@ -193,15 +194,71 @@ public class Titan extends Application {
 
         Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
+        // will display mission mlog 
+        Button missionLog = new Button("Mission Log");
+        missionLog.setStyle("-fx-font-size: 15px");
+        missionLog.setLayoutX(10);
+        missionLog.setLayoutY(25);
+        missionLog.setFocusTraversable(false);
+        root.getChildren().add(missionLog);
 
+        TextArea mlog = new TextArea();
+        mlog.setLayoutX(10);
+        mlog.setLayoutY(50);
+        mlog.setWrapText(true);
+        mlog.setMaxHeight(90);
+        mlog.setMaxWidth(400);
+        //mlog.setEditable(false);
+        mlog.setFocusTraversable(false);
+
+        missionLog.setOnAction(e -> {
+
+            root.requestFocus();
+            if (!root.getChildren().contains(mlog)) root.getChildren().add(mlog);
+            else root.getChildren().remove(mlog);
+
+
+        });
+
+        // will display fuel mlog 
+        Button fuelLog = new Button("Fuel Log");
+        fuelLog.setStyle("-fx-font-size: 15px");
+        fuelLog.setLayoutX(20);
+        fuelLog.setLayoutY(HEIGHT - 80);
+        fuelLog.setFocusTraversable(false);
+        root.getChildren().add(fuelLog);
+        
+        TextArea elog = new TextArea();
+        elog.setLayoutX(20);
+        elog.setLayoutY(HEIGHT - 180);
+        elog.setWrapText(true);
+        elog.setMaxHeight(90);
+        elog.setMaxWidth(400);
+        elog.setFocusTraversable(false);
+
+        fuelLog.setOnAction(e -> {
+            
+            root.requestFocus();
+            if (!root.getChildren().contains(elog)) root.getChildren().add(elog);
+            else root.getChildren().remove(elog);
+        });
+
+        Logger missionLogger = controls3.getMissionLogger();
+        Logger engineLogger = controls3.getEngineLogger();
 
         KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
+
+                mlog.setText(missionLogger.getLog());
+                mlog.setScrollTop(Double.MAX_VALUE);
+                elog.setText(engineLogger.getLog());
+                elog.setScrollTop(Double.MAX_VALUE);
+
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
-                        Titan.running = false;
+                        running = false;
                         // stepsAtOnce = 1;
                         break;
                     }
@@ -336,6 +393,9 @@ public class Titan extends Application {
         backToCenter.toFront();
         drawOrbits.toFront();
         centerTitan.toFront();
+        mlog.toFront();
+        missionLog.toFront();
+        fuelLog.toFront();
 
         gameWindow.setScene(scene);
         gameWindow.show();

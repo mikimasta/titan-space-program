@@ -37,9 +37,6 @@ public class DateGUI extends Parent {
 
         String dateString = "Current date: " + simpleDateFormat.format(date);
 
-        if (dateString.equals("# Current date: 2024-03-30")) {
-            Titan.running = false;
-        }
 
         text.setText(dateString);
     }

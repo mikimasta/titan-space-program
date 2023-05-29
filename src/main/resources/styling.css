@@ -7,3 +7,18 @@
     -fx-font-size: 15pt;
     -fx-font-family: 'Baby Doll';
 }
+
+.text-area .scroll-pane .content {
+    -fx-background-color: #10141A;
+}
+
+.text-area {
+    -fx-text-fill: #FFFFFF;
+    -fx-font-size: 12pt;
+}
+
+.text-area .scroll-bar:vertical {
+    -fx-pref-width: 1;
+    -fx-opacity: 0;
+}
+
