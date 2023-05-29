@@ -10,7 +10,7 @@ public class RocketTest {
 
     /**
      *
-     * Tests the rocket's velocity after the fireEngine() method with simple parameters: <p>
+     * Tests the rocket's velocity after the fireEngineWithForce() method with simple parameters: <p>
      *
      * initialVelocity = [1, 1, 1] <br>
      * force (of the engine) = [1, 1, 1] <br>
@@ -19,10 +19,10 @@ public class RocketTest {
      *
      * The resulting velocity after the engine fires is:
      * v = initialVelocity + impulse/mass <br>
-     * where impulse = force * stepSize = [1, 1, 1] * 10 = [10, 10, 10] hence <br>
-     * v = [1, 1, 1] + [10, 10, 10] / 20 <br>
-     * = [1, 1, 1] + [0.5, 0.5, 0.5] <br>
-     * = [1.5, 1.5, 1.5]
+     * where impulse = force * stepSize / 1000 = [1, 1, 1] * 10 / 1000 = [0.001, 0.001, 0.001] hence <br>
+     * v = [1, 1, 1] + [0.001, 0.001, 0.001] / 20 <br>
+     * = [1, 1, 1] + [0.0005, 0.0005, 0.0005] <br>
+     * = [1.0005, 1.0005, 1.0005]
      */
     @Test
     public void testFireEngineVelocity() {
@@ -44,21 +44,21 @@ public class RocketTest {
         r.fireEngineWithForce(force, stepSize);
 
         // then
-        assertEquals(new Vector(new double[]{1.5, 1.5, 1.5}), r.getVelocity());
+        assertEquals(new Vector(new double[]{1.0005, 1.0005, 1.0005}), r.getVelocity());
     }
 
     /**
      *
-     * Tests the rocket's fuel consumption after the fireEngine() method with simple parameters: <p>
+     * Tests the rocket's fuel consumption after the fireEngineWithForce() method with simple parameters: <p>
      *
-     * force (of the engine) = [3, 4, 0] <br>
+     * force (of the engine) = [30, 40, 0] <br>
      * mass of the rocket = 20 <br>
      * stepSize = 1 <p>
      *
      * The resulting fuel consumption after the engine fires is:
      * C = ||impulse|| * mass * stepSize^(-1) <br>
-     * where impulse = force * stepSize = [3, 4, 0] * 1 = [3, 4, 0] hence <br>
-     * C = ||[3, 4, 0]|| * 20 * 1 = 5 * 20 = 100
+     * where impulse = force * stepSize / 1000 = [30, 40, 0] * 1 / 1000 = [0.03, 0.04, 0] hence <br>
+     * C = ||[0.03, 0.04, 0]|| * 20 * 1 = 0.05 * 20 = 1
      */
     @Test
     public void testFireEngineFuelConsumption() {
@@ -72,7 +72,7 @@ public class RocketTest {
                 1,
                 Color.AQUA,
                 1);
-        Vector force = new Vector(new double[]{3, 4, 0});
+        Vector force = new Vector(new double[]{30, 40, 0});
         int stepSize = 1;
 
         // when
@@ -80,6 +80,6 @@ public class RocketTest {
         double fuel = r.getFuelConsumption().get(0);
 
         // then
-        assertEquals(100, fuel, 0);
+        assertEquals(1, fuel, 0);
     }
 }

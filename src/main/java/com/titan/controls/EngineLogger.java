@@ -1,13 +1,13 @@
 package com.titan.controls;
 
 
-public class MissionLogger implements Logger {
+public class EngineLogger implements Logger {
 
     private StringBuilder log;
 
     private boolean logging = true;
 
-    public MissionLogger() {
+    public EngineLogger() {
         log = new StringBuilder();
     }
 

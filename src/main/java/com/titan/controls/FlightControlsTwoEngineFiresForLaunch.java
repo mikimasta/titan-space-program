@@ -44,19 +44,19 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
 
         if (currentStep == 0) {
             Vector startVelocity = startingFire_1;
-            if(missionLogger.isLogging()) missionLogger.log("start velocity: " + startVelocity.getLength() + " km/s");
-            rocket.fireEngineWithVelocity(startVelocity, stepSize);
+            missionLogger.log("start velocity: " + startVelocity.getLength() + " km/s");
+            missionLogger.log("initial fire");
+            rocket.fireEngineWithVelocity(startVelocity, stepSize, engineLogger);
             engineFireCount++;
-            if(missionLogger.isLogging()) missionLogger.log("initial fire");
             return;
         }
 
         if (currentStep == 1) {
             Vector velocity = startingFire_2;
-            if(missionLogger.isLogging()) missionLogger.log("second velocity: " + velocity.getLength() + " km/s");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("second velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("second fire");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
-            if(missionLogger.isLogging()) missionLogger.log("second fire");
             return;
         }
 
@@ -64,18 +64,18 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
 
         if (distanceToTitan < minDistanceToTitan) minDistanceToTitan = distanceToTitan;
         else if (!printed) {
-            if(missionLogger.isLogging()) missionLogger.log("min distance to Titan: " + (int) minDistanceToTitan + " km");
+            missionLogger.log("min distance to Titan: " + (int) minDistanceToTitan + " km");
             printed = true;
         }
 
         if (engineFireCount < 3 && distanceToTitan < (system.getTitan().getDiameter() / 2 + 3000)) {
-            if(missionLogger.isLogging()) missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
-            if(missionLogger.isLogging()) missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("third fire");
+            missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
+            missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
+            missionLogger.log("third fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithTitan(rocket, system.getTitan().getVelocity()).multiplyByScalar(0.5),
-                    stepSize);
+                    stepSize, engineLogger);
 
             CelestialObject.stepsUntilNextHistoricSave = 60;
             engineFireCount++;
@@ -83,20 +83,20 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
         } else if (engineFireCount == 3 && distanceToTitan < (system.getTitan().getDiameter() / 2 + 300)) {
             double orbitalSpeed = getOrbitalSpeed(system.getTitan().getM(), distanceToTitan);
 
-            if(missionLogger.isLogging()) missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
-            if(missionLogger.isLogging()) missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
-            if(missionLogger.isLogging()) missionLogger.log("fourth fire");
+            missionLogger.log("distance to titan (center) " + (int) distanceToTitan + " km");
+            missionLogger.log("distance to titan (surface) " + (int) (distanceToTitan - system.getTitan().getDiameter() / 2) + " km");
+            missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
+            missionLogger.log("fourth fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithTitan(rocket, system.getTitan().getVelocity())
                             .add(new Vector(new double[]{0, 0, orbitalSpeed})),
-                    stepSize);
+                    stepSize, engineLogger);
 
             stepWhenEnteredTitanOrbit = currentStep;
             double orbitLength = distanceToTitan * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
-            if(missionLogger.isLogging()) missionLogger.log("Steps for one orbit around titan: " + stepsNeededForOneOrbit);
+            missionLogger.log("Steps for one orbit around titan: " + stepsNeededForOneOrbit);
             engineFireCount++;
 
             if (false) printTheWholeSystem(system);
@@ -106,70 +106,70 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
 
         if(currentStep == stepWhenEnteredTitanOrbit + stepsNeededForOneOrbit * 2) {
             CelestialObject.stepsUntilNextHistoricSave = 86400;
-            if(missionLogger.isLogging()) missionLogger.log("Leaving Titan at position: " + rocket.getPosition() + "; distance to titan: " + distanceToTitan);
+            missionLogger.log("Leaving Titan at position: " + rocket.getPosition() + "; distance to titan: " + distanceToTitan);
             Vector velocity = returningFire_1_AND_2;
-            if(missionLogger.isLogging()) missionLogger.log("returning velocity: " + velocity.getLength() + " km/s");
-            if(missionLogger.isLogging()) missionLogger.log("first returning fire (fifth fire total)");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("returning velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("first returning fire (fifth fire total)");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
             return;
         }
 
         if(currentStep == stepWhenEnteredTitanOrbit + stepsNeededForOneOrbit * 2 + 1) {
             Vector velocity = returningFire_1_AND_2;
-            if(missionLogger.isLogging()) missionLogger.log("2nd returning velocity: " + velocity.getLength() + " km/s");
-            if(missionLogger.isLogging()) missionLogger.log("second returning fire (sixth fire total)");
-            rocket.fireEngineWithVelocity(velocity, stepSize);
+            missionLogger.log("2nd returning velocity: " + velocity.getLength() + " km/s");
+            missionLogger.log("second returning fire (sixth fire total)");
+            rocket.fireEngineWithVelocity(velocity, stepSize, engineLogger);
             engineFireCount++;
-            if(missionLogger.isLogging()) missionLogger.log("engine will fire again when entering earth's orbit");
+            missionLogger.log("engine will fire again when entering earth's orbit");
             return;
         }
 
         if (engineFireCount == 6 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 10000)) {
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("seventh fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("seventh fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system).multiplyByScalar(0.5),
-                    stepSize);
+                    stepSize, engineLogger);
 
             CelestialObject.stepsUntilNextHistoricSave = 3600;
             engineFireCount++;
             return;
         } else if (engineFireCount == 7 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 6000)) {
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("eighth fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("eighth fire");
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system).multiplyByScalar(0.65),
-                    stepSize);
+                    stepSize, engineLogger);
 
             engineFireCount++;
             return;
         } else if (engineFireCount == 8 && distanceToEarth(rocket, system) < ((system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + 600)) {
             double orbitalSpeed = getOrbitalSpeed(system.getCelestialObjects().get(INDEX_EARTH).getM(), distanceToEarth(rocket, system));
 
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (center) (Vector) " +  rocket.getPosition().subtract(system.getCelestialObjects().get(INDEX_EARTH).getPosition()));
-            if(missionLogger.isLogging()) missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
-            if(missionLogger.isLogging()) missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
-            if(missionLogger.isLogging()) missionLogger.log("final (ninth) fire");
+            missionLogger.log("distance to earth (center) " + (int) distanceToEarth(rocket, system) + " km");
+            missionLogger.log("distance to earth (center) (Vector) " +  rocket.getPosition().subtract(system.getCelestialObjects().get(INDEX_EARTH).getPosition()));
+            missionLogger.log("distance to earth (surface) " + (int) (distanceToEarth(rocket, system) - system.getCelestialObjects().get(INDEX_EARTH).getDiameter()/2) + " km");
+            missionLogger.log("orbital speed: " + orbitalSpeed + " km/s");
+            missionLogger.log("final (ninth) fire");
 
             slow = true;
 
             rocket.fireEngineWithVelocity(
                     velocityDifferenceWithEarth(rocket, system)
                             .add(new Vector(new double[]{orbitalSpeed, 0, 0})),
-                    stepSize);
+                    stepSize, engineLogger);
 
             engineFireCount++;
             double orbitLength = distanceToEarth(rocket, system) * 2 * Math.PI;
             stepsNeededForOneOrbit = (int) ((orbitLength / orbitalSpeed) / stepSize);
-            if(missionLogger.isLogging()) missionLogger.log("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
-            if(fuelLogger.isLogging()) fuelLogger.log("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
-            if(fuelLogger.isLogging()) fuelLogger.log("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
+            missionLogger.log("Steps for one orbit around earth: " + stepsNeededForOneOrbit);
+            engineLogger.log("Fuel consumption history: " + Arrays.toString(rocket.getFuelConsumption().toArray()));
+            engineLogger.log("Total fuel consumption: " + rocket.getFuelConsumption().stream().mapToDouble(it -> it).sum());
             return;
         }
 

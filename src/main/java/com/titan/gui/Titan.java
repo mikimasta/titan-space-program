@@ -18,7 +18,6 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
@@ -26,7 +25,6 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -230,31 +228,31 @@ public class Titan extends Application {
         fuelLog.setFocusTraversable(false);
         root.getChildren().add(fuelLog);
         
-        TextArea flog = new TextArea();
-        flog.setLayoutX(20);
-        flog.setLayoutY(HEIGHT - 180);
-        flog.setWrapText(true);
-        flog.setMaxHeight(90);
-        flog.setMaxWidth(400);
-        flog.setFocusTraversable(false);
+        TextArea elog = new TextArea();
+        elog.setLayoutX(20);
+        elog.setLayoutY(HEIGHT - 180);
+        elog.setWrapText(true);
+        elog.setMaxHeight(90);
+        elog.setMaxWidth(400);
+        elog.setFocusTraversable(false);
 
         fuelLog.setOnAction(e -> {
             
             root.requestFocus();
-            if (!root.getChildren().contains(flog)) root.getChildren().add(flog);
-            else root.getChildren().remove(flog);
+            if (!root.getChildren().contains(elog)) root.getChildren().add(elog);
+            else root.getChildren().remove(elog);
         });
 
         Logger missionLogger = controls3.getMissionLogger();
-        Logger fuelLogger = controls3.getFuelLogger();
+        Logger engineLogger = controls3.getEngineLogger();
 
         KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
 
                 mlog.setText(missionLogger.getLog());
                 mlog.setScrollTop(Double.MAX_VALUE);
-                flog.setText(fuelLogger.getLog());
-                flog.setScrollTop(Double.MAX_VALUE);
+                elog.setText(engineLogger.getLog());
+                elog.setScrollTop(Double.MAX_VALUE);
 
                 for (int i = 0; i < stepsAtOnce; i++) {
                     simulation.nextStep(currentStep);

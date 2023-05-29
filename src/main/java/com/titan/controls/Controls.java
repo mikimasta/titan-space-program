@@ -13,19 +13,19 @@ public abstract class Controls {
     
     protected Logger missionLogger;
 
-    protected Logger fuelLogger;
+    protected Logger engineLogger;
     
     public Controls() {
         missionLogger = new MissionLogger();
-        fuelLogger = new FuelLogger();
+        engineLogger = new EngineLogger();
     }
 
     public Logger getMissionLogger() {
         return missionLogger;
     }
 
-    public Logger getFuelLogger() {
-        return fuelLogger;
+    public Logger getEngineLogger() {
+        return engineLogger;
     }
 
     public abstract void execute(SolarSystem system, Rocket rocket, int currentStep, int stepSize);
