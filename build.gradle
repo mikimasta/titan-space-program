@@ -7,9 +7,14 @@ plugins {
 //mainClassName = 'com.titan.experiments.CalculateReturningVelocity_HillClimbing'
 mainClassName = 'com.titan.App'
 jar {
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
 	manifest {
 		attributes('Main-Class': 'com.titan.App')
 	}
+
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }
 
 javafx {
