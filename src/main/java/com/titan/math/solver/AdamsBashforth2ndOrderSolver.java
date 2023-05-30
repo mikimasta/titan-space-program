@@ -53,16 +53,23 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
         return (new RungeKuttaSolver(stepSize)).solve(f, positions, velocities, masses, t);
     }
 
+    /**
+     * sets the isFirstIteration variable to a specified boolean value
+     * @param isFirstIteration boolean value for the isFirstIteration
+     */
     public void setIsFirstIteration(boolean isFirstIteration){
         this.isFirstIteration = isFirstIteration;
     }
 
+    /**
+     * sets the previous state to a specified state vector
+     * @param state a vector of the state of a celestial object, consisting its positions and velocities
+     */
     public void setPreviousState(Vector[] state){
         previousState[0] = state[0];
         previousState[1] = state[1];
 
     }
-
 
 
     /**
