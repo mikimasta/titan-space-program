@@ -7,9 +7,8 @@ import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.math.solver.Solver;
 import javafx.scene.paint.Color;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,20 +32,18 @@ public class SolarSystem {
     public SolarSystem(String path) {
         String file = "";
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            String line = "";
-
-            while ((line = br.readLine()) != null) {
-               file += line;
-            }
+            
+             file = new String(SolarSystem.class.getResource(path).openStream().readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.out.println("lol");
         }
+        System.out.println("file: " + file);
         try {
             file = file.split("<start>")[1];
             String[] planets = file.split("<next>");
             for(String p : planets) {
                 p = p.replace(" ", "");
+                p = p.replace("\r\n", "");
                 String[] attributes = p.split(",");
                 String name = attributes[0];
                 double[] positions = {
