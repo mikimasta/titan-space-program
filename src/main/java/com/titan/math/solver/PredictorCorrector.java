@@ -72,6 +72,8 @@ public class PredictorCorrector implements Solver {
         Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses, t-stepSize);
 
         AdamsBashforth2ndOrderSolver adamsBashforth2ndOrderSolver = new AdamsBashforth2ndOrderSolver(stepSize);
+        adamsBashforth2ndOrderSolver.setIsFirstIteration(false);
+        adamsBashforth2ndOrderSolver.setPreviousState(previousState);
         Vector[] nextStateApprox = adamsBashforth2ndOrderSolver.solve(f, positions, velocities, masses,t+stepSize);
 
         Vector[] diffNextStateApprox = DifferentialEquation.solve(f, nextStateApprox[0], nextStateApprox[1], masses, t+stepSize);

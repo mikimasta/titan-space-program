@@ -53,6 +53,18 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
         return (new RungeKuttaSolver(stepSize)).solve(f, positions, velocities, masses, t);
     }
 
+    public void setIsFirstIteration(boolean isFirstIteration){
+        this.isFirstIteration = isFirstIteration;
+    }
+
+    public void setPreviousState(Vector[] state){
+        previousState[0] = state[0];
+        previousState[1] = state[1];
+
+    }
+
+
+
     /**
      * takes one step forward and calculates the state of the solar system using the Adams-Bashforth 2nd order method
      * @param f {@link Function} that is used to estimate the next step
