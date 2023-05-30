@@ -220,13 +220,13 @@ public class Titan extends Application {
 
         });
 
-        // will display fuel mlog 
-        Button fuelLog = new Button("Fuel Log");
-        fuelLog.setStyle("-fx-font-size: 15px");
-        fuelLog.setLayoutX(20);
-        fuelLog.setLayoutY(HEIGHT - 80);
-        fuelLog.setFocusTraversable(false);
-        root.getChildren().add(fuelLog);
+        // will display engine mlog
+        Button engineLog = new Button("Engine Log");
+        engineLog.setStyle("-fx-font-size: 15px");
+        engineLog.setLayoutX(20);
+        engineLog.setLayoutY(HEIGHT - 80);
+        engineLog.setFocusTraversable(false);
+        root.getChildren().add(engineLog);
         
         TextArea elog = new TextArea();
         elog.setLayoutX(20);
@@ -236,7 +236,7 @@ public class Titan extends Application {
         elog.setMaxWidth(400);
         elog.setFocusTraversable(false);
 
-        fuelLog.setOnAction(e -> {
+        engineLog.setOnAction(e -> {
             
             root.requestFocus();
             if (!root.getChildren().contains(elog)) root.getChildren().add(elog);
@@ -395,7 +395,7 @@ public class Titan extends Application {
         centerTitan.toFront();
         mlog.toFront();
         missionLog.toFront();
-        fuelLog.toFront();
+        engineLog.toFront();
 
         gameWindow.setScene(scene);
         gameWindow.show();
