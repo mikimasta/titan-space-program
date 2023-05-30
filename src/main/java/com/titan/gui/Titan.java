@@ -208,7 +208,7 @@ public class Titan extends Application {
         mlog.setWrapText(true);
         mlog.setMaxHeight(90);
         mlog.setMaxWidth(400);
-        //mlog.setEditable(false);
+        mlog.setEditable(false);
         mlog.setFocusTraversable(false);
 
         missionLog.setOnAction(e -> {
@@ -234,6 +234,7 @@ public class Titan extends Application {
         elog.setWrapText(true);
         elog.setMaxHeight(90);
         elog.setMaxWidth(400);
+        elog.setEditable(false);
         elog.setFocusTraversable(false);
 
         engineLog.setOnAction(e -> {
