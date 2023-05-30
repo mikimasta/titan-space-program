@@ -206,7 +206,7 @@ public class Titan extends Application {
         });
 
         SolarSystem system2 = new SolarSystem();
-        SolarSystem system = new SolarSystem("src/main/resources/initial_conditions.csv");
+        SolarSystem system = new SolarSystem("/initial_conditions.csv");
 
         Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
         system.stageRocket(rocket);
