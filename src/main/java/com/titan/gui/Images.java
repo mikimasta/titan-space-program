@@ -17,4 +17,8 @@ public abstract class Images {
     static Image background = new Image("/background.jpg");
     public static final BackgroundImage backgroundImage = new BackgroundImage(background,
              BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT);
+
+    public static final Image icon = new Image("/icon.png");
+
+    public static final Image icon300 = new Image("/icon300.png");
 }

@@ -27,6 +27,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.image.Image;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -79,6 +80,7 @@ public class Titan extends Application {
     public void start(Stage gameWindow) {
         gameWindow.setTitle("Titan Space Program");
         gameWindow.setWidth(WIDTH);
+        gameWindow.getIcons().add(Images.icon300);
         gameWindow.setHeight(HEIGHT);
 
 
