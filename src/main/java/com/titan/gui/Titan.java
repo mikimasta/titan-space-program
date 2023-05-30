@@ -27,7 +27,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.image.Image;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -148,39 +147,6 @@ public class Titan extends Application {
         centerRocket.setLayoutY(260);
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
-        
-        SolarSystem system = new SolarSystem();
-        SolarSystem system2 = new SolarSystem("src/main/resources/initial_conditions.csv");
-
-        Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
-        system.stageRocket(rocket);
-
-        //Vector force = new Vector(new double[]{38.65346586, -14.90558291, -1.3535296});
-        //force = force.multiplyByScalar(rocket.getM()).multiplyByScalar(1.0/stepSize);
-        //rocket.fireEngineWithForce(force, stepSize);
-
-        ////////////////////////////
-        /*
-        SolarSystem system = new SolarSystem("resources/system_after_one_year.csv");
-        Rocket rocket = system.createRocketAtPointInSpace(
-                "Rocket",
-                50000,
-                new Vector(new double[]{1.3634377057605958E9, -4.868223085696473E8, -4.557917144852597E7}),
-                new Vector(new double[]{7.218058164094522, 11.843061237846946, -0.34333197393536263}));
-        system.stageRocket(rocket);
-
-        Solver solver = new RungeKuttaSolver(stepSize);
-
-        Controls controls = new FlightControlsTwoEngineFiresForLaunch_Exp(new Vector(new double[]{-26.587189929559827, -0.940072426572442, 1.2163298428058624}));
-        ///////////////////////////////
-*/
-        ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
-        for(CelestialObject o : system.getCelestialObjects()) {
-            CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
-            objects.add(objectGUI);
-            root.getChildren().add(objectGUI);
-            objectGUI.updatePosition();
-        }
 
         DateGUI date = new DateGUI();
         root.getChildren().add(date);
@@ -188,13 +154,6 @@ public class Titan extends Application {
         ScaleGUI scaleGUI = new ScaleGUI();
         root.getChildren().add(scaleGUI);
 
-        Solver eulerSolver = new EulerSolver(stepSize);
-        Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
-        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
-
-        Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
-
-        Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
         // will display mission mlog 
         Button missionLog = new Button("Mission Log");
@@ -245,6 +204,28 @@ public class Titan extends Application {
             if (!root.getChildren().contains(elog)) root.getChildren().add(elog);
             else root.getChildren().remove(elog);
         });
+
+        SolarSystem system2 = new SolarSystem();
+        SolarSystem system = new SolarSystem("src/main/resources/initial_conditions.csv");
+
+        Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
+        system.stageRocket(rocket);
+
+        ArrayList<CelestialObjectGUI> objects = new ArrayList<>();
+        for(CelestialObject o : system.getCelestialObjects()) {
+            CelestialObjectGUI objectGUI = new CelestialObjectGUI(o);
+            objects.add(objectGUI);
+            root.getChildren().add(objectGUI);
+            objectGUI.updatePosition();
+        }
+
+        Solver eulerSolver = new EulerSolver(stepSize);
+        Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
+        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
+
+        Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
+
+        Simulation simulation = new Simulation(rungeKuttaSolver, stepSize, controls3, system, rocket);
 
         Logger missionLogger = controls3.getMissionLogger();
         Logger engineLogger = controls3.getEngineLogger();
