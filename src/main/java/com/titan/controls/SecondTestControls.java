@@ -71,7 +71,7 @@ public class SecondTestControls extends Controls {
 
     /**
      * calculates the velocity an object has to have to be on an orbit around a planet/moon etc. <p>
-     * velocity = √(gravitational_constant * mass_of_the_planet / distance)
+     * velocity = sqrt((gravitational_constant * mass_of_the_planet / distance))
      * @param mass mass of the planet/moon
      * @param distance distance to the planet's/moon's center of mass
      * @return velocity

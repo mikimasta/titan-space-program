@@ -13,7 +13,7 @@ public class SolverStepSizeExperiments {
      * test the solvers with the following problem: <p>
      * y' = f(y, t) = (t + y)^2 -1 <br>
      * up to t = 1 with y(0) = 2/3 <br>
-     * the actual solution is y(t) = 2/(3 − 2t) − t, <br>
+     * the actual solution is y(t)=2/3(-2t), <br>
      * hence the expected value at t=1 is 1. <p>
      * h varies over the experiment to see how the error is evolving
      */
