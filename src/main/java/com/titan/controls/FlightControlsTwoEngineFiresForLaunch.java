@@ -214,7 +214,7 @@ public class FlightControlsTwoEngineFiresForLaunch extends Controls {
             System.out.print(o.getVelocity().getValue(2) + ",");
             System.out.print(o.getM() + ",");
             System.out.print(o.getDiameter() + ",");
-            System.out.print("YELLOW,");
+            System.out.print(o.getColor().toString() + ",");
             System.out.print(o.getRadius() + ",");
         }
 

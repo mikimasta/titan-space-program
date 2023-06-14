@@ -19,6 +19,11 @@ public class SolarSystem {
      */
     private final ArrayList<CelestialObject> celestialObjects = new ArrayList<>();
 
+    /**
+     * the rocket in the system. Is set when staged in the method stageRocket()
+     */
+    private Rocket rocket;
+
     private final int indexTitan;
 
     /**
@@ -32,10 +37,9 @@ public class SolarSystem {
     public SolarSystem(String path) {
         String file = "";
         try {
-            
              file = new String(SolarSystem.class.getResource(path).openStream().readAllBytes(), StandardCharsets.UTF_8);
         } catch (IOException e) {
-            System.out.println("lol");
+            System.out.println("file not found!");
         }
         System.out.println("file: " + file);
         try {
@@ -63,8 +67,14 @@ public class SolarSystem {
                     color = Color.valueOf(attributes[9]);
                     radius = Integer.parseInt(attributes[10]);
                 }
-                celestialObjects.add(new CelestialObject(
-                        name, mass, new Vector(positions), new Vector(velocities), diameter, color, radius));
+                if (!name.toLowerCase().contains("rocket")) {
+                    celestialObjects.add(new CelestialObject(
+                            name, mass, new Vector(positions), new Vector(velocities), diameter, color, radius));
+                } else {
+                    Rocket r = createRocketAtPointInSpace(
+                            name, mass, new Vector(positions), new Vector(velocities));
+                    stageRocket(r);
+                }
             }
         } catch (Exception e) {
             System.err.println("Error while reading the input file '" + path + "'. Please check for the right syntax!");
@@ -139,6 +149,7 @@ public class SolarSystem {
     }
 
     public void stageRocket(Rocket rocket) {
+        this.rocket = rocket;
         celestialObjects.add(rocket);
     }
 
@@ -168,6 +179,10 @@ public class SolarSystem {
             result[i] = getCelestialObjects().get(i).getM();
         }
         return new Vector(result);
+    }
+
+    public Rocket getRocket() {
+        return rocket;
     }
 
     public static void main(String[] args) {
@@ -215,5 +230,13 @@ public class SolarSystem {
             );
             getCelestialObjects().get(i).updateVelocity(velocity);
         }
+    }
+
+    public String toCSVString() {
+        String result = "name,x1 (km),x2 (km),x3 (km),v1 (km/s),v2 (km/s),v3 (km/s),m (kg),diameter,color,radius,<start>\n";
+        for (CelestialObject o : celestialObjects) {
+            result = result + o.toCSVString() + ",<next>\n";
+        }
+        return result;
     }
 }

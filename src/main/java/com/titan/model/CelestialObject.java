@@ -5,6 +5,7 @@ import com.titan.math.Vector;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class CelestialObject {
 
@@ -179,5 +180,21 @@ public class CelestialObject {
      */
     public int getRadius() {
         return radius;
+    }
+
+    public String toCSVString() {
+        return String.format(Locale.ENGLISH, "%s,%e,%e,%e,%e,%e,%e,%e,%d,%s,%d",
+                name,
+                position.getValue(0),
+                position.getValue(1),
+                position.getValue(2),
+                velocity.getValue(0),
+                velocity.getValue(1),
+                velocity.getValue(2),
+                m,
+                (int) diameter,
+                color.toString(),
+                radius
+                );
     }
 }
