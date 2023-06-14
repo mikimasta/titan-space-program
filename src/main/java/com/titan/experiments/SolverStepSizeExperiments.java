@@ -23,12 +23,12 @@ public class SolverStepSizeExperiments {
         for (double j = 0; j < 20; j++) {
             double h = 1.0/Math.pow(2, j);
             Vector y = new Vector(new double[]{2.0/3});
-            EulerSolver eulerSolver = new EulerSolver(h);
-            AdamsBashforth2ndOrderSolver adamsBashforth2ndOrderSolver = new AdamsBashforth2ndOrderSolver(h);
-            RungeKuttaSolver rungeKuttaSolver = new RungeKuttaSolver(h);
-            PredictorCorrector predictorCorrector = new PredictorCorrector(h);
+            EulerSolver eulerSolver = new EulerSolver();
+            AdamsBashforth2ndOrderSolver adamsBashforth2ndOrderSolver = new AdamsBashforth2ndOrderSolver();
+            RungeKuttaSolver rungeKuttaSolver = new RungeKuttaSolver();
+            PredictorCorrector predictorCorrector = new PredictorCorrector();
             for (int i = 0; i < 1/h; i++) {
-                Vector[] result = predictorCorrector.solve(f, new Vector(new double[]{0}), y, new Vector(new double[]{}), i*h);
+                Vector[] result = predictorCorrector.solve(f, new Vector(new double[]{0}), y, new Vector(new double[]{}), h, i*h);
                 y = result[1];
             }
             System.out.println("h = " + h + ", y: " + y.getValue(0) + "");

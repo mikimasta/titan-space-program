@@ -1,8 +1,8 @@
 package com.titan.experiments;
 
 import com.titan.Simulation;
-import com.titan.math.Vector;
-import com.titan.math.solver.*;
+import com.titan.math.solver.PredictorCorrector;
+import com.titan.math.solver.Solver;
 import com.titan.model.CelestialObject;
 import com.titan.model.Rocket;
 import com.titan.model.SolarSystem;
@@ -38,7 +38,7 @@ public class CalculateRuntime {
             ArrayList<CelestialObject> obj = s.getCelestialObjects();
             currentStep = 0;
 
-            Solver solver = new PredictorCorrector(60);
+            Solver solver = new PredictorCorrector();
             Simulation simulation = new Simulation(solver, 60, s);
 
             while (currentStep < 365 * 24 * 60) {

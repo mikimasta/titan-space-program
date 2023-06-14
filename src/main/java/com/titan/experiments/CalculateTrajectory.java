@@ -47,7 +47,7 @@ public class CalculateTrajectory {
             ArrayList<CelestialObject> obj = s.getCelestialObjects();
             currentStep = 0;
 
-            EulerSolver solver = new EulerSolver(60);
+            EulerSolver solver = new EulerSolver();
             Simulation simulation = new Simulation(solver, 60, s);
 
             while (currentStep < 365 * 24 * 60) {

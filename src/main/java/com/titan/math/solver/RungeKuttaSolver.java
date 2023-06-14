@@ -16,51 +16,42 @@ import com.titan.math.function.Function;
 public class RungeKuttaSolver implements Solver {
 
     /**
-     * determines the step size for the Runge-Kutta solver
-     */
-    private final double stepSize;
-
-    /**
-     * Constructs a Runge-Kutta solver and sets the step size
-     * @param stepSize
-     */
-    public RungeKuttaSolver(double stepSize) {
-        this.stepSize = stepSize;
-    }
-
-    /**
      * this method calculates the positions and velocities of all celestial objects after every iteration using the
      * 4 stage Runge-Kutta method
      * @param positions vector of all the positions
      * @param velocities vector of all the velocities
      * @param t step we are currently on
      */
-    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double t) {
+    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double h, double t) {
         Vector[] result = new Vector[2];
 
         Vector[] k1 = nextK(f,
                 positions,
                 velocities,
                 masses,
+                h,
                 t);
 
         Vector[] k2 = nextK(f,
                 positions.add(k1[0].multiplyByScalar(1.0 / 2)),
                 velocities.add(k1[1].multiplyByScalar(1.0 / 2)),
                 masses,
-                t+stepSize/2);
+                h,
+                t + h/2);
 
         Vector[] k3 = nextK(f,
                 positions.add(k2[0].multiplyByScalar(1.0 / 2)),
                 velocities.add(k2[1].multiplyByScalar(1.0 / 2)),
                 masses,
-                t+stepSize/2);
+                h,
+                t + h/2);
 
         Vector[] k4 = nextK(f,
                 positions.add(k3[0]),
                 velocities.add(k3[1]),
                 masses,
-                t+stepSize);
+                h,
+                t + h);
 
         result[0] = positions.add(
                 k1[0]
@@ -87,15 +78,15 @@ public class RungeKuttaSolver implements Solver {
      * @param masses
      * @return
      */
-    private Vector[] nextK(Function f, Vector positions, Vector velocities, Vector masses, double t) {
+    private Vector[] nextK(Function f, Vector positions, Vector velocities, Vector masses, double h, double t) {
         Vector[] k = DifferentialEquation.solve(
                 f,
                 positions,
                 velocities,
                 masses,
                 t);
-        k[0] = k[0].multiplyByScalar(stepSize);
-        k[1] = k[1].multiplyByScalar(stepSize);
+        k[0] = k[0].multiplyByScalar(h);
+        k[1] = k[1].multiplyByScalar(h);
         return k;
     }
 }

@@ -17,7 +17,7 @@ public class CalculateInitialVelocity_HillClimbing extends HillClimbing {
         Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
         system.stageRocket(rocket);
 
-        Solver solver = new RungeKuttaSolver(stepSize);
+        Solver solver = new RungeKuttaSolver();
         Controls controls = new SecondTestControls(input);
 
         return new Simulation(solver, stepSize, controls, system, rocket);

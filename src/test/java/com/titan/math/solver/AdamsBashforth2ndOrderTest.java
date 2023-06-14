@@ -32,14 +32,14 @@ public class AdamsBashforth2ndOrderTest {
         Vector positions = new Vector(new double[]{1});
         Vector velocities = new Vector(new double[]{1});
         Vector masses = new Vector(new double[]{1});
-        double stepSize = 1;
-        AdamsBashforth2ndOrderSolver solver = new AdamsBashforth2ndOrderSolver(stepSize);
+        double h = 1;
+        AdamsBashforth2ndOrderSolver solver = new AdamsBashforth2ndOrderSolver();
 
 
         // when
-        Vector[] w1 = solver.solve(f, positions, velocities, masses, 1);
-        Vector[] w2 = solver.solve(f, w1[0], w1[1], masses, 1);
-        Vector[] w3 = solver.solve(f, w2[0], w2[1], masses, 1);
+        Vector[] w1 = solver.solve(f, positions, velocities, masses, h, 1);
+        Vector[] w2 = solver.solve(f, w1[0], w1[1], masses, h, 1);
+        Vector[] w3 = solver.solve(f, w2[0], w2[1], masses, h, 1);
 
         // then
         assertEquals(3.708, w1[0].getValue(0), 0.01);
@@ -78,14 +78,14 @@ public class AdamsBashforth2ndOrderTest {
         Vector positions = new Vector(new double[]{1});
         Vector velocities = new Vector(new double[]{1});
         Vector masses = new Vector(new double[]{1});
-        double stepSize = 0.5;
-        AdamsBashforth2ndOrderSolver solver = new AdamsBashforth2ndOrderSolver(stepSize);
+        double h = 0.5;
+        AdamsBashforth2ndOrderSolver solver = new AdamsBashforth2ndOrderSolver();
 
         // when
-        Vector[] w1 = solver.solve(f, positions, velocities, masses, 1);
-        Vector[] w2 = solver.solve(f, w1[0], w1[1], masses, 1);
-        Vector[] w3 = solver.solve(f, w2[0], w2[1], masses, 1);
-        Vector[] w4 = solver.solve(f, w3[0], w3[1], masses, 1);
+        Vector[] w1 = solver.solve(f, positions, velocities, masses, h, 1);
+        Vector[] w2 = solver.solve(f, w1[0], w1[1], masses, h, 1);
+        Vector[] w3 = solver.solve(f, w2[0], w2[1], masses, h, 1);
+        Vector[] w4 = solver.solve(f, w3[0], w3[1], masses, h, 1);
 
         // then
         assertEquals(1.625, w1[0].getValue(0), 0.01);

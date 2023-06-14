@@ -196,7 +196,7 @@ public class SolarSystem {
             System.out.println(o.getName() + "     " + o.getPosition() + " " + o.getVelocity() +  "       " + o.getM());
         }
 
-        Solver solver = new RungeKuttaSolver(60);
+        Solver solver = new RungeKuttaSolver();
         Simulation simulation = new Simulation(solver, 60, s);
 
         for (int i = 0; i <= 365*24*60; i++) {

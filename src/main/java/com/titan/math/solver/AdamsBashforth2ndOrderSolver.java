@@ -14,11 +14,6 @@ import com.titan.math.function.Function;
 public class AdamsBashforth2ndOrderSolver implements Solver {
 
     /**
-     * determines the step size for Adams-Bashforth2
-     */
-    private final double stepSize;
-
-    /**
      * keeps track of the previous state of the system, needed for calculations using this method
      */
     private final Vector[] previousState = new Vector[2];
@@ -29,28 +24,20 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
     private boolean isFirstIteration = true;
 
     /**
-     * creates a new Adams-Bashforth solver instance; sets the step size and the initial state of the system
-     * @param stepSize
-     */
-    public AdamsBashforth2ndOrderSolver(double stepSize) {
-        this.stepSize = stepSize;
-    }
-
-
-    /**
      * bootstraps the first step to get the solver running
      * @param f gravitational function acting upon the celestial bodies
      * @param positions vector of positions of the entire system
      * @param velocities vector of velocities of the entire system
      * @param masses vector of masses of the entire system
+     * @param h
      * @param t step the system is currently on
      * @return returns the state of the system after the initial step using a Runge-Kutta 4th order method
      */
-    private Vector[] bootstrap(Function f, Vector positions, Vector velocities, Vector masses, double t) {
+    private Vector[] bootstrap(Function f, Vector positions, Vector velocities, Vector masses, double h, double t) {
         isFirstIteration = false;
         previousState[0] = positions;
         previousState[1] = velocities;
-        return (new RungeKuttaSolver(stepSize)).solve(f, positions, velocities, masses, t);
+        return (new RungeKuttaSolver()).solve(f, positions, velocities, masses, h, t);
     }
 
     /**
@@ -82,28 +69,28 @@ public class AdamsBashforth2ndOrderSolver implements Solver {
      * @return returns the state of the system after one step
      */
     @Override
-    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double t) {
+    public Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double h, double t) {
 
         if (isFirstIteration) {
-            return bootstrap(f, positions, velocities, masses, t);
+            return bootstrap(f, positions, velocities, masses, h, t);
         }
 
         Vector[] nextState = new Vector[2];
 
         Vector[] diffCurrent = DifferentialEquation.solve(f, positions, velocities, masses, t);
-        Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses, t-stepSize);
+        Vector[] diffPrevious = DifferentialEquation.solve(f, previousState[0], previousState[1], masses, t-h);
 
         Vector nextPos = positions
                 .add(diffCurrent[0]
                         .multiplyByScalar(3)
                         .subtract(diffPrevious[0])
-                        .multiplyByScalar(stepSize / 2));
+                        .multiplyByScalar(h / 2));
 
         Vector nextVel = velocities
                 .add(diffCurrent[1]
                         .multiplyByScalar(3)
                         .subtract(diffPrevious[1])
-                        .multiplyByScalar(stepSize / 2));
+                        .multiplyByScalar(h / 2));
 
         nextState[0] = nextPos;
         nextState[1] = nextVel;

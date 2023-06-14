@@ -60,13 +60,13 @@ public class RungeKuttaSolverTest {
         Vector x0 = new Vector(new double[]{1});
         Vector y0 = new Vector(new double[]{1});
         Vector z0 = new Vector(new double[]{1}); // ignored in this test
-        double stepSize = 1;
-        RungeKuttaSolver solver = new RungeKuttaSolver(stepSize);
+        double h = 1;
+        RungeKuttaSolver solver = new RungeKuttaSolver();
 
         // when
-        Vector[] w1 = solver.solve(f, x0, y0, z0, 1);
-        Vector[] w2 = solver.solve(f, w1[0], w1[1], z0, 1);
-        Vector[] w3 = solver.solve(f, w2[0], w2[1], z0, 1);
+        Vector[] w1 = solver.solve(f, x0, y0, z0, h, 1);
+        Vector[] w2 = solver.solve(f, w1[0], w1[1], z0, h, 1);
+        Vector[] w3 = solver.solve(f, w2[0], w2[1], z0, h, 1);
 
         // then
         assertEquals(3.7083, w1[0].getValue(0), 0.001);
@@ -142,14 +142,14 @@ public class RungeKuttaSolverTest {
         Vector x0 = new Vector(new double[]{1});
         Vector y0 = new Vector(new double[]{1});
         Vector z0 = new Vector(new double[]{1}); // ignored in this test
-        double stepSize = 0.5;
-        RungeKuttaSolver solver = new RungeKuttaSolver(stepSize);
+        double h = 0.5;
+        RungeKuttaSolver solver = new RungeKuttaSolver();
 
         // when
-        Vector[] w1 = solver.solve(f, x0, y0, z0, 1);
-        Vector[] w2 = solver.solve(f, w1[0], w1[1], z0, 1);
-        Vector[] w3 = solver.solve(f, w2[0], w2[1], z0, 1);
-        Vector[] w4 = solver.solve(f, w3[0], w3[1], z0, 1);
+        Vector[] w1 = solver.solve(f, x0, y0, z0, h, 1);
+        Vector[] w2 = solver.solve(f, w1[0], w1[1], z0, h, 1);
+        Vector[] w3 = solver.solve(f, w2[0], w2[1], z0, h, 1);
+        Vector[] w4 = solver.solve(f, w3[0], w3[1], z0, h, 1);
 
         // then
         assertEquals(1.625, w1[0].getValue(0), 0);

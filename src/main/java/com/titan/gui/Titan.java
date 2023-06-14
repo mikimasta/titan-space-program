@@ -219,9 +219,9 @@ public class Titan extends Application {
             objectGUI.updatePosition();
         }
 
-        Solver eulerSolver = new EulerSolver(stepSize);
-        Solver rungeKuttaSolver = new RungeKuttaSolver(stepSize);
-        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver(stepSize);
+        Solver eulerSolver = new EulerSolver();
+        Solver rungeKuttaSolver = new RungeKuttaSolver();
+        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver();
 
         Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
 

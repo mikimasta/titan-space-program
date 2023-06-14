@@ -10,7 +10,7 @@ import com.titan.model.SolarSystem;
 /**
  * Runs the simulation according to the specified solver and controls
  */
-public class Simulation {
+public class SolarSystemSimulation {
 
     private final Solver solver;
     private final int stepSize;
@@ -18,7 +18,7 @@ public class Simulation {
     private final SolarSystem system;
     private final Rocket rocket;
 
-    public Simulation(Solver solver, int stepSize, Controls controls, SolarSystem system, Rocket rocket) {
+    public SolarSystemSimulation(Solver solver, int stepSize, Controls controls, SolarSystem system, Rocket rocket) {
         this.solver = solver;
         this.stepSize = stepSize;
         this.controls = controls;
@@ -26,7 +26,7 @@ public class Simulation {
         this.rocket = rocket;
     }
 
-    public Simulation(Solver solver, int stepSize, SolarSystem system) {
+    public SolarSystemSimulation(Solver solver, int stepSize, SolarSystem system) {
         this.solver = solver;
         this.stepSize = stepSize;
         this.controls = null;
@@ -72,12 +72,12 @@ public class Simulation {
         runForAYear(this, printProgress);
     }
 
-    public static void runForAYear(Simulation simulation, boolean printProgress) {
+    public static void runForAYear(SolarSystemSimulation simulation, boolean printProgress) {
         int oneYearInSeconds = 31536000;
         runFor(simulation, oneYearInSeconds, printProgress);
     }
 
-    public static void runFor(Simulation simulation, int seconds, boolean printProgress) {
+    public static void runFor(SolarSystemSimulation simulation, int seconds, boolean printProgress) {
         if (printProgress) System.out.print(" >>");
         for (int i = 0; i < ((seconds) / simulation.stepSize); i++) {
             simulation.nextStep(i);

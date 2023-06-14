@@ -23,7 +23,7 @@ public class CalculateReturningVelocity_HillClimbing extends HillClimbing {
                 50000);
         system.stageRocket(rocket);
 
-        Solver solver = new RungeKuttaSolver(stepSize);
+        Solver solver = new RungeKuttaSolver();
         Controls controls = new FlightControlsTwoEngineFiresForLaunch(input);
 
         return new Simulation(solver, stepSize, controls, system, rocket);
