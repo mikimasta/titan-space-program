@@ -18,7 +18,7 @@ public class SolverStepSizeExperiments {
      * h varies over the experiment to see how the error is evolving
      */
     public static void main(String[] args) {
-        Function f = (v1, v2, v3, t) -> new Vector(new double[]{Math.pow(v2.getValue(0) + t, 2) - 1});
+        Function f = (v1, v2, v3, h, t) -> new Vector(new double[]{Math.pow(v2.getValue(0) + t, 2) - 1});
 
         for (double j = 0; j < 20; j++) {
             double h = 1.0/Math.pow(2, j);

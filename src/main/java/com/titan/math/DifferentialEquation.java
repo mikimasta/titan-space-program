@@ -18,11 +18,11 @@ public abstract class DifferentialEquation {
      * @param velocities vector of all the velocities
      * @param masses masses of the objects
      */
-    public static Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double t) {
+    public static Vector[] solve(Function f, Vector positions, Vector velocities, Vector masses, double h, double t) {
         Vector[] result = new Vector[2];
 
         result[0] = velocities;
-        result[1] = f.f(positions, velocities, masses, t);
+        result[1] = f.f(positions, velocities, masses, h, t);
 
         return result;
     }

@@ -55,7 +55,7 @@ public class RungeKuttaSolverTest {
     @Test
     public void testSolveForLinearFunctionF() {
         // given
-        Function f = (v1, v2, v3, t) -> v1.add(v2); // f(x,y,z) = x+y;   => z is ignored
+        Function f = (v1, v2, v3, h, t) -> v1.add(v2); // f(x,y,z) = x+y;   => z is ignored
 
         Vector x0 = new Vector(new double[]{1});
         Vector y0 = new Vector(new double[]{1});
@@ -137,7 +137,7 @@ public class RungeKuttaSolverTest {
     @Test
     public void testSolveForFunctionFEquals1WithStepSize0Point5() {
         // given
-        Function f = (v1, v2, v3, t) -> new Vector(new double[]{1}); // f(x,y,z) = 1;
+        Function f = (v1, v2, v3, h, t) -> new Vector(new double[]{1}); // f(x,y,z) = 1;
 
         Vector x0 = new Vector(new double[]{1});
         Vector y0 = new Vector(new double[]{1});

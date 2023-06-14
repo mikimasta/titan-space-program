@@ -84,6 +84,7 @@ public class RungeKuttaSolver implements Solver {
                 positions,
                 velocities,
                 masses,
+                h,
                 t);
         k[0] = k[0].multiplyByScalar(h);
         k[1] = k[1].multiplyByScalar(h);
