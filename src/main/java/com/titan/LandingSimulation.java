@@ -1,5 +1,7 @@
 package com.titan;
 
+import com.titan.math.Vector;
+import com.titan.math.function.LandingGravitationFunction;
 import com.titan.math.solver.Solver;
 import com.titan.model.LandingModule;
 import com.titan.model.Rocket;
@@ -20,15 +22,15 @@ public class LandingSimulation {
     }
 
     public void nextStep(int currentStep) {
-        // Vector[] nextState = solver.solve(
-        //         new GravitationFunction(),
-        //         module.getPosition(),
-        //         module.getVelocity(),
-        //         new Vector(new double[] {module.getM()}),
-        //         stepSize,
-        //         currentStep);
-        // module.updatePosition(nextState[0]);
-        // module.updateVelocity(nextState[1]);
+         Vector[] nextState = solver.solve(
+                 new LandingGravitationFunction(),
+                 module.getPosition(),
+                 module.getVelocity(),
+                 new Vector(new double[] {0,0}),
+                 stepSize,
+                 currentStep);
+         module.updatePosition(nextState[0]);
+         module.updateVelocity(nextState[1]);
     }
 
     public Rocket getModule() {
