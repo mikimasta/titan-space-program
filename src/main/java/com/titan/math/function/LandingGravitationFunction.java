@@ -23,6 +23,7 @@ public class LandingGravitationFunction implements Function {
                 engineThrust.getValue(1)});
 
         result = Vector.add(result, airResistance(position, velocity));
+        System.out.println("air resist: " + airResistance(position, velocity));
         // right now -0.34455247229176383
         //-0.001352
         System.out.println("pos: " + position);
@@ -39,10 +40,27 @@ public class LandingGravitationFunction implements Function {
 
     // NASA: https://www.grc.nasa.gov/www/k-12/VirtualAero/BottleRocket/airplane/falling.html
     private Vector airResistance(Vector position, Vector velocity) {
-        return new Vector(new double[]{
-                        Math.pow(velocity.getValue(0), 2),
-                        Math.pow(velocity.getValue(1), 2),
-                        0})
+
+        Vector velocitySquare = new Vector(new double[]{
+                Math.pow(velocity.getValue(0), 2),
+                Math.pow(velocity.getValue(1), 2),
+                0});
+
+        if (velocity.getValue(0) < 0) {
+            velocitySquare = new Vector(new double[]{
+                    - velocitySquare.getValue(0),
+                    velocitySquare.getValue(1),
+                    velocitySquare.getValue(2)});
+        }
+
+        if (velocity.getValue(1) < 0) {
+            velocitySquare = new Vector(new double[]{
+                    velocitySquare.getValue(0),
+                    - velocitySquare.getValue(1),
+                    velocitySquare.getValue(2)});
+        }
+
+        return velocitySquare
                 .multiplyByScalar(0.5)
                 .multiplyByScalar(calculateAirDensity(position.getValue(1))) // density in kg/m^3
                 .multiplyByScalar(AREA)
