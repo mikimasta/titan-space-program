@@ -2,6 +2,8 @@ package com.titan.math.function;
 
 import com.titan.math.Vector;
 
+import static java.util.concurrent.locks.LockSupport.park;
+
 public class LandingGravitationFunction implements Function {
 
     public static final double GRAVITATIONAL_ACCELERATION = 0.001352;
@@ -10,19 +12,30 @@ public class LandingGravitationFunction implements Function {
 
     /**
      * @param position (position of the module {x, y, angle})
-     * @param v2 - ignored (velocity {x, y, rotation})
-     * @param v3 - ignored (acceleration {u (main thrust), v (rotation thrust)})
+     * @param velocity - ignored (velocity {x, y, rotation})
+     * @param engineThrust - ignored (acceleration {u (main thrust), v (rotation thrust)})
      * @return a vector of the gravitational force working on the rocket
      */
     @Override
-    public Vector f(Vector position, Vector v2, Vector v3, double h, double t) {
+    public Vector f(Vector position, Vector velocity, Vector engineThrust, double h, double t) {
 
         Vector result = new Vector(new double[]{
-                v3.getValue(0) * Math.sin(Math.toRadians(position.getValue(2))),
-                v3.getValue(0) * Math.cos(Math.toRadians(position.getValue(2))) - GRAVITATIONAL_ACCELERATION,
-                v3.getValue(1)});
+                engineThrust.getValue(0) * Math.sin(Math.toRadians(position.getValue(2))),
+                engineThrust.getValue(0) * Math.cos(Math.toRadians(position.getValue(2))) - GRAVITATIONAL_ACCELERATION,
+                engineThrust.getValue(1)});
 
-        result = Vector.add(result, airResistance(position, v2));
+        result = Vector.add(result, airResistance(position, velocity));
+        // right now -0.34455247229176383
+        //-0.001352
+        System.out.println("pos: " + position);
+        System.out.println("vel: " + velocity);
+        System.out.println("res: " + result);
+        System.out.println("----------------------------------------");
+        if (result.getValue(0) > 1000) {
+
+            park();
+        }
+
         return result;
     }
 
@@ -33,20 +46,21 @@ public class LandingGravitationFunction implements Function {
                         Math.pow(velocity.getValue(1), 2),
                         0})
                 .multiplyByScalar(0.5)
-                .multiplyByScalar(calculateAirDensity(position.getValue(1)))
+                .multiplyByScalar(calculateAirDensity(position.getValue(1))) // density in kg/m^3
                 .multiplyByScalar(AREA)
                 .multiplyByScalar(DRAG_COEFFICIENT)
                 .multiplyByScalar(-1);
     }
 
     private double calculateAirDensity(double altitude) {
-        double p = calculatePressure(altitude); // pressure in pascal or bar whatever
-//        double p = calculatePressure(altitude) * 100000; // pressure in pascal (bar * 100,000)
-        double m = 28.96; // molar mass of air
+ //       double p = calculatePressure(altitude); // pressure in pascal or bar whatever
+        double p = calculatePressure(altitude) * 100000; // pressure in pascal (bar * 100,000)
+        double m = 0.02896; // molar mass of air
 
         double r = 8.314; // ideal gas constant (8.314 J/(mol·K))
         double t = calculateTemperature(altitude); // temperature in kelvin
 
+        // density in kg/m^3
         double density = (p * m) / (r * t) * 1.5; // Air density + 50% (according to NASA)
 
         return density;
