@@ -1,5 +1,7 @@
 package com.titan;
 
+import com.titan.controls.Hurricane;
+import com.titan.controls.Wind;
 import com.titan.math.Vector;
 import com.titan.math.function.LandingGravitationFunction;
 import com.titan.math.solver.Solver;
@@ -12,6 +14,7 @@ import com.titan.model.Rocket;
 public class LandingSimulation {
 
     private final Solver solver;
+    private final Wind wind;
     private final int stepSize;
     private final LandingModule module;
 
@@ -19,6 +22,7 @@ public class LandingSimulation {
         this.solver = solver;
         this.stepSize = stepSize;
         this.module = module;
+        this.wind = new Hurricane();
     }
 
     public void nextStep(int currentStep) {
@@ -31,6 +35,7 @@ public class LandingSimulation {
                  currentStep);
          module.updatePosition(nextState[0]);
          module.updateVelocity(nextState[1]);
+         wind.blow(module, stepSize);
     }
 
     public Rocket getModule() {
