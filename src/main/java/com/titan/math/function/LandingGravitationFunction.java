@@ -2,8 +2,6 @@ package com.titan.math.function;
 
 import com.titan.math.Vector;
 
-import static java.util.concurrent.locks.LockSupport.park;
-
 public class LandingGravitationFunction implements Function {
 
     public static final double GRAVITATIONAL_ACCELERATION = 0.001352;
@@ -31,9 +29,9 @@ public class LandingGravitationFunction implements Function {
         System.out.println("vel: " + velocity);
         System.out.println("res: " + result);
         System.out.println("----------------------------------------");
-        if (result.getValue(0) > 1000) {
 
-            park();
+        if(result.getValue(0) > 0) {
+            System.out.println();
         }
 
         return result;
@@ -89,11 +87,12 @@ public class LandingGravitationFunction implements Function {
      * @return
      */
     private double calculatePressure(double altitude) {
-        return -0.000000000079339 * Math.pow(altitude, 5)
+        double result = -0.000000000079339 * Math.pow(altitude, 5)
                 + 0.000000049373809 * Math.pow(altitude, 4)
                 - 0.000011714823097 * Math.pow(altitude, 3)
                 + 0.001320377017440 * Math.pow(altitude, 2)
                 - 0.071004201806174 * altitude
                 + 1.494389829591593;
+        return (result < 0) ? -result : result;
     }
 }
