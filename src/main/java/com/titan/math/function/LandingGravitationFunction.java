@@ -5,7 +5,7 @@ import com.titan.math.Vector;
 public class LandingGravitationFunction implements Function {
 
     public static final double GRAVITATIONAL_ACCELERATION = 0.001352;
-    private final double DRAG_COEFFICIENT = 0.47; // sphere -> see (https://www.engineersedge.com/calculators/air_resistance_force_14729.htm)
+    private static final double DRAG_COEFFICIENT = 0.47; // sphere -> see (https://www.engineersedge.com/calculators/air_resistance_force_14729.htm)
     private final double AREA = Math.pow(4, 2) * Math.PI; // area of the sphere facing the air (area of a circle)
 
     /**
@@ -22,18 +22,8 @@ public class LandingGravitationFunction implements Function {
                 engineThrust.getValue(0) * Math.cos(Math.toRadians(position.getValue(2))) - GRAVITATIONAL_ACCELERATION,
                 engineThrust.getValue(1)});
 
-        result = Vector.add(result, airResistance(position, velocity));
-        System.out.println("air resist: " + airResistance(position, velocity));
-        // right now -0.34455247229176383
-        //-0.001352
-        System.out.println("pos: " + position);
-        System.out.println("vel: " + velocity);
-        System.out.println("res: " + result);
-        System.out.println("----------------------------------------");
-
-        if(result.getValue(0) > 0) {
-            System.out.println();
-        }
+        Vector airResistance = airResistance(position, velocity).multiplyByScalar(1d/1000d);
+        result = Vector.add(result, airResistance);
 
         return result;
     }
