@@ -28,7 +28,6 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class Titan extends Application {
@@ -53,6 +52,8 @@ public class Titan extends Application {
 
     private String lockedInObject = "Sun";
 
+    private boolean atTitan = false;
+
     /**
      * determines if the animation should be running or not
      */
@@ -75,10 +76,13 @@ public class Titan extends Application {
      * determines how many steps at once we are calculating, more means faster animation
      */
     public static int stepsAtOnce = 50;
-    private static final LocalDate START_DATE = LocalDate.of(2023, 4, 1);
+
+    static Stage gameWindow;
+
 
     @Override
-    public void start(Stage gameWindow) {
+    public void start(Stage stage) {
+        gameWindow = stage;
         gameWindow.setTitle("Titan Space Program");
         gameWindow.setWidth(WIDTH);
         gameWindow.getIcons().add(Images.icon300);
@@ -89,7 +93,7 @@ public class Titan extends Application {
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
-        root.setBackground(new Background(Images.backgroundImage));
+        root.setBackground(new Background(Images.BACKGROUND_IMAGE));
         root.getStylesheets().add(("styling.css"));
 
 
@@ -160,9 +164,13 @@ public class Titan extends Application {
             
             TitanLanding landing = new TitanLanding();
 
+            landing.setPreviousScene(scene);
 
             gameWindow.setScene(landing.getScene());
+
+            root.getChildren().remove(landingButton);
         });
+
 
         DateGUI date = new DateGUI();
         root.getChildren().add(date);
@@ -246,6 +254,7 @@ public class Titan extends Application {
         Logger missionLogger = controls3.getMissionLogger();
         Logger engineLogger = controls3.getEngineLogger();
 
+
         KeyFrame kf = new KeyFrame(Duration.millis(1), e -> {
             if (running) {
 
@@ -258,13 +267,16 @@ public class Titan extends Application {
                     simulation.nextStep(currentStep);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
-                        root.getChildren().add(landingButton);
+                        if (!atTitan)
+                            root.getChildren().add(landingButton);
                         running = false;
+                        atTitan = true;
                         // stepsAtOnce = 1;
                         break;
                     }
                 }
             }
+    
 
             centerOnObject(system, objects);
 

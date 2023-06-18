@@ -1,7 +1,10 @@
 package com.titan.gui;
 
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+
 import com.titan.LandingSimulation;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.model.LandingModule;
@@ -12,12 +15,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 public class TitanLanding {
+
+    public static boolean landingFinished = false;
 
     public static double scale = 0.3;
     public final static int WIDTH = 1400;
@@ -32,6 +35,8 @@ public class TitanLanding {
 
     private LandingModuleGUI module;
 
+    private Scene prevScene;
+
     public TitanLanding() {
         
         landingModule = new LandingModule("Landing Module");
@@ -40,13 +45,17 @@ public class TitanLanding {
 
     }
 
+    public void setPreviousScene(Scene s) {
+        prevScene = s;
+    }
+
     public Scene getScene()  {
 
         Pane root = new Pane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
 
 
-        root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
+        root.setBackground(new Background(Images.BACKGROUND_IMAGE));
         root.getStylesheets().add(("styling.css"));
 
 
@@ -60,6 +69,18 @@ public class TitanLanding {
         // System.out.println(module.getCurrentY());
 
 
+        Button exitLanding = new Button("Exit landing");
+        exitLanding.setLayoutX(WIDTH - 100);
+        exitLanding.setLayoutY(200);
+        exitLanding.setFocusTraversable(false);
+        exitLanding.setOnAction(e -> {
+            
+            Titan.gameWindow.setScene(prevScene);
+
+
+        });
+
+        root.getChildren().add(exitLanding);
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.SPACE) {
