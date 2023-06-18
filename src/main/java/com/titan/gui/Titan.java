@@ -40,6 +40,8 @@ public class Titan extends Application {
     public final static int WIDTH = 1400;
     public final static int HEIGHT = 800;
 
+    private static String defaultButtonStyle = "-fx-font-size: 15px";;
+
     public static int xCenter = WIDTH / 2;
     public static int yCenter = HEIGHT / 2;
 
@@ -93,7 +95,7 @@ public class Titan extends Application {
 
         //Hide names button
         Button hideNames = new Button("hide/show names");
-        hideNames.setStyle("-fx-font-size: 15px");
+        hideNames.setStyle(defaultButtonStyle);
         hideNames.setLayoutX(WIDTH - 200);
         hideNames.setLayoutY(20);
         hideNames.setFocusTraversable(false);
@@ -102,7 +104,7 @@ public class Titan extends Application {
 
         //resize objects button
         Button resizePlanets = new Button("resize planets (prop.)");
-        resizePlanets.setStyle("-fx-font-size: 15px");
+        resizePlanets.setStyle(defaultButtonStyle);
         resizePlanets.setLayoutX(WIDTH - 200);
         resizePlanets.setLayoutY(60);
         resizePlanets.setFocusTraversable(false);
@@ -110,7 +112,7 @@ public class Titan extends Application {
 
         //back to center button
         Button backToCenter = new Button("back to center");
-        backToCenter.setStyle("-fx-font-size: 15px");
+        backToCenter.setStyle(defaultButtonStyle);
         backToCenter.setLayoutX(WIDTH - 200);
         backToCenter.setLayoutY(100);
         backToCenter.setFocusTraversable(false);
@@ -118,7 +120,7 @@ public class Titan extends Application {
 
         //draw orbits button
         Button drawOrbits = new Button("draw orbits");
-        drawOrbits.setStyle("-fx-font-size: 15px");
+        drawOrbits.setStyle(defaultButtonStyle);
         drawOrbits.setLayoutX(WIDTH - 200);
         drawOrbits.setLayoutY(140);
         drawOrbits.setFocusTraversable(false);
@@ -126,7 +128,7 @@ public class Titan extends Application {
 
         //center to titan button
         Button centerTitan = new Button("center on titan");
-        centerTitan.setStyle("-fx-font-size: 15px");
+        centerTitan.setStyle(defaultButtonStyle);
         centerTitan.setLayoutX(WIDTH - 200);
         centerTitan.setLayoutY(180);
         centerTitan.setFocusTraversable(false);
@@ -134,7 +136,7 @@ public class Titan extends Application {
 
         //center to earth button
         Button centerEarth = new Button("center on earth");
-        centerEarth.setStyle("-fx-font-size: 15px");
+        centerEarth.setStyle(defaultButtonStyle);
         centerEarth.setLayoutX(WIDTH - 200);
         centerEarth.setLayoutY(220);
         centerEarth.setFocusTraversable(false);
@@ -142,11 +144,25 @@ public class Titan extends Application {
 
         //center to rocket button
         Button centerRocket = new Button("center on rocket");
-        centerRocket.setStyle("-fx-font-size: 15px");
+        centerRocket.setStyle(defaultButtonStyle);
         centerRocket.setLayoutX(WIDTH - 200);
         centerRocket.setLayoutY(260);
         centerRocket.setFocusTraversable(false);
         root.getChildren().add(centerRocket);
+
+        Button landingButton = new Button("Attempt landing");
+        landingButton.setStyle(defaultButtonStyle);
+        landingButton.setLayoutX(WIDTH / 2);
+        landingButton.setLayoutY(HEIGHT - 300);
+        landingButton.setFocusTraversable(false);
+
+        landingButton.setOnAction(e -> {
+            
+            TitanLanding landing = new TitanLanding();
+
+
+            gameWindow.setScene(landing.getScene());
+        });
 
         DateGUI date = new DateGUI();
         root.getChildren().add(date);
@@ -157,7 +173,7 @@ public class Titan extends Application {
 
         // will display mission mlog 
         Button missionLog = new Button("Mission Log");
-        missionLog.setStyle("-fx-font-size: 15px");
+        missionLog.setStyle(defaultButtonStyle);
         missionLog.setLayoutX(10);
         missionLog.setLayoutY(25);
         missionLog.setFocusTraversable(false);
@@ -183,7 +199,7 @@ public class Titan extends Application {
 
         // will display engine mlog
         Button engineLog = new Button("Engine Log");
-        engineLog.setStyle("-fx-font-size: 15px");
+        engineLog.setStyle(defaultButtonStyle);
         engineLog.setLayoutX(20);
         engineLog.setLayoutY(HEIGHT - 80);
         engineLog.setFocusTraversable(false);
@@ -242,6 +258,7 @@ public class Titan extends Application {
                     simulation.nextStep(currentStep);
                     currentStep++;
                     if (Titan.currentStep == 365 * 24 * 60 + 1 || Titan.currentStep == 365 * 24 * 60 * 2 + 1 ) {
+                        root.getChildren().add(landingButton);
                         running = false;
                         // stepsAtOnce = 1;
                         break;
