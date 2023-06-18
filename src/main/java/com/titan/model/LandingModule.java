@@ -30,4 +30,8 @@ public class LandingModule extends Rocket {
         return getPosition().getValue(2);
     }
 
+    public double getVelocityInKm() {
+        return getVelocity().getLength();
+    }
+
 }

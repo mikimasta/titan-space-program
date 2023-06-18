@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 
 import com.titan.LandingSimulation;
+import com.titan.gui.TextParameter.ParameterType;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.model.LandingModule;
 import javafx.animation.Animation;
@@ -16,6 +17,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 public class TitanLanding {
@@ -36,6 +39,7 @@ public class TitanLanding {
     private LandingModuleGUI module;
 
     private Scene prevScene;
+
 
     public TitanLanding() {
         
@@ -70,8 +74,8 @@ public class TitanLanding {
 
 
         Button exitLanding = new Button("Exit landing");
-        exitLanding.setLayoutX(WIDTH - 100);
-        exitLanding.setLayoutY(200);
+        exitLanding.setLayoutX(WIDTH - 180);
+        exitLanding.setLayoutY(20);
         exitLanding.setFocusTraversable(false);
         exitLanding.setOnAction(e -> {
             
@@ -96,7 +100,21 @@ public class TitanLanding {
             xAxis.updateScale();
         });
 
-        
+   
+        TextParameter totalVelocity = new TextParameter("Velocity: ", ParameterType.TOTAL_VELOCITY);
+        totalVelocity.setLayoutX(20);
+        totalVelocity.setLayoutY(20);
+
+        TextParameter xVelocity = new TextParameter("X Velocity: ", ParameterType.X_VELOCITY);
+        xVelocity.setLayoutX(20);
+        xVelocity.setLayoutY(40);
+
+        TextParameter yVelocity = new TextParameter("Y Velocity: ", ParameterType.Y_VELOCITY);
+        yVelocity.setLayoutX(20);
+        yVelocity.setLayoutY(60);
+
+        root.getChildren().addAll(totalVelocity, xVelocity, yVelocity);
+
         KeyFrame kf = new KeyFrame(Duration.millis(5), e -> {
             if (running) {
 
@@ -105,6 +123,10 @@ public class TitanLanding {
                     module.updatePosition();
                     module.repaint();
                 }
+
+                totalVelocity.update(landingModule);
+                xVelocity.update(landingModule);
+                yVelocity.update(landingModule);
             }
         });
 

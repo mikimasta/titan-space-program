@@ -156,8 +156,8 @@ public class Titan extends Application {
 
         Button landingButton = new Button("Attempt landing");
         landingButton.setStyle(defaultButtonStyle);
-        landingButton.setLayoutX(WIDTH / 2);
-        landingButton.setLayoutY(HEIGHT - 300);
+        landingButton.setLayoutX(WIDTH / 2 - 100);
+        landingButton.setLayoutY(HEIGHT - 80);
         landingButton.setFocusTraversable(false);
 
         landingButton.setOnAction(e -> {
