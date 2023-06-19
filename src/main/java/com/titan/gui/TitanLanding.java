@@ -1,10 +1,6 @@
 package com.titan.gui;
 
 
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-
 import com.titan.LandingSimulation;
 import com.titan.gui.TextParameter.ParameterType;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -12,16 +8,18 @@ import com.titan.model.LandingModule;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class TitanLanding {
+public class TitanLanding extends Application {
 
     public static boolean landingFinished = false;
 
@@ -48,7 +46,6 @@ public class TitanLanding {
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule);
 
     }
-
     public void setPreviousScene(Scene s) {
         prevScene = s;
     }
@@ -138,5 +135,13 @@ public class TitanLanding {
         return scene;
     }
 
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        primaryStage.setScene(getScene());
+        primaryStage.show();
+    }
 
+    public static void main(String[] args) {
+        launch(args);
+    }
 }

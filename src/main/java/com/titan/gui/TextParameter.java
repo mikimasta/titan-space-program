@@ -1,7 +1,6 @@
 package com.titan.gui;
 
 import com.titan.model.LandingModule;
-
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
@@ -27,15 +26,15 @@ class TextParameter extends Text {
         switch (this.type) {
 
             case TOTAL_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getLength() + " km/h");
+                this.setText(text + landingModule.getVelocity().getLength() + " km/s");
                 break;
 
             case X_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getValues()[0] + " km/h");
+                this.setText(text + landingModule.getVelocity().getValues()[0] + " km/s");
                 break;
 
             case Y_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getValues()[1] +  " km/h");
+                this.setText(text + landingModule.getVelocity().getValues()[1] +  " km/s");
                 break;
 
         }
