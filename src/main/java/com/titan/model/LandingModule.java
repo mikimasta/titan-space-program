@@ -5,6 +5,9 @@ import javafx.scene.paint.Color;
 
 public class LandingModule extends Rocket {
 
+
+    private Vector thrust = new Vector(new double[]{0, 0});
+
     public LandingModule(String name, double m, Vector initialPos, Vector initialVel, double diameter, Color color, int radius) {
         super(name, m, initialPos, initialVel, diameter, color, radius);
     }
@@ -30,8 +33,17 @@ public class LandingModule extends Rocket {
         return getPosition().getValue(2);
     }
 
-    public double getVelocityInKm() {
+    public double getVelocityInKmPerSecond() {
         return getVelocity().getLength();
     }
 
+    public Vector getThrust() {
+        return thrust;
+    }
+
+    public void applyEngineForces(double accelerationForce, double rotation) {
+        thrust = new Vector(new double[] {
+                accelerationForce / this.getM(), // force / mass = N/kg = kg * m / s^2 / kg = m / s^2
+                rotation});
+    }
 }

@@ -14,7 +14,7 @@ public abstract class Wind {
         applyForce(module, force, stepSize);
     }
 
-    // override this in the child-classes for different types of wind
+    // override this in the child-classes for different types of wind ; gives velocity in m/s
     abstract Vector calculateVelocity();
 
     private void applyForce(LandingModule module, Vector force, int stepSize) {

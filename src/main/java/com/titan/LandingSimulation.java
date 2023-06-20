@@ -1,6 +1,7 @@
 package com.titan;
 
 import com.titan.controls.Hurricane;
+import com.titan.controls.LandingControls;
 import com.titan.controls.Wind;
 import com.titan.math.Vector;
 import com.titan.math.function.LandingGravitationFunction;
@@ -17,15 +18,18 @@ public class LandingSimulation {
     private final Wind wind;
     private final int stepSize;
     private final LandingModule module;
+    private final LandingControls controls;
 
-    public LandingSimulation(Solver solver, int stepSize, LandingModule module) {
+    public LandingSimulation(Solver solver, int stepSize, LandingModule module, LandingControls controls) {
         this.solver = solver;
         this.stepSize = stepSize;
         this.module = module;
         this.wind = new Hurricane();
+        this.controls = controls;
     }
 
     public void nextStep(int currentStep) {
+         controls.execute(module, currentStep);
          Vector[] nextState = solver.solve(
                  new LandingGravitationFunction(),
                  module.getPosition(),

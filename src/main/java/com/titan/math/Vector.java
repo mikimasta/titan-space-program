@@ -122,6 +122,17 @@ public class Vector {
         return v.subtract(c);
     }
 
+    public static double dotProduct(Vector v, Vector c) { return v.dotProduct(c); }
+
+    private double dotProduct(Vector c) {
+        checkSize(c);
+        double result = 0;
+        for (int i = 0; i < getSize(); i++) {
+            result += getValue(i) * c.getValue(i);
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         String valuesString = "";

@@ -1,7 +1,8 @@
 package com.titan.gui;
 
-
 import com.titan.LandingSimulation;
+import com.titan.controls.FirstLandingControls;
+import com.titan.controls.LandingControls;
 import com.titan.gui.TextParameter.ParameterType;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.model.LandingModule;
@@ -40,10 +41,11 @@ public class TitanLanding extends Application {
 
 
     public TitanLanding() {
-        
+
         landingModule = new LandingModule("Landing Module");
         module = new LandingModuleGUI(landingModule);
-        simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule);
+        LandingControls controls = new FirstLandingControls();
+        simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
 
     }
     public void setPreviousScene(Scene s) {
@@ -69,13 +71,16 @@ public class TitanLanding extends Application {
         // System.out.println(module.getCurrentX());
         // System.out.println(module.getCurrentY());
 
+        LandingControls controls = new FirstLandingControls();
+
+        LandingSimulation simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
 
         Button exitLanding = new Button("Exit landing");
         exitLanding.setLayoutX(WIDTH - 180);
         exitLanding.setLayoutY(20);
         exitLanding.setFocusTraversable(false);
         exitLanding.setOnAction(e -> {
-            
+
             Titan.gameWindow.setScene(prevScene);
 
 
@@ -97,7 +102,7 @@ public class TitanLanding extends Application {
             xAxis.updateScale();
         });
 
-   
+
         TextParameter totalVelocity = new TextParameter("Velocity: ", ParameterType.TOTAL_VELOCITY);
         totalVelocity.setLayoutX(20);
         totalVelocity.setLayoutY(20);
