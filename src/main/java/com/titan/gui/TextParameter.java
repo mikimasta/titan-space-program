@@ -26,15 +26,18 @@ class TextParameter extends Text {
         switch (this.type) {
 
             case TOTAL_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getLength() + " km/s");
+                double velocity = landingModule.getVelocity().getLength();
+                this.setText(text + velocity + " km/s\n" + "(" + Math.round(velocity * 3600) + " km/h)");
                 break;
 
             case X_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getValues()[0] + " km/s");
+                double xVelocity = landingModule.getVelocity().getValues()[0];
+                this.setText(text + xVelocity + " km/s\n" + "(" + Math.round(xVelocity * 3600) + " km/h)");
                 break;
 
             case Y_VELOCITY:
-                this.setText(text + landingModule.getVelocity().getValues()[1] +  " km/s");
+                double yVelocity = landingModule.getVelocity().getValues()[1];
+                this.setText(text + yVelocity + " km/s\n" + "(" + Math.round(yVelocity * 3600) + " km/h)");
                 break;
 
         }

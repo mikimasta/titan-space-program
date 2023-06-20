@@ -109,11 +109,11 @@ public class TitanLanding extends Application {
 
         TextParameter xVelocity = new TextParameter("X Velocity: ", ParameterType.X_VELOCITY);
         xVelocity.setLayoutX(20);
-        xVelocity.setLayoutY(40);
+        xVelocity.setLayoutY(60);
 
         TextParameter yVelocity = new TextParameter("Y Velocity: ", ParameterType.Y_VELOCITY);
         yVelocity.setLayoutX(20);
-        yVelocity.setLayoutY(60);
+        yVelocity.setLayoutY(100);
 
         root.getChildren().addAll(totalVelocity, xVelocity, yVelocity);
 
