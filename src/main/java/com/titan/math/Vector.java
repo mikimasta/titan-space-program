@@ -124,7 +124,7 @@ public class Vector {
 
     public static double dotProduct(Vector v, Vector c) { return v.dotProduct(c); }
 
-    private double dotProduct(Vector c) {
+    public double dotProduct(Vector c) {
         checkSize(c);
         double result = 0;
         for (int i = 0; i < getSize(); i++) {

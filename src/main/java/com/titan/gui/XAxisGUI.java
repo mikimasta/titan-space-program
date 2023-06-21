@@ -24,29 +24,29 @@ public class XAxisGUI extends Parent {
         Line line = new Line();
         int margin = 60;
         line.setStartX(TitanLanding.WIDTH - (length + margin));
-        line.setStartY(TitanLanding.HEIGHT - margin);
+        line.setStartY(TitanLanding.Y_CENTER);
         line.setEndX(TitanLanding.WIDTH - margin);
-        line.setEndY(TitanLanding.HEIGHT - margin);
+        line.setEndY(TitanLanding.Y_CENTER);
         line.setStroke(Color.SILVER);
         line.setStrokeWidth(2);
 
         Line lineStart = new Line();
         lineStart.setStartX(TitanLanding.WIDTH - (length + margin));
-        lineStart.setStartY(TitanLanding.HEIGHT - margin);
+        lineStart.setStartY(TitanLanding.Y_CENTER);
         lineStart.setEndX(TitanLanding.WIDTH - (length + margin));
-        lineStart.setEndY(TitanLanding.HEIGHT - (margin + 10));
+        lineStart.setEndY(TitanLanding.Y_CENTER - 10);
         lineStart.setStroke(Color.SILVER);
         lineStart.setStrokeWidth(2);
 
         for (int i = 1; i < numberOfSteps; i++) {
             Line lineCenter = new Line();
             lineCenter.setStartX(TitanLanding.WIDTH - (length / numberOfSteps)*i - margin);
-            lineCenter.setStartY(TitanLanding.HEIGHT - margin);
+            lineCenter.setStartY(TitanLanding.Y_CENTER);
             lineCenter.setEndX(TitanLanding.WIDTH - (length / numberOfSteps)*i - margin);
             if (numberOfSteps % 2 == 0 && numberOfSteps / 2 == i) {
-                lineCenter.setEndY(TitanLanding.HEIGHT - (margin + 10));
+                lineCenter.setEndY(TitanLanding.Y_CENTER - 10);
             } else {
-                lineCenter.setEndY(TitanLanding.HEIGHT - (margin + 5));
+                lineCenter.setEndY(TitanLanding.Y_CENTER - 5);
             }
             lineCenter.setStroke(Color.SILVER);
             lineCenter.setStrokeWidth(2);
@@ -56,9 +56,9 @@ public class XAxisGUI extends Parent {
 
         Line lineEnd = new Line();
         lineEnd.setStartX(TitanLanding.WIDTH - margin);
-        lineEnd.setStartY(TitanLanding.HEIGHT - margin);
+        lineEnd.setStartY(TitanLanding.Y_CENTER);
         lineEnd.setEndX(TitanLanding.WIDTH - margin);
-        lineEnd.setEndY(TitanLanding.HEIGHT - (margin + 10));
+        lineEnd.setEndY(TitanLanding.Y_CENTER - 10);
         lineEnd.setStroke(Color.SILVER);
         lineEnd.setStrokeWidth(2);
 

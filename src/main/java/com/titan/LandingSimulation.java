@@ -37,7 +37,7 @@ public class LandingSimulation {
                 landingGravitationFunction,
                  module.getPosition(),
                  module.getVelocity(),
-                 new Vector(new double[] {0,0}),
+                 module.getThrust(),
                  stepSize,
                  currentStep);
          module.updatePosition(nextState[0]);

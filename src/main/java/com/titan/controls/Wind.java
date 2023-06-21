@@ -9,13 +9,13 @@ public abstract class Wind {
     private final double AREA = Math.pow(4, 2) * Math.PI; // area of the sphere facing the air (area of a circle)
 
     public void blow(LandingModule module, int stepSize) {
-        Vector windVelocity = calculateVelocity().subtract(module.getVelocity()).multiplyByScalar(1000); // m/s
+        Vector windVelocity = calculateVelocity(module).subtract(module.getVelocity()).multiplyByScalar(1000); // m/s
         Vector force = airResistance(module.getPosition(), windVelocity);
         applyForce(module, force, stepSize);
     }
 
     // override this in the child-classes for different types of wind ; gives velocity in m/s
-    abstract Vector calculateVelocity();
+    abstract Vector calculateVelocity(LandingModule module);
 
     private void applyForce(LandingModule module, Vector force, int stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s

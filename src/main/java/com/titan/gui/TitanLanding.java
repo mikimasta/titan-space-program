@@ -27,8 +27,8 @@ public class TitanLanding extends Application {
     public static double scale = 0.3;
     public final static int WIDTH = 1400;
     public final static int HEIGHT = 800;
-    public static int xCenter = 700;
-    public static int yCenter = 750;
+    public final static int X_CENTER = 700;
+    public final static int Y_CENTER = 750;
     boolean running = false;
 
     private LandingSimulation simulation;
@@ -37,6 +37,8 @@ public class TitanLanding extends Application {
 
     private LandingModuleGUI module;
 
+    private LandingModuleDetailsGUI detailsGUI;
+
     private Scene prevScene;
 
 
@@ -44,6 +46,7 @@ public class TitanLanding extends Application {
 
         landingModule = new LandingModule("Landing Module");
         module = new LandingModuleGUI(landingModule);
+        detailsGUI = new LandingModuleDetailsGUI(landingModule);
         LandingControls controls = new FirstLandingControls();
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
 
@@ -63,6 +66,7 @@ public class TitanLanding extends Application {
 
 
         root.getChildren().add(module);
+        root.getChildren().add(detailsGUI);
         XAxisGUI xAxis = new XAxisGUI();
         root.getChildren().add(xAxis);
 
@@ -129,7 +133,12 @@ public class TitanLanding extends Application {
                 totalVelocity.update(landingModule);
                 xVelocity.update(landingModule);
                 yVelocity.update(landingModule);
+                if (landingModule.getY()<=0) {
+                    running = false;
+                    System.out.println("Landed at x = " + landingModule.getX() + ", y = " + landingModule.getY());
+                }
             }
+            detailsGUI.repaint();
         });
 
 

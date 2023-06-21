@@ -92,11 +92,11 @@ public class LandingModuleGUI extends Parent {
      * updates the position of a celestial body on the screen
      */
     public void updatePosition() {
-        circle.setCenterX(getCurrentX() + TitanLanding.xCenter);
-        circle.setCenterY(getCurrentY() + TitanLanding.yCenter);
+        circle.setCenterX(getCurrentX() + TitanLanding.X_CENTER);
+        circle.setCenterY(getCurrentY() + TitanLanding.Y_CENTER);
 
-        text.setLayoutX(getCurrentX() + TitanLanding.xCenter);
-        text.setLayoutY(getCurrentY() + TitanLanding.yCenter);
+        text.setLayoutX(getCurrentX() + TitanLanding.X_CENTER);
+        text.setLayoutY(getCurrentY() + TitanLanding.Y_CENTER);
 
         if (module.getHistoricPositions().size() > tail.getPoints().size() / 2) {
             drawTail();
@@ -112,11 +112,11 @@ public class LandingModuleGUI extends Parent {
         tail = new Polyline();
         if (drawTail) {
             for (Vector v : module.getHistoricPositions()) {
-                tail.getPoints().add((v.getValue(0) / TitanLanding.scale) + TitanLanding.xCenter);
-                tail.getPoints().add((v.getValue(1) / TitanLanding.scale) + TitanLanding.yCenter);
+                tail.getPoints().add((v.getValue(0) / TitanLanding.scale) + TitanLanding.X_CENTER);
+                tail.getPoints().add((v.getValue(1) / TitanLanding.scale) + TitanLanding.Y_CENTER);
             }
-            tail.getPoints().add(1.0 * getCurrentX() + TitanLanding.xCenter);
-            tail.getPoints().add(1.0 * getCurrentY() + TitanLanding.yCenter);
+            tail.getPoints().add(1.0 * getCurrentX() + TitanLanding.X_CENTER);
+            tail.getPoints().add(1.0 * getCurrentY() + TitanLanding.Y_CENTER);
 
             tail.setFill(Color.TRANSPARENT);
             tail.setStroke(new Color(0.9, 0.9, 0.9, 0.5));
