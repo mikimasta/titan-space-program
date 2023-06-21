@@ -37,7 +37,7 @@ class TextParameter extends Text {
 
             case Y_VELOCITY:
                 double yVelocity = landingModule.getVelocity().getValues()[1];
-                this.setText(text + yVelocity + " km/s\n" + "(" + Math.round(yVelocity * 3600) + " km/h)");
+                this.setText(text + yVelocity + " km/s\n" + "(" + Math.round(yVelocity * 3600) * -1 + " km/h)");
                 break;
 
         }

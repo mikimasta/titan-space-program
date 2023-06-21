@@ -19,7 +19,7 @@ public abstract class Wind {
 
     private void applyForce(LandingModule module, Vector force, int stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s
-        impulse = impulse.multiplyByScalar(1.0/1000); // kg * km/s
+        impulse = impulse.multiplyByScalar(1.0/1000d); // kg * km/s
         Vector velocity = impulse.multiplyByScalar(1.0/module.getM()); // km/s
         module.updateVelocity(module.getVelocity().add(velocity));
     }

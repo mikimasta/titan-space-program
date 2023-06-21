@@ -229,7 +229,7 @@ public class Titan extends Application {
             else root.getChildren().remove(elog);
         });
 
-        SolarSystem system2 = new SolarSystem();
+        //SolarSystem system2 = new SolarSystem();
         SolarSystem system = new SolarSystem("/initial_conditions.csv");
 
         Rocket rocket = system.createRocketOnEarth("Rocket", 50000);
@@ -243,9 +243,9 @@ public class Titan extends Application {
             objectGUI.updatePosition();
         }
 
-        Solver eulerSolver = new EulerSolver();
+        //Solver eulerSolver = new EulerSolver();
         Solver rungeKuttaSolver = new RungeKuttaSolver();
-        Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver();
+        //Solver adamsBashforth2 = new AdamsBashforth2ndOrderSolver();
 
         Controls controls3 = new FlightControlsTwoEngineFiresForLaunch();
 

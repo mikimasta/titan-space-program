@@ -2,6 +2,7 @@ package com.titan;
 
 import com.titan.controls.Controls;
 import com.titan.math.Vector;
+import com.titan.math.function.Function;
 import com.titan.math.function.GravitationFunction;
 import com.titan.math.solver.Solver;
 import com.titan.model.Rocket;
@@ -17,6 +18,7 @@ public class Simulation {
     private final Controls controls;
     private final SolarSystem system;
     private final Rocket rocket;
+    private final Function gravitationFunction;
 
     public Simulation(Solver solver, int stepSize, Controls controls, SolarSystem system, Rocket rocket) {
         this.solver = solver;
@@ -24,6 +26,7 @@ public class Simulation {
         this.controls = controls;
         this.system = system;
         this.rocket = rocket;
+        gravitationFunction = new GravitationFunction();
     }
 
     public Simulation(Solver solver, int stepSize, SolarSystem system) {
@@ -32,13 +35,14 @@ public class Simulation {
         this.controls = null;
         this.system = system;
         this.rocket = null;
+        gravitationFunction = new GravitationFunction();
     }
 
 
     public void nextStep(int currentStep) {
         if (controls != null) controls.execute(system, rocket, currentStep, stepSize);
         Vector[] nextState = solver.solve(
-                new GravitationFunction(),
+                gravitationFunction,
                 system.getAllPositions(),
                 system.getAllVelocities(),
                 system.getAllMasses(),
