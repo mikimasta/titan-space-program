@@ -47,6 +47,8 @@ public class LandingModuleGUI extends Parent {
         text.setText(module.getName());
         text.setStyle("-fx-font-size: 20px;");
         text.setFill(Color.SILVER);
+        text.setX(5);
+        text.setY(-5);
 
         getChildren().addAll(circle, text);
     }

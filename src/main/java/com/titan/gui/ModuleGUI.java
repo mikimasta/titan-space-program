@@ -53,11 +53,11 @@ public class ModuleGUI extends Parent {
         up.setY(5);
         up.setFill(Color.WHITE);
 
-        down.setX(40);
-        down.setY(105);
+        down.setX(25);
+        down.setY(110);
         down.setFill(Color.WHITE);
 
-        left.setX(-25);
+        left.setX(-35);
         left.setY(40);
         left.setFill(Color.WHITE);
 

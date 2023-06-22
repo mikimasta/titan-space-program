@@ -15,9 +15,10 @@ public class LandingModuleDetailsGUI extends Parent {
     private final LandingModule module;
     private final ModuleGUI moduleGUI;
     private final Circle circle = new Circle();
+    private final Text height = new Text();
+    private final Text totalSpeed = new Text();
     private final Text xSpeed = new Text();
     private final Text ySpeed = new Text();
-    private final Text totalSpeed = new Text();
     private final Text rotation = new Text();
     private final Parent model = new Group();
 
@@ -35,14 +36,33 @@ public class LandingModuleDetailsGUI extends Parent {
         circle.setCenterX(50);
         circle.setCenterY(50);
 
-        //xSpeed.setText(module.getName());
+        height.setStyle("-fx-font-size: 20px;");
+        height.setFill(Color.SILVER);
+        height.setY(140);
+
+        rotation.setStyle("-fx-font-size: 20px;");
+        rotation.setFill(Color.SILVER);
+        rotation.setY(165);
+
+        totalSpeed.setStyle("-fx-font-size: 20px;");
+        totalSpeed.setFill(Color.SILVER);
+        totalSpeed.setY(190);
+
         xSpeed.setStyle("-fx-font-size: 20px;");
         xSpeed.setFill(Color.SILVER);
-        setLayoutX(100);
-        setLayoutY(200);
-        moduleGUI = new ModuleGUI(module);
+        xSpeed.setY(235);
 
-        getChildren().addAll(moduleGUI, xSpeed);
+        ySpeed.setStyle("-fx-font-size: 20px;");
+        ySpeed.setFill(Color.SILVER);
+        ySpeed.setY(280);
+
+
+        setLayoutX(50);
+        setLayoutY(50);
+        moduleGUI = new ModuleGUI(module);
+        moduleGUI.setLayoutX(25);
+
+        getChildren().addAll(moduleGUI, height, rotation, totalSpeed, xSpeed, ySpeed);
     }
 
     /**
@@ -50,6 +70,21 @@ public class LandingModuleDetailsGUI extends Parent {
      */
     public void repaint() {
         moduleGUI.repaint();
+        height.setText(String.format("Height: %.3f km", module.getY()));
+        rotation.setText(String.format("Rotation: %.2f°", module.getRotationAngle()));
+
+        totalSpeed.setText(String.format("Total speed: %.4f km/s\n(%d km/h))",
+                module.getTotalSpeed(),
+                Math.round(module.getTotalSpeed() * 3600)));
+
+        xSpeed.setText(String.format("X-Velocity %.4f km/s\n(%d km/h))",
+                module.getVelocity().getValue(0),
+                Math.abs(Math.round(module.getVelocity().getValue(0) * 3600))));
+
+        ySpeed.setText(String.format("Y-Velocity: %.4f km/s\n(%d km/h))",
+                module.getVelocity().getValue(1),
+                Math.abs(Math.round(module.getVelocity().getValue(1) * 3600))));
+
         updatePosition();
     }
 

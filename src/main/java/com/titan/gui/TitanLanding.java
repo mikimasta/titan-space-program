@@ -3,7 +3,6 @@ package com.titan.gui;
 import com.titan.LandingSimulation;
 import com.titan.controls.FirstLandingControls;
 import com.titan.controls.LandingControls;
-import com.titan.gui.TextParameter.ParameterType;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.model.LandingModule;
 import javafx.animation.Animation;
@@ -17,6 +16,8 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -40,6 +41,7 @@ public class TitanLanding extends Application {
     private LandingModuleDetailsGUI detailsGUI;
 
     private Scene prevScene;
+    private int currentStep = 0;
 
 
     public TitanLanding() {
@@ -88,9 +90,45 @@ public class TitanLanding extends Application {
 
         root.getChildren().add(exitLanding);
 
+        Circle origin = new Circle();
+        origin.setFill(Color.TRANSPARENT);
+        origin.setStroke(Color.SILVER);
+        origin.setCenterX(X_CENTER);
+        origin.setCenterY(Y_CENTER);
+        origin.setRadius(2);
+
+        root.getChildren().addAll(origin);
+
+        KeyFrame kf = new KeyFrame(Duration.millis(5), e -> {
+            if (running) {
+
+                for (int i = 0; i < 1; i++) {
+                    currentStep++;
+                    simulation.nextStep(currentStep);
+                    module.updatePosition();
+                    module.repaint();
+                }
+
+                if (landingModule.getY()<=0) {
+                    running = false;
+                    System.out.println("Landed at x = " + landingModule.getX() + ", y = " + landingModule.getY());
+                }
+            }
+            detailsGUI.repaint();
+        });
+
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
             if (e.getCode() == KeyCode.SPACE) {
                 running = !running;
+            }
+        });
+
+        scene.addEventHandler(KeyEvent.KEY_RELEASED, e -> {
+            if (e.getCode() == KeyCode.RIGHT) {
+                currentStep++;
+                simulation.nextStep(currentStep);
+                module.updatePosition();
+                module.repaint();
             }
         });
 
@@ -101,42 +139,6 @@ public class TitanLanding extends Application {
             module.repaint();
             xAxis.updateScale();
         });
-
-
-        TextParameter totalVelocity = new TextParameter("Velocity: ", ParameterType.TOTAL_VELOCITY);
-        totalVelocity.setLayoutX(20);
-        totalVelocity.setLayoutY(20);
-
-        TextParameter xVelocity = new TextParameter("X Velocity: ", ParameterType.X_VELOCITY);
-        xVelocity.setLayoutX(20);
-        xVelocity.setLayoutY(60);
-
-        TextParameter yVelocity = new TextParameter("Y Velocity: ", ParameterType.Y_VELOCITY);
-        yVelocity.setLayoutX(20);
-        yVelocity.setLayoutY(100);
-
-        root.getChildren().addAll(totalVelocity, xVelocity, yVelocity);
-
-        KeyFrame kf = new KeyFrame(Duration.millis(5), e -> {
-            if (running) {
-
-                for (int i = 0; i < 1; i++) {
-                    simulation.nextStep(i);
-                    module.updatePosition();
-                    module.repaint();
-                }
-
-                totalVelocity.update(landingModule);
-                xVelocity.update(landingModule);
-                yVelocity.update(landingModule);
-                if (landingModule.getY()<=0) {
-                    running = false;
-                    System.out.println("Landed at x = " + landingModule.getX() + ", y = " + landingModule.getY());
-                }
-            }
-            detailsGUI.repaint();
-        });
-
 
         Timeline tl = new Timeline(kf);
         tl.setCycleCount(Animation.INDEFINITE);

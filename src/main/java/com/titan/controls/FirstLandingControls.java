@@ -46,7 +46,7 @@ public class FirstLandingControls extends LandingControls {
                     module.getVelocity().getValue(0),
                     module.getVelocity().getValue(1)}).getLength();
 
-            if (totalSpeed >= 1/1000) {
+            if (totalSpeed >= 1.0/1000) {
                 if (angle > 90) mainThrust = totalSpeed/2;
                 else mainThrust = totalSpeed/5;
             }
