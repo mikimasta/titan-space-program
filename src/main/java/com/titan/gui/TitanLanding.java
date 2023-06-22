@@ -75,10 +75,6 @@ public class TitanLanding extends Application {
         // System.out.println(module.getCurrentX());
         // System.out.println(module.getCurrentY());
 
-        LandingControls controls = new FirstLandingControls();
-
-        LandingSimulation simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
-
         Button exitLanding = new Button("Exit landing");
         exitLanding.setLayoutX(WIDTH - 180);
         exitLanding.setLayoutY(20);
