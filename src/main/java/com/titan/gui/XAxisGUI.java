@@ -79,6 +79,10 @@ public class XAxisGUI extends Parent {
         getChildren().add(lineEnd);
     }
 
+    public double getScaleLength() {
+        return TitanLanding.scale * length;
+    }
+
     /**
      * updates the scale value depending on mouse scroll
      */

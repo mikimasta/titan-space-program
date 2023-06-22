@@ -71,13 +71,13 @@ public class LandingModuleDetailsGUI extends Parent {
     public void repaint() {
         moduleGUI.repaint();
         height.setText(String.format("Height: %.3f km", module.getY()));
-        rotation.setText(String.format("Rotation: %.2f°", module.getRotationAngle()));
+        rotation.setText(String.format("Rotation: %.2f°", -module.getRotationAngle()));
 
         totalSpeed.setText(String.format("Total speed: %.4f km/s\n(%d km/h))",
                 module.getTotalSpeed(),
                 Math.round(module.getTotalSpeed() * 3600)));
 
-        xSpeed.setText(String.format("X-Velocity %.4f km/s\n(%d km/h))",
+        xSpeed.setText(String.format("X-Velocity: %.4f km/s\n(%d km/h))",
                 module.getVelocity().getValue(0),
                 Math.abs(Math.round(module.getVelocity().getValue(0) * 3600))));
 

@@ -39,10 +39,13 @@ public class TitanLanding extends Application {
     private LandingModuleGUI module;
 
     private LandingModuleDetailsGUI detailsGUI;
+    
+    private XAxisGUI xAxis;
 
     private Scene prevScene;
     private int currentStep = 0;
 
+    private Circle titan;
 
     public TitanLanding() {
 
@@ -61,16 +64,19 @@ public class TitanLanding extends Application {
 
         Pane root = new Pane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
-
+        titan = new Circle(2575);
+        titan.setStroke(Color.HOTPINK);
+        titan.setFill(Color.TRANSPARENT);
+        titan.setLayoutX(X_CENTER);
+        titan.setLayoutY(Y_CENTER + titan.getRadius());
 
         root.setBackground(new Background(Images.BACKGROUND_IMAGE));
         root.getStylesheets().add(("styling.css"));
 
 
-        root.getChildren().add(module);
-        root.getChildren().add(detailsGUI);
-        XAxisGUI xAxis = new XAxisGUI();
-        root.getChildren().add(xAxis);
+        xAxis = new XAxisGUI();
+
+        root.getChildren().addAll(module, detailsGUI, xAxis, titan);
 
         module.updatePosition();
         module.repaint();
@@ -137,6 +143,7 @@ public class TitanLanding extends Application {
             double newScale = scale - delta;
             if(newScale > 0.0001 && newScale < 2) scale = newScale;
             module.repaint();
+            repaintTitan();
             xAxis.updateScale();
         });
 
@@ -145,6 +152,11 @@ public class TitanLanding extends Application {
         tl.play();
 
         return scene;
+    }
+
+    private void repaintTitan() {
+        titan.setRadius((int) 2575 / scale);
+        titan.setLayoutY(Y_CENTER + titan.getRadius());
     }
 
     @Override
