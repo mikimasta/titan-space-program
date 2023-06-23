@@ -3,13 +3,22 @@ package com.titan.controls;
 import com.titan.math.Vector;
 import com.titan.model.LandingModule;
 
-public class Hurricane extends Wind {
+public class Hurricane extends Wind { //120km/h - 170km/h
+
+    private Vector currentWindSpeed; 
 
     @Override
     Vector calculateVelocity(LandingModule module) {
         if (module.getX() > 0.05) {
-            return new Vector(new double[]{120d/3600d, 0, 0});
+
+            currentWindSpeed = new Vector(new double[]{120d/3600d, 10d/3600d, 0}); 
+            return currentWindSpeed;
         }
         return new Vector(new double[]{0, 0, 0});
+    }
+
+    @Override
+    public double getWindSpeed() {
+        return currentWindSpeed.getLength();
     }
 }

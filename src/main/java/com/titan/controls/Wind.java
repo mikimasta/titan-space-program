@@ -16,6 +16,7 @@ public abstract class Wind {
 
     // override this in the child-classes for different types of wind ; gives velocity in m/s
     abstract Vector calculateVelocity(LandingModule module);
+    public abstract double getWindSpeed();
 
     private void applyForce(LandingModule module, Vector force, int stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s

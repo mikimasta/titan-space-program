@@ -18,6 +18,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -32,6 +33,8 @@ public class TitanLanding extends Application {
     public final static int Y_CENTER = 750;
     boolean running = false;
 
+    private WindArrow windArrow;
+
     private LandingSimulation simulation;
 
     private LandingModule landingModule;
@@ -41,6 +44,8 @@ public class TitanLanding extends Application {
     private LandingModuleDetailsGUI detailsGUI;
     
     private XAxisGUI xAxis;
+    
+    private Pane root;
 
     private Scene prevScene;
     private int currentStep = 0;
@@ -49,12 +54,14 @@ public class TitanLanding extends Application {
 
     public TitanLanding() {
 
+        
         landingModule = new LandingModule("Landing Module");
         module = new LandingModuleGUI(landingModule);
         detailsGUI = new LandingModuleDetailsGUI(landingModule);
         LandingControls controls = new FirstLandingControls();
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
-
+        root = new Pane();
+        windArrow = new WindArrow(simulation.getWind());
     }
     public void setPreviousScene(Scene s) {
         prevScene = s;
@@ -62,7 +69,6 @@ public class TitanLanding extends Application {
 
     public Scene getScene()  {
 
-        Pane root = new Pane();
         Scene scene = new Scene(root, WIDTH, HEIGHT);
         titan = new Circle(2575);
         titan.setStroke(Color.HOTPINK);
@@ -76,7 +82,7 @@ public class TitanLanding extends Application {
 
         xAxis = new XAxisGUI();
 
-        root.getChildren().addAll(module, detailsGUI, xAxis, titan);
+        root.getChildren().addAll(module, detailsGUI, xAxis, titan, windArrow);
 
         module.updatePosition();
         module.repaint();
@@ -121,6 +127,7 @@ public class TitanLanding extends Application {
                 }
             }
             detailsGUI.repaint();
+            windArrow.update();
         });
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -157,6 +164,8 @@ public class TitanLanding extends Application {
     private void repaintTitan() {
         titan.setRadius((int) 2575 / scale);
         titan.setLayoutY(Y_CENTER + titan.getRadius());
+
+        windArrow.setRotate(150);
     }
 
     @Override

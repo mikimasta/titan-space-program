@@ -67,4 +67,8 @@ public class LandingSimulation {
             }
         }
     }
+
+    public Wind getWind() {
+        return wind;
+    }
 }
