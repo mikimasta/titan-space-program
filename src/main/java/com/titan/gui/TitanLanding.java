@@ -18,7 +18,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -52,6 +52,7 @@ public class TitanLanding extends Application {
 
     private Circle titan;
 
+
     public TitanLanding() {
 
         
@@ -61,7 +62,8 @@ public class TitanLanding extends Application {
         LandingControls controls = new FirstLandingControls();
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
         root = new Pane();
-        windArrow = new WindArrow(simulation.getWind());
+        windArrow = new WindArrow();
+
     }
     public void setPreviousScene(Scene s) {
         prevScene = s;
@@ -79,10 +81,23 @@ public class TitanLanding extends Application {
         root.setBackground(new Background(Images.BACKGROUND_IMAGE));
         root.getStylesheets().add(("styling.css"));
 
+        Text windSpeed = new Text("Speed: 0");
+        windSpeed.setStyle("-fx-font-size: 20px;");
+        windSpeed.setLayoutX(60);
+        windSpeed.setLayoutY(550);
+        windSpeed.setFill(Color.SILVER);
+
+        Text windLabel = new Text("WIND");
+        windLabel.setLayoutX(80);
+        windLabel.setLayoutY(450);
+        windLabel.setFill(Color.SILVER);
+        windLabel.setStyle("-fx-font-size: 40px;");
 
         xAxis = new XAxisGUI();
 
-        root.getChildren().addAll(module, detailsGUI, xAxis, titan, windArrow);
+        root.getChildren().addAll(module, detailsGUI, xAxis, titan, windSpeed,
+                windArrow,
+                windLabel);
 
         module.updatePosition();
         module.repaint();
@@ -125,9 +140,12 @@ public class TitanLanding extends Application {
                     running = false;
                     System.out.println("Landed at x = " + landingModule.getX() + ", y = " + landingModule.getY());
                 }
-            }
+            windSpeed.setText(String.format("Speed: %.4f", simulation
+                        .getWind()
+                        .getWindSpeed()));
             detailsGUI.repaint();
-            windArrow.update();
+            windArrow.setRotate(simulation.getWind().getWindAngle());
+            }
         });
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {
@@ -164,8 +182,6 @@ public class TitanLanding extends Application {
     private void repaintTitan() {
         titan.setRadius((int) 2575 / scale);
         titan.setLayoutY(Y_CENTER + titan.getRadius());
-
-        windArrow.setRotate(150);
     }
 
     @Override

@@ -5,13 +5,13 @@ import com.titan.model.LandingModule;
 
 public class Hurricane extends Wind { //120km/h - 170km/h
 
-    private Vector currentWindSpeed; 
+    private Vector currentWindSpeed = new Vector(new double[]{0,0,0});
 
     @Override
     Vector calculateVelocity(LandingModule module) {
-        if (module.getX() > 0.05) {
+        if (module.getY() > 0.05) {
 
-            currentWindSpeed = new Vector(new double[]{120d/3600d, 10d/3600d, 0}); 
+            currentWindSpeed = new Vector(new double[]{120d/3600d, 10d/3600d, 0});
             return currentWindSpeed;
         }
         return new Vector(new double[]{0, 0, 0});
@@ -19,6 +19,15 @@ public class Hurricane extends Wind { //120km/h - 170km/h
 
     @Override
     public double getWindSpeed() {
-        return currentWindSpeed.getLength();
+        return currentWindSpeed.getLength() * 3600;
+    }
+
+    @Override
+    public double getWindAngle() { 
+        
+        double sine = Math.sin(currentWindSpeed.getValue(1)/currentWindSpeed.getLength());
+
+        return Math.toDegrees(sine);
+
     }
 }
