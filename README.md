@@ -17,6 +17,9 @@ for the full flight to Titan, or:
 
 to proceed to landing directly. Both methods will proceed to landing eventually.
 
+## Running the experiments:
+If you are willing to run landing experiments/simulations without the UI (too see the effect of wind, atmosphere), run the main method of the
+``WindExperiments`` class. 
 
 ## Manual
 
