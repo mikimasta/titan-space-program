@@ -1,7 +1,7 @@
 package com.titan;
 
-import com.titan.controls.Hurricane;
 import com.titan.controls.LandingControls;
+import com.titan.controls.LightWind;
 import com.titan.controls.Wind;
 import com.titan.math.Vector;
 import com.titan.math.function.Function;
@@ -17,7 +17,7 @@ public class LandingSimulation {
 
     private final Solver solver;
     private final Wind wind;
-    private final int stepSize;
+    private double stepSize;
     private final LandingModule module;
     private final LandingControls controls;
     private final Function landingGravitationFunction;
@@ -26,15 +26,15 @@ public class LandingSimulation {
         this.solver = solver;
         this.stepSize = stepSize;
         this.module = module;
-        this.wind = new Hurricane();
+        this.wind = new LightWind();
         this.controls = controls;
         this.landingGravitationFunction = new LandingGravitationFunction();
     }
 
     public void nextStep(int currentStep) {
-         controls.execute(module, currentStep);
+         controls.execute(module, currentStep, stepSize);
          Vector[] nextState = solver.solve(
-                landingGravitationFunction,
+                 landingGravitationFunction,
                  module.getPosition(),
                  module.getVelocity(),
                  module.getThrust(),
@@ -43,6 +43,16 @@ public class LandingSimulation {
          module.updatePosition(nextState[0]);
          module.updateVelocity(nextState[1]);
          wind.blow(module, stepSize);
+         updateStepSize();
+    }
+
+    private void updateStepSize() {
+        stepSize = 1;
+        if (module.getY() < 10) stepSize = 0.1;
+        if (module.getY() < 1) stepSize = 0.01;
+        if (module.getY() < 0.1) stepSize = 0.001;
+        if (module.getY() < 0.01) stepSize = 0.0001;
+        if (module.getY() < 0.001) stepSize = 0.00001;
     }
 
     public Rocket getModule() {
@@ -71,4 +81,9 @@ public class LandingSimulation {
     public Wind getWind() {
         return wind;
     }
+
+    public double getStepSize() {
+        return stepSize;
+    }
+
 }

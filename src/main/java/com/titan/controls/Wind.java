@@ -8,7 +8,8 @@ public abstract class Wind {
     private static final double DRAG_COEFFICIENT = 0.47; // sphere -> see (https://www.engineersedge.com/calculators/air_resistance_force_14729.htm)
     private final double AREA = Math.pow(4, 2) * Math.PI; // area of the sphere facing the air (area of a circle)
 
-    public void blow(LandingModule module, int stepSize) {
+    public void blow(LandingModule module, double stepSize) {
+        if (module.getY() < 0.02) return;
         Vector windVelocity = calculateVelocity(module).subtract(module.getVelocity()).multiplyByScalar(1000); // m/s
         Vector force = airResistance(module.getPosition(), windVelocity);
         applyForce(module, force, stepSize);
@@ -19,7 +20,7 @@ public abstract class Wind {
     public abstract double getWindSpeed();
     public abstract double getWindAngle();
 
-    private void applyForce(LandingModule module, Vector force, int stepSize) {
+    private void applyForce(LandingModule module, Vector force, double stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s
         impulse = impulse.multiplyByScalar(1.0/1000d); // kg * km/s
         Vector velocity = impulse.multiplyByScalar(1.0/module.getM()); // km/s
