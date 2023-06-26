@@ -1,7 +1,7 @@
 package com.titan.gui;
 
 import com.titan.LandingSimulation;
-import com.titan.controls.FourthLandingControls;
+import com.titan.controls.FinalLandingControls;
 import com.titan.controls.LandingControls;
 import com.titan.controls.Wind;
 import com.titan.math.solver.RungeKuttaSolver;
@@ -62,7 +62,7 @@ public class TitanLanding extends Application {
         landingModule = new LandingModule("Landing Module");
         module = new LandingModuleGUI(landingModule);
         detailsGUI = new LandingModuleDetailsGUI(landingModule);
-        LandingControls controls = new FourthLandingControls();
+        LandingControls controls = new FinalLandingControls();
         Wind wind = new Wind(Wind.WindType.LIGHT_WIND);
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls, wind);
         root = new Pane();

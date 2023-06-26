@@ -32,5 +32,5 @@ If you are willing to run landing experiments/simulations without the UI (too se
 
 Open `index.html` inside `/doc` to open the java-documentation.
 
-Group 12, 30.05.2023
+Group 12, 26.06.2023
 >The background image use in the program can be found at ``https://www.pixel4k.com/dark-milky-way-galaxy-4k-74663.html`` and is <em>NOT</em> our original work. The rest is.

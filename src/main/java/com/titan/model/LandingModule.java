@@ -17,9 +17,7 @@ public class LandingModule extends Rocket {
     }
 
     public LandingModule(String name) {
-        //super(name, 50000, new Vector(new double[]{-180, 182, 0}), new Vector(new double[]{ 1.8076753043527565, 0, 0}), 10, Color.SILVER, 2);
         super(name, 50000, new Vector(new double[]{-180, 182, 0}), new Vector(new double[]{ 1.8076753043527565, 0, 0}), 10, Color.SILVER, 2);
-        //super(name, 50000, new Vector(new double[]{0, 182, 0}), new Vector(new double[]{ 0, 0, 0}), 10, Color.SILVER, 2);
     }
 
     public double getX() {
@@ -34,18 +32,8 @@ public class LandingModule extends Rocket {
         return getPosition().getValue(2);
     }
 
-    public double getVelocityInKmPerSecond() {
-        return getVelocity().getLength();
-    }
-
     public Vector getThrust() {
         return thrust;
-    }
-
-    public void applyEngineForces(double accelerationForce, double rotation) {
-        thrust = new Vector(new double[] {
-                accelerationForce / this.getM(), // force / mass = N/kg = kg * m / s^2 / kg = m / s^2
-                rotation});
     }
 
     public double getTotalSpeed() {

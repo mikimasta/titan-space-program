@@ -1,7 +1,7 @@
 package com.titan.experiments;
 
 import com.titan.LandingSimulation;
-import com.titan.controls.FourthLandingControls;
+import com.titan.controls.FinalLandingControls;
 import com.titan.controls.LandingControls;
 import com.titan.controls.Wind;
 import com.titan.controls.Wind.WindType;
@@ -57,7 +57,7 @@ public class WindExperiments {
 
         RungeKuttaSolver solver = new RungeKuttaSolver();
         LandingModule module = new LandingModule("Landing Module");
-        LandingControls controls = new FourthLandingControls();
+        LandingControls controls = new FinalLandingControls();
         double initialStepSize = 1;
         LandingSimulation simulation = new LandingSimulation(solver, initialStepSize, module, controls, wind);
 

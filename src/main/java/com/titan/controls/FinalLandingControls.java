@@ -4,7 +4,7 @@ import com.titan.math.Vector;
 import com.titan.math.function.LandingGravitationFunction;
 import com.titan.model.LandingModule;
 
-public class FourthLandingControls extends LandingControls {
+public class FinalLandingControls extends LandingControls {
 
     private boolean landing = false;
 
@@ -49,7 +49,6 @@ public class FourthLandingControls extends LandingControls {
 
         double angle = 0;
         double yVelocity = Math.abs(module.getVelocity().getValue(1));
-        //if (yVelocity < 0.0003) return LandingGravitationFunction.GRAVITATIONAL_ACCELERATION * 0.95;
 
         double rotationThrust = rotationThrustToReachAngle(angle, module);
         double mainThrust = LandingGravitationFunction.GRAVITATIONAL_ACCELERATION*0.5;
