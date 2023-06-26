@@ -8,7 +8,8 @@ import java.util.Random;
 public class Wind {
 
     public enum WindType {
-        LIGHT_WIND(10),
+        NO_WIND(1),
+        LIGHT_WIND(12),
         MODERATE_WIND(8),
         STRONG_WIND(6),
         STORM(4),
@@ -40,7 +41,7 @@ public class Wind {
     }
 
     Vector calculateVelocity(LandingModule module) {
-        if (module.getY() > 0.05) {
+        if (module.getY() > 0.05 && windType != WindType.NO_WIND) {
 
             double windSpeed = windFunction(c1, c2, getCurrentTime(), shift) * 100 / windType.strengthFactor;
             double windAngle = windFunction(c1, c2, getCurrentTime(), 0) * 100 / 5;
