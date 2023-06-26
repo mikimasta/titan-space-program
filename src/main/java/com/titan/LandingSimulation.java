@@ -2,7 +2,6 @@ package com.titan;
 
 import com.titan.controls.LandingControls;
 import com.titan.controls.Wind;
-import com.titan.controls.Wind.WindType;
 import com.titan.math.Vector;
 import com.titan.math.function.Function;
 import com.titan.math.function.LandingGravitationFunction;
@@ -23,11 +22,11 @@ public class LandingSimulation {
     private final Function landingGravitationFunction;
     private double currentTime = 0;
 
-    public LandingSimulation(Solver solver, int stepSize, LandingModule module, LandingControls controls) {
+    public LandingSimulation(Solver solver, double stepSize, LandingModule module, LandingControls controls, Wind wind) {
         this.solver = solver;
         this.stepSize = stepSize;
         this.module = module;
-        this.wind = new Wind(WindType.HURRICANE);
+        this.wind = wind;
         this.controls = controls;
         this.landingGravitationFunction = new LandingGravitationFunction();
     }

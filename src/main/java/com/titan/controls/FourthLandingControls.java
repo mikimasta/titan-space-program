@@ -33,12 +33,6 @@ public class FourthLandingControls extends LandingControls {
 
         double angle = directionOfAngleTarget(module, target) * Math.toDegrees(angleVelocityTarget(module, target));
 
-        // if (module.getY() < 10 && module.getVelocity().getValue(0) < 0.00001 && !aligned) {
-        //     System.out.println("aligned");
-        //     aligned = true;
-        // }
-        // if (angle > 0.5) aligned = false;
-
         if (module.getY() < 0.05) angle = 0;
         if (aligned) angle = 0;
 
@@ -140,12 +134,6 @@ public class FourthLandingControls extends LandingControls {
 
         double yVelocity = Math.abs(module.getVelocity().getValue(1));
         if (yVelocity < 0.0003) return LandingGravitationFunction.GRAVITATIONAL_ACCELERATION * 0.95;
-
-        System.out.println("---");
-        System.out.println("land: total_v =" + module.getTotalSpeed());
-        System.out.println("            y'=" + module.getVelocity().getValue(1));
-        System.out.println("            xy=" + module.getTotalSpeed() * (- Math.cos(Math.toRadians(module.getRotationAngle())) + 2));
-
 
         if (module.getY() < 0.025) return yVelocity + LandingGravitationFunction.GRAVITATIONAL_ACCELERATION * 0.95;
 

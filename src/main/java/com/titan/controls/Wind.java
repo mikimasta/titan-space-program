@@ -1,9 +1,9 @@
 package com.titan.controls;
 
-import java.util.Random;
-
 import com.titan.math.Vector;
 import com.titan.model.LandingModule;
+
+import java.util.Random;
 
 public class Wind {
 
@@ -18,6 +18,7 @@ public class Wind {
         WindType(double maxWindSpeed, double minWindSpeed, double strengthFactor) {
             this.maxWindSpeed = maxWindSpeed;
             this.minWindSpeed = minWindSpeed;
+            this.strengthFactor = strengthFactor;
         }
     }
 
@@ -50,7 +51,7 @@ public class Wind {
 
             double windSpeed = windFunction(c1, c2, getCurrentTime(), shift) * 100 / windType.strengthFactor;
             double windAngle = windFunction(c1, c2, getCurrentTime(), 0) * 100 / 5;
-            if (windSpeed < MINIMUM_WIND_SPEED) windSpeed = MINIMUM_WIND_SPEED + (MINIMUM_WIND_SPEED - windSpeed); 
+            // if (windSpeed < MINIMUM_WIND_SPEED) windSpeed = MINIMUM_WIND_SPEED + (MINIMUM_WIND_SPEED - windSpeed);
 
             currentWindSpeed = new Vector(new double[]{
                 windDirection * windSpeed / 3600d, 
