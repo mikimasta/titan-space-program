@@ -3,13 +3,19 @@
 ---
 ## How to run:
 To run the program, open the command line/terminal on your machine, and navigate to the folder where the
-jar file is with:
+jar file is located with:
 
 ``cd <path/to/folder/with/jar>``
 
-Then, execute the Titan.jar file with:
+Then, run the command:
 
-``java -jar Titan.jar``
+``java -jar titanApproach.jar``
+
+for the full flight to Titan, or:
+
+``java -jar titanLanding.jar``
+
+to proceed to landing directly. Both methods will proceed to landing eventually.
 
 
 ## Manual
