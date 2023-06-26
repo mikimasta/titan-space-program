@@ -1,8 +1,8 @@
 package com.titan;
 
 import com.titan.controls.LandingControls;
-import com.titan.controls.LightWind;
 import com.titan.controls.Wind;
+import com.titan.controls.Wind.WindType;
 import com.titan.math.Vector;
 import com.titan.math.function.Function;
 import com.titan.math.function.LandingGravitationFunction;
@@ -21,12 +21,13 @@ public class LandingSimulation {
     private final LandingModule module;
     private final LandingControls controls;
     private final Function landingGravitationFunction;
+    private double currentTime = 0;
 
     public LandingSimulation(Solver solver, int stepSize, LandingModule module, LandingControls controls) {
         this.solver = solver;
         this.stepSize = stepSize;
         this.module = module;
-        this.wind = new LightWind();
+        this.wind = new Wind(WindType.HURRICANE);
         this.controls = controls;
         this.landingGravitationFunction = new LandingGravitationFunction();
     }
@@ -42,7 +43,8 @@ public class LandingSimulation {
                  currentStep);
          module.updatePosition(nextState[0]);
          module.updateVelocity(nextState[1]);
-         wind.blow(module, stepSize);
+         wind.blow(module, stepSize, currentTime);
+         currentTime += stepSize;
          updateStepSize();
     }
 

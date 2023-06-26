@@ -1,14 +1,89 @@
 package com.titan.controls;
 
+import java.util.Random;
+
 import com.titan.math.Vector;
 import com.titan.model.LandingModule;
 
-public abstract class Wind {
+public class Wind {
+
+    public enum WindType {
+        LIGHT_WIND(1, 10, 10),
+        MODERATE_WIND(11, 30, 8),
+        STRONG_WIND(31, 60, 6),
+        STORM(61, 90, 4),
+        HURRICANE(91, 130, 1);
+        double maxWindSpeed, minWindSpeed, strengthFactor;
+
+        WindType(double maxWindSpeed, double minWindSpeed, double strengthFactor) {
+            this.maxWindSpeed = maxWindSpeed;
+            this.minWindSpeed = minWindSpeed;
+        }
+    }
 
     private static final double DRAG_COEFFICIENT = 0.47; // sphere -> see (https://www.engineersedge.com/calculators/air_resistance_force_14729.htm)
     private final double AREA = Math.pow(4, 2) * Math.PI; // area of the sphere facing the air (area of a circle)
+    private double currentTime;
+    private WindType windType;
+    private Vector currentWindSpeed = new Vector(new double[]{0,0,0});
+    private double c1, c2, shift;
+    private final double MINIMUM_WIND_SPEED;
+    private int windDirection = 0;
 
-    public void blow(LandingModule module, double stepSize) {
+    public Wind(WindType windType) {
+        this.windType = windType;
+
+        MINIMUM_WIND_SPEED = windType.minWindSpeed;
+
+        Random r = new Random();
+        //c1 -> 0.3-0.5
+        //c2 -> 0.2-0.3
+        //shift -> 1
+        c1 = r.nextDouble(0.3, 0.5);
+        c2 = r.nextDouble(0.2, 0.3);
+        shift = 1;
+        windDirection = (r.nextInt(0,2) == 0) ? -1 : 1;
+    }
+
+    Vector calculateVelocity(LandingModule module) {
+        if (module.getY() > 0.05) {
+
+            double windSpeed = windFunction(c1, c2, getCurrentTime(), shift) * 100 / windType.strengthFactor;
+            double windAngle = windFunction(c1, c2, getCurrentTime(), 0) * 100 / 5;
+            if (windSpeed < MINIMUM_WIND_SPEED) windSpeed = MINIMUM_WIND_SPEED + (MINIMUM_WIND_SPEED - windSpeed); 
+
+            currentWindSpeed = new Vector(new double[]{
+                windDirection * windSpeed / 3600d, 
+                windAngle / 3600d,
+                0});
+            return currentWindSpeed;
+        }
+        return new Vector(new double[]{0, 0, 0});
+    }
+
+    public double getWindSpeed() {
+        return currentWindSpeed.getLength() * 3600;
+    }
+
+    public double getWindAngle() {
+
+        double angle  = Math.asin(currentWindSpeed.getValue(1)/currentWindSpeed.getLength());
+
+        return currentWindSpeed.getValue(0) < 0 ? 180 - Math.toDegrees(angle) : Math.toDegrees(angle);//currentWindSpeed.getValue(0) < 0 ? -degrees : degrees;
+
+    }
+
+
+    double getCurrentTime() {
+        return currentTime;
+    }
+
+    double windFunction(double c1, double c2, double step, double shift) {
+        return c1 * Math.cos(4.667 * step/3600) + c2 * Math.cos(12.22 * step/3600) + shift;
+    } 
+
+    public void blow(LandingModule module, double stepSize, double currentTime) {
+        this.currentTime = currentTime;
         if (module.getY() < 0.02) return;
         Vector windVelocity = calculateVelocity(module).subtract(module.getVelocity()).multiplyByScalar(1000); // m/s
         Vector force = airResistance(module.getPosition(), windVelocity);
@@ -16,9 +91,6 @@ public abstract class Wind {
     }
 
     // override this in the child-classes for different types of wind ; gives velocity in m/s
-    abstract Vector calculateVelocity(LandingModule module);
-    public abstract double getWindSpeed();
-    public abstract double getWindAngle();
 
     private void applyForce(LandingModule module, Vector force, double stepSize) {
         Vector impulse = force.multiplyByScalar(stepSize); // kg * m/s
