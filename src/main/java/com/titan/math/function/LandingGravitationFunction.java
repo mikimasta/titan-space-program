@@ -14,14 +14,19 @@ public class LandingGravitationFunction implements Function {
      */
     @Override
     public Vector f(Vector position, Vector velocity, Vector engineThrust, double h, double t) {
+        double u = Math.min(0.01352, Math.abs(engineThrust.getValue(0)));
+        double v;
+        if (engineThrust.getValue(1) >= 0) {
+            v = Math.min(1, engineThrust.getValue(1));
+        } else {
+            v = Math.max(-1, engineThrust.getValue(1));
+        }
+        //System.out.println("U: " + u);
 
         Vector result = new Vector(new double[]{
-                engineThrust.getValue(0) * Math.sin(Math.toRadians(position.getValue(2))),
-                engineThrust.getValue(0) * Math.cos(Math.toRadians(position.getValue(2))) - GRAVITATIONAL_ACCELERATION,
-                engineThrust.getValue(1)});
-
-//        Vector airResistance = airResistance(position, velocity).multiplyByScalar(1d/1000d);
-//        result = Vector.add(result, airResistance);
+                u * Math.sin(Math.toRadians(position.getValue(2))),
+                u * Math.cos(Math.toRadians(position.getValue(2))) - GRAVITATIONAL_ACCELERATION,
+                v});
 
         return result;
     }

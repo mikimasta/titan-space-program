@@ -1,7 +1,7 @@
 package com.titan.gui;
 
 import com.titan.LandingSimulation;
-import com.titan.controls.FirstLandingControls;
+import com.titan.controls.FourthLandingControls;
 import com.titan.controls.LandingControls;
 import com.titan.math.solver.RungeKuttaSolver;
 import com.titan.model.LandingModule;
@@ -21,6 +21,8 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
+import java.util.Locale;
 
 public class TitanLanding extends Application {
 
@@ -59,7 +61,7 @@ public class TitanLanding extends Application {
         landingModule = new LandingModule("Landing Module");
         module = new LandingModuleGUI(landingModule);
         detailsGUI = new LandingModuleDetailsGUI(landingModule);
-        LandingControls controls = new FirstLandingControls();
+        LandingControls controls = new FourthLandingControls();
         simulation = new LandingSimulation(new RungeKuttaSolver(), 1, landingModule, controls);
         root = new Pane();
         windArrow = new WindArrow();
@@ -108,11 +110,10 @@ public class TitanLanding extends Application {
         exitLanding.setLayoutX(WIDTH - 180);
         exitLanding.setLayoutY(20);
         exitLanding.setFocusTraversable(false);
+
         exitLanding.setOnAction(e -> {
-
+            if (prevScene == null) System.exit(0);
             Titan.gameWindow.setScene(prevScene);
-
-
         });
 
         root.getChildren().add(exitLanding);
@@ -127,25 +128,29 @@ public class TitanLanding extends Application {
         root.getChildren().addAll(origin);
 
         KeyFrame kf = new KeyFrame(Duration.millis(5), e -> {
-            if (running) {
-
-                for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < (int) (2/simulation.getStepSize()); i++) {
+                if (running) {
                     currentStep++;
                     simulation.nextStep(currentStep);
                     module.updatePosition();
                     module.repaint();
-                }
 
-                if (landingModule.getY()<=0) {
-                    running = false;
-                    System.out.println("Landed at x = " + landingModule.getX() + ", y = " + landingModule.getY());
+                    if (landingModule.getY() <= 0) {
+                        running = false;
+                        System.out.printf(Locale.ENGLISH, "Landed at x = %.6f km, y = %.6f km\n", landingModule.getX(), landingModule.getY());
+                    }
                 }
+            }
+
+            // if (landingModule.getY() <= 100) {
+            //     running = false;
+            //     System.out.printf(Locale.ENGLISH, "Landed at x = %.6f km, y = %.6f km", landingModule.getX(), landingModule.getY());
+            // }
             windSpeed.setText(String.format("Speed: %.4f", simulation
                         .getWind()
                         .getWindSpeed()));
             detailsGUI.repaint();
             windArrow.setRotate(simulation.getWind().getWindAngle());
-            }
         });
 
         scene.addEventHandler(KeyEvent.KEY_PRESSED, e -> {

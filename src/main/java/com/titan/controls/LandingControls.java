@@ -46,5 +46,5 @@ public abstract class LandingControls {
      * @param module
      * @param currentStep
      */
-    public abstract void execute(LandingModule module, int currentStep);
+    public abstract void execute(LandingModule module, int currentStep, double stepSize);
 }

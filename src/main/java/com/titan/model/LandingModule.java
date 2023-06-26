@@ -18,7 +18,7 @@ public class LandingModule extends Rocket {
 
     public LandingModule(String name) {
         //super(name, 50000, new Vector(new double[]{-180, 182, 0}), new Vector(new double[]{ 1.8076753043527565, 0, 0}), 10, Color.SILVER, 2);
-        super(name, 50000, new Vector(new double[]{-180, 182, 0}), new Vector(new double[]{ 0.8076753043527565, 0, 0}), 10, Color.SILVER, 2);
+        super(name, 50000, new Vector(new double[]{-180, 182, 0}), new Vector(new double[]{ 1.8076753043527565, 0, 0}), 10, Color.SILVER, 2);
         //super(name, 50000, new Vector(new double[]{0, 182, 0}), new Vector(new double[]{ 0, 0, 0}), 10, Color.SILVER, 2);
     }
 

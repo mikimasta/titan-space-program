@@ -7,6 +7,8 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.util.Locale;
+
 /**
  * class that represents a given CelestialObject on the screen
  */
@@ -70,18 +72,18 @@ public class LandingModuleDetailsGUI extends Parent {
      */
     public void repaint() {
         moduleGUI.repaint();
-        height.setText(String.format("Height: %.3f km", module.getY()));
-        rotation.setText(String.format("Rotation: %.2f°", -module.getRotationAngle()));
+        height.setText(String.format(Locale.ENGLISH, "Height: %.5f km", module.getY()));
+        rotation.setText(String.format(Locale.ENGLISH, "Rotation: %.2f°", -module.getRotationAngle()));
 
-        totalSpeed.setText(String.format("Total speed: %.4f km/s\n(%d km/h))",
+        totalSpeed.setText(String.format(Locale.ENGLISH, "Total speed: %.5f km/s\n(%d km/h))",
                 module.getTotalSpeed(),
                 Math.round(module.getTotalSpeed() * 3600)));
 
-        xSpeed.setText(String.format("X-Velocity: %.4f km/s\n(%d km/h))",
+        xSpeed.setText(String.format(Locale.ENGLISH, "X-Velocity: %.5f km/s\n(%d km/h))",
                 module.getVelocity().getValue(0),
                 Math.abs(Math.round(module.getVelocity().getValue(0) * 3600))));
 
-        ySpeed.setText(String.format("Y-Velocity: %.4f km/s\n(%d km/h))",
+        ySpeed.setText(String.format(Locale.ENGLISH, "Y-Velocity: %.5f km/s\n(%d km/h))",
                 module.getVelocity().getValue(1),
                 Math.abs(Math.round(module.getVelocity().getValue(1) * 3600))));
 
